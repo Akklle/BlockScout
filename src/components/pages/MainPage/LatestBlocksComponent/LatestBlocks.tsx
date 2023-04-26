@@ -1,38 +1,22 @@
 import React from 'react';
 import styles from './LatestBlocks.module.sass';
-import {Product, productProps} from "./Product";
-import currency from '../../../../assets/currency.svg'
+import {LatestBlock, latestBlockProps} from "./LatestBlock";
 
-interface ProductArrayInterface {
-    productArray: Array<productProps>
+
+interface LatestBlockArrayInterface {
+    LatestBlockArray: Array<latestBlockProps>
 }
 
-export const ProductArray = ({productArray}: ProductArrayInterface) => {
+export const LatestBlocks = ({LatestBlockArray}: LatestBlockArrayInterface) => {
     return (
-        <div className={styles.productArr}>
-            <div className={styles.balanceBlock}>
-                <div className={styles.textBalanceBlock}>
-                    <div className={styles.balanceBlockInf}>
-                        <p>На вашем балансе</p>
-                        <img className={styles.currency} src={currency} alt="currency"/>
-                        <p className={styles.balance}>200</p>
-                    </div>
-                    <p className={styles.promoCode}>
-                        Вы можете поменять их на скидку 200 руб.
-                    </p>
-                </div>
-                <button className={styles.bigButton}>
-                    Получить промокод
-                </button>
-            </div>
-
-            {productArray.map((product: productProps) => {
-                return <Product
-                    img={product.img}
-                    brand={product.brand}
-                    name={product.name}
-                    type={product.type}
-                    price={product.price}
+        <div className={styles.LatestBlockArr}>
+            {LatestBlockArray.map((block: latestBlockProps) => {
+                return <LatestBlock
+                    id={block.id}
+                    date={block.date}
+                    txn={block.txn}
+                    reward={block.reward}
+                    miner={block.miner}
                 />
             })}
         </div>

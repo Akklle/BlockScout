@@ -1,0 +1,33 @@
+@import '../../styles/All_mixins'
+
+.header
+  padding-top: 16px
+  display: flex
+  flex-direction: row
+  justify-content: space-between
+  align-items: center
+  height: 48px
+  padding-left: 120px
+  padding-right: 120px
+  box-shadow: 0 0.5px 0 rgba(0, 0, 0, 0.12)
+  @include onest12
+  font-size: 19px
+  max-width: 1920px
+  margin-left: auto
+  margin-right: auto
+.logo
+  width: 48px
+
+.navBar
+  display: flex
+  justify-content: space-between
+  gap: 24px
+  width: 408px
+  @include onest19
+
+
+.navBarItem:hover
+  color: $light_blue
+  font-weight: 500
+
+

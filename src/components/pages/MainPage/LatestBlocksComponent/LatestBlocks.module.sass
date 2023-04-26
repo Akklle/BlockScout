@@ -1,0 +1,82 @@
+@import '../../../../defaultFiles/All_mixins'
+
+
+.productBox
+  display: flex
+  flex-direction: column
+  gap: 16px
+.productBox:hover
+  box-shadow: 0 4px 24px rgba(42, 42, 42, 0.12)
+.brandTag
+  position: absolute
+  margin-top: 24px
+  margin-left: 24px
+  padding: 6px 10px
+  background: white
+  box-shadow: 0 4px 24px rgba(51, 51, 51, 0.12)
+  border-radius: 10px
+  @include interBase72
+.productInfo
+  display: flex
+  flex-direction: column
+  gap: 5px
+  @include interBase88_16
+.productType
+  @include interBase56_16
+.productPrice
+  display: flex
+  flex-direction: row
+  align-items: center
+  gap: 8px
+  @include interBlack
+
+.balanceBlock
+  display: flex
+  flex-direction: column
+  width: 275px
+  height: 374px
+  border: 1px solid rgba(62, 80, 114, 0.12)
+  box-shadow: 0 12px 32px rgba(121, 121, 121, 0.12), 0 4px 24px rgba(21, 45, 103, 0.12)
+  border-radius: 16px
+  padding: 24px
+
+.textBalanceBlock
+  display: flex
+  flex-direction: column
+  align-items: center
+  justify-content: center
+  gap: 8px
+  margin-top: 129.5px
+  margin-bottom: 89.5px
+.balanceBlockInf
+  display: flex
+  flex-direction: row
+  align-items: center
+  gap: 4px
+  @include interBase64
+  color: black
+.balance
+  @include interBlack
+.promoCode
+  text-align: center
+  @include interBase56
+.currency
+  width: 16px
+  height: 16px
+
+.productArr
+  display: flex
+  flex-direction: row
+  justify-content: flex-end
+  flex-wrap: wrap
+  gap: 24px
+
+.bigButton
+  background-color: #07C88E
+  border-radius: 8px
+  padding: 12px 24px
+  @include interBlack
+  color: white
+  font-weight: 400
+.bigButton:hover
+  background-color: #07af7d

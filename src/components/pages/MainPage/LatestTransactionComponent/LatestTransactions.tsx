@@ -11,7 +11,7 @@ export const LatestTransactions = ({LatestTransactionArray}: LatestTransactionAr
     return (
         <div className={styles.LatestBlockArr}>
             {LatestTransactionArray.map((transaction: latestTransactionProps) => {
-                return <LatestTransaction
+                return <LatestTransaction key={transaction.number}
                     type={transaction.type}
                     status={transaction.status}
                     number={transaction.number}

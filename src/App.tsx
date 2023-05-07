@@ -2,20 +2,23 @@ import React from 'react';
 import './styles/App.module.sass'
 import {Header} from "./components/HeaderComponent/Header";
 import {Main} from "./components/pages/MainPage/Main";
+import {Layout} from "./components/Layout/Layout";
+import {Route, Routes} from "react-router-dom";
 
 
 function App() {
     return (
-        <div>
-            <header>
-                <Header></Header>
-            </header>
-
-
-            <Main></Main>
-
-
-        </div>
+        <Routes>
+            <Route path='/' element={<Layout/>}>
+                 {/*path='/ecomarket'*/}
+                 {/*<Route path='/ecomarket' element={<EcoMarketPage/>} />*/}
+                 <Route path='/' element={<Main/>} index/>
+             </Route>
+         </Routes>
+        // <div>
+        //     <Header></Header>
+        //     <Main></Main>
+        // </div>
     );
 }
 

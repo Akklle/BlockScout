@@ -10,9 +10,13 @@
   gap: 27px
 
 .line
-  margin-right: 7.85%
   margin-left: 7.85%
+  width: 84.3%
   height: 1px
+  border: 1px solid
+  border-image-source: linear-gradient(90deg, #FFFFFF -2.03%, rgba(255, 255, 255, 0) 102.22%)
+  border-image-slice: 10
+
 .latestTransactionInfo
   display: flex
   justify-content: space-between
@@ -23,35 +27,58 @@
   align-items: center
   @include onest12
   font-size: 16px
+
 .topLeftInfo
   display: flex
   padding-bottom: 16px
   align-items: center
+
 .underLeftInfo
   display: flex
   align-items: center
+
 .type
   align-content: center
-  background: rgba(184, 255, 255, 0.5)
   border-radius: 3px
   padding: 3px 9px 3px 9px
+  color: white
+  @include onest16
+  width: fit-content
+
+.typeTokenTransfer
+  background: rgba(184, 255, 255, 0.5)
+
+.typeContractCall
+  background: rgba(0, 255, 255, 0.5)
+
+.typeTransaction
+  background: rgba(90, 195, 255, 0.5)
+
 .status
   @include onest12
   font-size: 16px
-  color: #1A5C38
   margin-left: 20px
-  background: rgba(150, 251, 190, 0.6)
   border-radius: 3px
   padding: 3px 9px 3px 9px
+
+.statusSuccess
+  color: #1A5C38
+  background: #96FBBE99
+
+.statusFailed
+  color: #781717
+  background: #FB96A299
 
 .tradeIcon
   width: 29px
   height: 29px
+
 .number
   @include onest18
   color: $light_blue
   padding-right: 20px
   padding-left: 13px
+
 .time
   @include onest18
   font-size: 16px
@@ -61,26 +88,38 @@
   justify-content: right
   align-items: center
   padding-bottom: 16px
+
 .address
   @include onest12
   font-size: 16px
   color: $light_blue
+  margin-left: 12px
 
 .path
-  padding-left: 12px
-  padding-right: 12px
+  margin-left: 12px
+
 .value
   @include onest18
   font-size: 16px
   padding-left: 4px
+
 .criptType
   padding-left: 12px
+
 .underRightInfo
   align-items: center
   display: flex
   justify-content: right
 
+.angularAvatar
+  width: 24px
+  height: 24px
+  border-radius: 24px
+  margin-left: 12px
+  background: conic-gradient(from 180deg at 50% 50%, #3CE2EC 0deg, rgba(217, 217, 217, 0) 360deg)
 
+.receiver
+  background: conic-gradient(from 90deg at 50% 50%, #3CE2EC 0deg, rgba(217, 217, 217, 0) 360deg)
 
 
 

@@ -1,9 +1,47 @@
-import React from 'react';
+import React, {ReactNode} from 'react';
 import styles from './LatestTransaction.module.sass';
 import tradeIcon from "../../../../assets/tradeIcon.svg";
 import path from "../../../../assets/path.svg";
 import line from "../../../../assets/line.svg";
+import cn from 'classnames/bind'
+import classNames from 'classnames'
 
+const cx = cn.bind(styles)
+
+export interface TypeOfTransactionProps {
+    theme?: 'Token transfer' | 'Contract call' | 'Transaction' | string;
+    children: ReactNode;
+}
+
+export const TypeOfTransaction = ({theme = 'Transaction', children}: TypeOfTransactionProps) => {
+    return (
+        <div className={cx(styles.type, {
+            typeTokenTransfer: theme === 'Token transfer',
+            typeContractCall: theme === 'Contract call',
+            typeTransaction: theme === 'Transaction'
+
+        })}>
+            {children}
+        </div>
+    )
+}
+
+export interface StatusProps {
+    theme?: 'Success' | 'Failed' | string;
+    children: ReactNode;
+}
+
+export const Status = ({theme = 'Success', children}: StatusProps) => {
+    return (
+        <div className={cx(styles.status, {
+            statusSuccess: theme === 'Success',
+            statusFailed: theme === 'Failed'
+
+        })}>
+            {children}
+        </div>
+    )
+}
 
 export interface latestTransactionProps {
     type: string
@@ -18,15 +56,17 @@ export interface latestTransactionProps {
     fee_value: string
 }
 
+
 export const LatestTransaction = (props: latestTransactionProps) => {
+
     return (
         <div className={styles.latestTransaction}>
-            <img className={styles.line} src={line} alt="line"/>
+            <div className={styles.line}></div>
             <div className={styles.latestTransactionInfo}>
                 <div className={styles.leftInfo}>
                     <div className={styles.topLeftInfo}>
-                        <p className={styles.type}>{props.type}</p>
-                        <p className={styles.status}>{props.status}</p>
+                        <TypeOfTransaction theme={props.type}>{props.type}</TypeOfTransaction>
+                        <Status theme={props.status}>{props.status}</Status>
                     </div>
                     <div className={styles.underLeftInfo}>
                         <img className={styles.tradeIcon} src={tradeIcon} alt="icon"/>
@@ -37,8 +77,10 @@ export const LatestTransaction = (props: latestTransactionProps) => {
 
                 <div className={styles.rightInfo}>
                     <div className={styles.topRightInfo}>
+                        <div className={styles.angularAvatar}></div>
                         <a className={styles.address}>{props.address_1}</a>
                         <img className={styles.path} src={path} alt="icon"/>
+                        <div className={classNames(styles.angularAvatar, styles.receiver)}></div>
                         <a className={styles.address}>{props.address_2}</a>
                     </div>
                     <div className={styles.underRightInfo}>

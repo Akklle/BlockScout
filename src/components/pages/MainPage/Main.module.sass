@@ -2,7 +2,7 @@
 
 
 body
-  background-color: $back
+  background-color: $main_dark_grey
 .main
   max-width: 1920px
   margin-left: auto
@@ -11,7 +11,7 @@ body
   position: relative
 .background1
   position: absolute
-  top: -198px
+  top: -212px
   z-index: -1
   width: 100%
   object-fit: cover
@@ -45,11 +45,8 @@ body
   padding: 16px
   border: 2px solid white
   border-radius: 10px
-  width: 15.2%
+  width: 188px
   max-height: 61px
-.card:hover
-  background: $button_blue
-  box-shadow: 0 0 33px $button_blue, inset 0 0 23px white
 
 .icon
   width: 29px
@@ -58,8 +55,7 @@ body
 
 .cardInfo
   @include onest12
-.card:hover .cardInfo
-  color: $t_light-grey
+
 
 .cardValue
   font-family: 'Onest', sans-serif
@@ -68,8 +64,7 @@ body
   font-size: 16px
   line-height: 107.5%
   color: white
-.card:hover .cardValue
-  color: $t_grey
+
 
 .searchSection
   margin-top: 269px

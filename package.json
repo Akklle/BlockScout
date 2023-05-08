@@ -21,13 +21,15 @@
     "@types/node": "^16.18.12",
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.10",
-    "@types/styled-components": "^5.1.26"
+    "@types/styled-components": "^5.1.26",
+    "openapi-typescript-codegen": "^0.24.0"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "schema": "openapi -i ./src/NIKITOSING4-CoreBlockScoutAPI-1.0.0-swagger.json -o ./src/app/models/generated --exportCore false --exportServices false "
   },
   "eslintConfig": {
     "extends": [

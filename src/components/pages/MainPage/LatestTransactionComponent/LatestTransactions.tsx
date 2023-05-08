@@ -1,27 +1,19 @@
 import React from 'react';
 import styles from './LatestTransaction.module.sass';
-import {LatestTransaction, latestTransactionProps} from "./LatestTransaction";
+import {LatestTransaction} from "./LatestTransaction";
+import {Transaction} from "../../../../app/models/generated";
 
 
 interface LatestTransactionArrayInterface {
-    LatestTransactionArray: Array<latestTransactionProps>
+    LatestTransactionArray: Array<Transaction>
 }
 
 export const LatestTransactions = ({LatestTransactionArray}: LatestTransactionArrayInterface) => {
     return (
         <div className={styles.LatestBlockArr}>
-            {LatestTransactionArray.map((transaction: latestTransactionProps) => {
-                return <LatestTransaction key={transaction.number}
-                    type={transaction.type}
-                    status={transaction.status}
-                    number={transaction.number}
-                    time={transaction.time}
-                    address_1={transaction.address_1}
-                    address_2={transaction.address_2}
-                    value_type={transaction.value_type}
-                    value_value={transaction.value_value}
-                    fee_type={transaction.fee_type}
-                    fee_value={transaction.fee_value}
+            {LatestTransactionArray.map((transaction: Transaction) => {
+                return <LatestTransaction key={transaction.hash}
+                    transaction={transaction}
                 />
             })}
         </div>

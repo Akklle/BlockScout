@@ -2,23 +2,25 @@ import React, {ReactNode} from 'react';
 import styles from './LatestTransaction.module.sass';
 import tradeIcon from "../../../../assets/tradeIcon.svg";
 import path from "../../../../assets/path.svg";
-import line from "../../../../assets/line.svg";
 import cn from 'classnames/bind'
 import classNames from 'classnames'
+import {Transaction} from "../../../../app/models/generated";
+import {getTimeFromTimestamp, stringTruncateFromCenter} from "../LatestBlocksComponent/LatestBlock";
 
 const cx = cn.bind(styles)
 
 export interface TypeOfTransactionProps {
-    theme?: 'Token transfer' | 'Contract call' | 'Transaction' | string;
+    theme?: 'token_transfer' | 'contract_call' | 'transaction' | 'coin_transfer' | string;
     children: ReactNode;
 }
 
 export const TypeOfTransaction = ({theme = 'Transaction', children}: TypeOfTransactionProps) => {
     return (
         <div className={cx(styles.type, {
-            typeTokenTransfer: theme === 'Token transfer',
-            typeContractCall: theme === 'Contract call',
-            typeTransaction: theme === 'Transaction'
+            typeTokenTransfer: theme === 'token_transfer',
+            typeContractCall: theme === 'contract_call',
+            typeTransaction: theme === 'transaction',
+            typeCoinTransfer: theme === 'coin_transfer'
 
         })}>
             {children}
@@ -27,15 +29,15 @@ export const TypeOfTransaction = ({theme = 'Transaction', children}: TypeOfTrans
 }
 
 export interface StatusProps {
-    theme?: 'Success' | 'Failed' | string;
+    theme?: 'success' | 'failed' | string;
     children: ReactNode;
 }
 
-export const Status = ({theme = 'Success', children}: StatusProps) => {
+export const Status = ({theme = 'success', children}: StatusProps) => {
     return (
         <div className={cx(styles.status, {
-            statusSuccess: theme === 'Success',
-            statusFailed: theme === 'Failed'
+            statusSuccess: theme === 'success',
+            statusFailed: theme === 'failed'
 
         })}>
             {children}
@@ -43,51 +45,50 @@ export const Status = ({theme = 'Success', children}: StatusProps) => {
     )
 }
 
-export interface latestTransactionProps {
-    type: string
-    status: string
-    number: string
-    time: string
-    address_1: string
-    address_2: string
-    value_type: string
-    value_value: string
-    fee_type: string
-    fee_value: string
+function processedStringFromApi(type: string) {
+    return (type.charAt(0).toUpperCase() + type.substring(1)).replace('_', ' ')
+
+}
+
+interface wrapperTransaction {
+    transaction: Transaction
 }
 
 
-export const LatestTransaction = (props: latestTransactionProps) => {
-
+export const LatestTransaction = (props: wrapperTransaction) => {
+    let currentTransaction = props.transaction
+    currentTransaction.tx_types = currentTransaction.tx_types.length ? currentTransaction.tx_types : ["coin_transfer"]
     return (
         <div className={styles.latestTransaction}>
             <div className={styles.line}></div>
             <div className={styles.latestTransactionInfo}>
                 <div className={styles.leftInfo}>
                     <div className={styles.topLeftInfo}>
-                        <TypeOfTransaction theme={props.type}>{props.type}</TypeOfTransaction>
-                        <Status theme={props.status}>{props.status}</Status>
+                        <TypeOfTransaction
+                            theme={currentTransaction.tx_types[0]}>{processedStringFromApi(currentTransaction.tx_types[0])}</TypeOfTransaction>
+                        <Status
+                            theme={currentTransaction.result}>{processedStringFromApi(currentTransaction.result)}</Status>
                     </div>
                     <div className={styles.underLeftInfo}>
                         <img className={styles.tradeIcon} src={tradeIcon} alt="icon"/>
-                        <a className={styles.number}>{props.number}</a>
-                        <p className={styles.time}>{props.time}</p>
+                        <a className={styles.number}>{stringTruncateFromCenter(currentTransaction.hash, 8)}</a>
+                        <p className={styles.time}>{getTimeFromTimestamp(currentTransaction.timestamp)}</p>
                     </div>
                 </div>
 
                 <div className={styles.rightInfo}>
                     <div className={styles.topRightInfo}>
                         <div className={styles.angularAvatar}></div>
-                        <a className={styles.address}>{props.address_1}</a>
+                        <a className={styles.address}>{stringTruncateFromCenter(currentTransaction.from.hash, 8)}</a>
                         <img className={styles.path} src={path} alt="icon"/>
                         <div className={classNames(styles.angularAvatar, styles.receiver)}></div>
-                        <a className={styles.address}>{props.address_2}</a>
+                        <a className={styles.address}>{currentTransaction.to.hash.length ? stringTruncateFromCenter(currentTransaction.to.hash, 8) : 'Created contract'}</a>
                     </div>
                     <div className={styles.underRightInfo}>
-                        <p className={styles.criptType}>{props.value_type}</p>
-                        <p className={styles.value}>{props.value_value}</p>
-                        <p className={styles.criptType}>{props.fee_type}</p>
-                        <p className={styles.value}>{props.fee_value}</p>
+                        <p className={styles.criptType}>Value ETH</p>
+                        <p className={styles.value}>{currentTransaction.value === "0" ? 0 : (Number(currentTransaction.fee.value) / 10 ** 18).toFixed(5)}</p>
+                        <p className={styles.criptType}>Fee ETH</p>
+                        <p className={styles.value}>{(Number(currentTransaction.fee.value) / 10 ** 18).toFixed(5)}</p>
 
                     </div>
                 </div>

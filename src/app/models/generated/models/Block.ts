@@ -13,8 +13,8 @@ export type Block = {
     size: number;
     hash: string;
     parent_hash: string;
-    difficulty: string;
-    total_difficulty: string;
+    difficulty: number;
+    total_difficulty: number;
     gas_used: number;
     gas_limit: number;
     nonce: string;

@@ -15,6 +15,7 @@ import {Stats} from "../../../app/models/Stats"
 import {Transaction} from "../../../app/models/generated"
 import {initialStats} from "../../../app/models/Stats"
 import {round} from "./LatestBlocksComponent/LatestBlock";
+import {Search} from "../../ui/Search";
 
 const baseUrl = 'https://eth-goerli.blockscout.com/api/v2'
 
@@ -108,13 +109,7 @@ export const Main = () => {
                 </div>
             </section>
             <section className={styles.searchSection}>
-                <div className={styles.searchBlock}>
-                    <input className={styles.input} type="text"
-                           placeholder="Search by address / txn hash / block / token..."/>
-                    <button className={styles.search}>
-                        <img className={styles.searchIcon} src={search} alt="wallet"/>
-                    </button>
-                </div>
+                <Search/>
             </section>
             <section className={styles.latestBlocksSection}>
                 <div className={styles.headLatestBlocks}>

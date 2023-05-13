@@ -10,10 +10,11 @@ import gas from "../../../assets/gas.svg";
 import search from "../../../assets/search.svg";
 import {LatestBlocks} from "./LatestBlocksComponent/LatestBlocks";
 import {LatestTransactions} from "./LatestTransactionComponent/LatestTransactions";
-import {Block} from '../../../app/models/generated'
-import {Stats} from '../../../app/models/Stats'
-import {Transaction} from '../../../app/models/generated'
-import {initialStats} from '../../../app/models/Stats'
+import {Block} from "../../../app/models/generated"
+import {Stats} from "../../../app/models/Stats"
+import {Transaction} from "../../../app/models/generated"
+import {initialStats} from "../../../app/models/Stats"
+import {round} from "./LatestBlocksComponent/LatestBlock";
 
 const baseUrl = 'https://eth-goerli.blockscout.com/api/v2'
 
@@ -101,7 +102,7 @@ export const Main = () => {
 
                         <div className={styles.cardInfo}>
                             <p className={styles.cardName}>Gas tracker </p>
-                            <p className={styles.cardValue}>{String(stats.gas_prices?.average).replace(/(\d)(?=(\d{3})+([^\d]|$))/g, '$1 ')} Gwei</p>
+                            <p className={styles.cardValue}>{round(Number(stats.gas_prices?.average), 5) > 1000 ? String(round(Number(stats.gas_prices?.average), 5)).replace(/(\d)(?=(\d{3})+([^\d]|$))/g, '$1 ') : round(Number(stats.gas_prices?.average), 5)} Gwei</p>
                         </div>
                     </div>
                 </div>

@@ -5,7 +5,7 @@ import path from "../../../../assets/path.svg";
 import cn from 'classnames/bind'
 import classNames from 'classnames'
 import {Transaction} from "../../../../app/models/generated";
-import {getTimeFromTimestamp, stringTruncateFromCenter} from "../LatestBlocksComponent/LatestBlock";
+import {getTimeFromTimestamp, round, stringTruncateFromCenter} from "../LatestBlocksComponent/LatestBlock";
 
 const cx = cn.bind(styles)
 
@@ -71,7 +71,7 @@ export const LatestTransaction = (props: wrapperTransaction) => {
                     </div>
                     <div className={styles.underLeftInfo}>
                         <img className={styles.tradeIcon} src={tradeIcon} alt="icon"/>
-                        <a className={styles.number}>{stringTruncateFromCenter(currentTransaction.hash, 8)}</a>
+                        <a className={styles.number}>{stringTruncateFromCenter(currentTransaction?.hash, 8)}</a>
                         <p className={styles.time}>{getTimeFromTimestamp(currentTransaction.timestamp)}</p>
                     </div>
                 </div>
@@ -82,13 +82,13 @@ export const LatestTransaction = (props: wrapperTransaction) => {
                         <a className={styles.address}>{stringTruncateFromCenter(currentTransaction.from.hash, 8)}</a>
                         <img className={styles.path} src={path} alt="icon"/>
                         <div className={classNames(styles.angularAvatar, styles.receiver)}></div>
-                        <a className={styles.address}>{currentTransaction.to.hash.length ? stringTruncateFromCenter(currentTransaction.to.hash, 8) : 'Created contract'}</a>
+                        <a className={styles.address}>{currentTransaction.to ? stringTruncateFromCenter(currentTransaction.to.hash, 8) : stringTruncateFromCenter(currentTransaction.created_contract?.hash, 8)}</a>
                     </div>
                     <div className={styles.underRightInfo}>
                         <p className={styles.criptType}>Value ETH</p>
-                        <p className={styles.value}>{currentTransaction.value === "0" ? 0 : (Number(currentTransaction.fee.value) / 10 ** 18).toFixed(5)}</p>
+                        <p className={styles.value}>{currentTransaction.value === "0" ? 0 : round((Number(currentTransaction.fee.value) / 10 ** 18), 5)}</p>
                         <p className={styles.criptType}>Fee ETH</p>
-                        <p className={styles.value}>{(Number(currentTransaction.fee.value) / 10 ** 18).toFixed(5)}</p>
+                        <p className={styles.value}>{round((Number(currentTransaction.fee.value) / 10 ** 18), 5)}</p>
 
                     </div>
                 </div>

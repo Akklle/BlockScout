@@ -8,6 +8,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.11.1",
+    "svgstore": "^3.0.1",
     "react-scripts": "5.0.1",
     "react-tabs": "^6.0.1",
     "styled-components": "^5.3.6",
@@ -30,6 +31,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
+    "svg": "node ./generate-svg.js",
     "schema": "openapi -i ./src/NIKITOSING4-CoreBlockScoutAPI-1.0.0-swagger.json -o ./src/app/models/generated --exportCore false --exportServices false "
   },
   "eslintConfig": {

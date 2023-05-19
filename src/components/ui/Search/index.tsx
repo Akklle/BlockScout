@@ -1,5 +1,5 @@
 import styles from "./index.module.sass";
-import search from "../../../assets/search.svg";
+import {Icon} from "../Icon";
 import React from "react";
 
 export const Search = () => {
@@ -10,7 +10,7 @@ export const Search = () => {
                    placeholder="Search by address / txn hash / block / token..."/>
             <div>
                 <button className={styles.search}>
-                    <img className={styles.searchIcon} src={search} alt="wallet"/>
+                    <Icon icon={"search"}/>
                 </button>
             </div>
         </div>

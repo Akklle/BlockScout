@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './LatestBlocks.module.sass';
-import icon from "../../../../assets/LatestBlockIcon.svg";
+import {Icon} from "../../../ui/Icon";
 import {Block} from '../../../../app/models/generated'
 import {Reward} from '../../../../app/models/generated'
 
@@ -51,7 +51,7 @@ export const LatestBlock = (props: wrapperBlock) => {
             <div className={styles.latestBlock}>
                 <div className={styles.blockHead}>
                     <div className={styles.blockHeadMain}>
-                        <img className={styles.icon} src={icon} alt="icon"/>
+                        <Icon icon={"totalBlocks"}/>
 
                         <a className={styles.blockId}>
                             {currentBlock.height}

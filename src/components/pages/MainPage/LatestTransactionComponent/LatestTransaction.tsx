@@ -1,7 +1,6 @@
 import React, {ReactNode} from 'react';
 import styles from './LatestTransaction.module.sass';
-import tradeIcon from "../../../../assets/tradeIcon.svg";
-import path from "../../../../assets/path.svg";
+import {Icon} from "../../../ui/Icon";
 import cn from 'classnames/bind'
 import classNames from 'classnames'
 import {Transaction} from "../../../../app/models/generated";
@@ -70,7 +69,7 @@ export const LatestTransaction = (props: wrapperTransaction) => {
                             theme={currentTransaction.result}>{processedStringFromApi(currentTransaction.result)}</Status>
                     </div>
                     <div className={styles.underLeftInfo}>
-                        <img className={styles.tradeIcon} src={tradeIcon} alt="icon"/>
+                        <Icon icon={"totalTransaction"}/>
                         <a className={styles.number}>{stringTruncateFromCenter(currentTransaction?.hash, 8)}</a>
                         <p className={styles.time}>{getTimeFromTimestamp(currentTransaction.timestamp)}</p>
                     </div>
@@ -80,7 +79,7 @@ export const LatestTransaction = (props: wrapperTransaction) => {
                     <div className={styles.topRightInfo}>
                         <div className={styles.angularAvatar}></div>
                         <a className={styles.address}>{stringTruncateFromCenter(currentTransaction.from.hash, 8)}</a>
-                        <img className={styles.path} src={path} alt="icon"/>
+                        <Icon icon={"path"}/>
                         <div className={classNames(styles.angularAvatar, styles.receiver)}></div>
                         <a className={styles.address}>{currentTransaction.to ? stringTruncateFromCenter(currentTransaction.to.hash, 8) : stringTruncateFromCenter(currentTransaction.created_contract?.hash, 8)}</a>
                     </div>

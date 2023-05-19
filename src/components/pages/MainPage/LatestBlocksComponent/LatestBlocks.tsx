@@ -2,6 +2,7 @@ import React from 'react';
 import styles from './LatestBlocks.module.sass';
 import {LatestBlock} from "./LatestBlock";
 import {Block} from '../../../../app/models/generated'
+
 interface LatestBlockArrayInterface {
     LatestBlockArray: Array<Block>
 }

@@ -1,0 +1,38 @@
+@import '../../styles/All_mixins'
+
+
+.footer
+  max-width: 1920px
+  margin: 90px auto 38px
+
+
+.line
+  margin-left: 7.85%
+  margin-bottom: 35px
+  width: 84.3%
+  height: 1px
+  border: 1px solid
+  border-image-source: linear-gradient(90deg, #20F4FF -2.03%, rgba(255, 255, 255, 0) 102.22%)
+  border-image-slice: 10
+
+.footerInfo
+  display: flex
+  justify-content: space-between
+  margin-left: 9.4%
+  margin-right: 8.8%
+  align-items: center
+  @include onest12
+  font-size: 14px
+  color: $medium-light-grey
+
+  svg
+    margin-right: 35px
+    width: 29px
+    height: 29px
+
+.rightInfo
+  text-align: right
+
+.info > span
+  color: $light_blue
+

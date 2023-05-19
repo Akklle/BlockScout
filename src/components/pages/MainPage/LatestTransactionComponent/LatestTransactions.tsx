@@ -13,7 +13,7 @@ export const LatestTransactions = ({LatestTransactionArray}: LatestTransactionAr
         <div className={styles.LatestBlockArr}>
             {LatestTransactionArray.map((transaction: Transaction) => {
                 return <LatestTransaction key={transaction.hash}
-                    transaction={transaction}
+                                          transaction={transaction}
                 />
             })}
         </div>

@@ -2,12 +2,6 @@ import React, {Dispatch, SetStateAction, useEffect, useState} from 'react';
 import styles from './Main.module.sass';
 
 import background1 from "../../../assets/background1.png";
-import totalBlocks from "../../../assets/totalBlocks.svg";
-import averageBlock from "../../../assets/averageBlock.svg";
-import totalTransaction from "../../../assets/totalTransaction.svg";
-import wallet from "../../../assets/wallet.svg";
-import gas from "../../../assets/gas.svg";
-import search from "../../../assets/search.svg";
 import {LatestBlocks} from "./LatestBlocksComponent/LatestBlocks";
 import {LatestTransactions} from "./LatestTransactionComponent/LatestTransactions";
 import {Block} from "../../../app/models/generated"
@@ -16,6 +10,7 @@ import {Transaction} from "../../../app/models/generated"
 import {initialStats} from "../../../app/models/Stats"
 import {round} from "./LatestBlocksComponent/LatestBlock";
 import {Search} from "../../ui/Search";
+import {Icon} from "../../ui/Icon";
 
 const baseUrl = 'https://eth-goerli.blockscout.com/api/v2'
 
@@ -66,8 +61,7 @@ export const Main = () => {
 
                 <div className={styles.cards}>
                     <div className={styles.card}>
-                        <img className={styles.icon} src={totalBlocks} alt="totalBlocks"/>
-
+                        <Icon icon="totalBlocks"/>
                         <div className={styles.cardInfo}>
                             <p className={styles.cardName}>Total blocks</p>
                             <p className={styles.cardValue}>{stats.total_blocks.replace(/(\d)(?=(\d{3})+([^\d]|$))/g, '$1 ')}</p>
@@ -75,7 +69,7 @@ export const Main = () => {
 
                     </div>
                     <div className={styles.card}>
-                        <img className={styles.icon} src={averageBlock} alt="averageBlock"/>
+                        <Icon icon="averageBlock"/>
 
                         <div className={styles.cardInfo}>
                             <p className={styles.cardName}>Average block time</p>
@@ -83,24 +77,21 @@ export const Main = () => {
                         </div>
                     </div>
                     <div className={styles.card}>
-                        <img className={styles.icon} src={totalTransaction} alt="totalTransaction"/>
-
+                        <Icon icon="totalTransaction"/>
                         <div className={styles.cardInfo}>
                             <p className={styles.cardName}>Total transactions</p>
                             <p className={styles.cardValue}>{stats.total_transactions.replace(/(\d)(?=(\d{3})+([^\d]|$))/g, '$1 ')}</p>
                         </div>
                     </div>
                     <div className={styles.card}>
-                        <img className={styles.icon} src={wallet} alt="wallet"/>
-
+                        <Icon icon="wallet"/>
                         <div className={styles.cardInfo}>
                             <p className={styles.cardName}>Wallet addresses</p>
                             <p className={styles.cardValue}>{stats.total_addresses.replace(/(\d)(?=(\d{3})+([^\d]|$))/g, '$1 ')}</p>
                         </div>
                     </div>
                     <div className={styles.card}>
-                        <img className={styles.icon} src={gas} alt="gas"/>
-
+                        <Icon icon="gas"/>
                         <div className={styles.cardInfo}>
                             <p className={styles.cardName}>Gas tracker </p>
                             <p className={styles.cardValue}>{round(Number(stats.gas_prices?.average), 5) > 1000 ? String(round(Number(stats.gas_prices?.average), 5)).replace(/(\d)(?=(\d{3})+([^\d]|$))/g, '$1 ') : round(Number(stats.gas_prices?.average), 5)} Gwei</p>

@@ -13,8 +13,8 @@ function App() {
             <Route path='/' element={<Layout/>}>
                 {/*path='/ecomarket'*/}
                 {/*<Route path='/ecomarket' element={<EcoMarketPage/>} />*/}
-                <Route path='/' element={<Main/>}/>
-                <Route path='/block' element={<Block/>} index/>
+                <Route path='/' element={<Main/>} index/>
+                <Route path='/block' element={<Block/>}/>
             </Route>
         </Routes>
         // <div>

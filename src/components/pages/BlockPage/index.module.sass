@@ -13,3 +13,55 @@
   gap: 10px
   @include onest36medium
 
+.details
+  width: 100%
+.infoRow
+  display: flex
+  flex-direction: row
+  @include onest16medium
+  color: white
+  margin-bottom: 30px
+
+.rowTitle
+  width: 128px
+  margin-left: 10px
+  margin-right: 63px
+
+.rowLink
+  color: $light_blue
+  display: flex
+  flex-direction: row
+  gap: 4px
+  font-weight: 400
+
+.rowLink:hover
+  text-shadow: 0 0 4px #2CA4AC
+
+.valueType
+  margin-left: 4px
+
+.line
+  height: 1px
+  border: 1px solid
+  border-image-source: linear-gradient(90deg, #FFFFFF -2.03%, rgba(255, 255, 255, 0) 102.22%)
+  border-image-slice: 10
+  margin-bottom: 30px
+
+.percentage
+  display: flex
+  flex-direction: row
+  align-items: center
+  gap: 8px
+  margin-left: 20px
+  color: $medium-light-grey
+
+.verticalLine
+  border: 1px solid
+  height: 15px
+  background-color: $medium-light-grey
+
+.gasIcon
+  margin-right: 4px
+
+.percentageGreen
+  color: $c_bright_green

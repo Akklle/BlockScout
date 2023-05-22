@@ -44,7 +44,7 @@ export const Status = ({theme = 'success', children}: StatusProps) => {
     )
 }
 
-function processedStringFromApi(type: string) {
+export function processedStringFromApi(type: string) {
     return (type.charAt(0).toUpperCase() + type.substring(1)).replace('_', ' ')
 
 }
@@ -79,7 +79,7 @@ export const LatestTransaction = (props: wrapperTransaction) => {
                     <div className={styles.topRightInfo}>
                         <div className={styles.angularAvatar}></div>
                         <a className={styles.address}>{stringTruncateFromCenter(currentTransaction.from.hash, 8)}</a>
-                        <Icon icon={"path"}/>
+                        <Icon icon={"path"} width={24}/>
                         <div className={classNames(styles.angularAvatar, styles.receiver)}></div>
                         <a className={styles.address}>{currentTransaction.to ? stringTruncateFromCenter(currentTransaction.to.hash, 8) : stringTruncateFromCenter(currentTransaction.created_contract?.hash, 8)}</a>
                     </div>

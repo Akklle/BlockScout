@@ -15,6 +15,7 @@ import {
 import classNames from "classnames";
 import {stringTruncateFromCenter} from "../MainPage/LatestBlocksComponent/LatestBlock";
 import {Icon} from "../../ui/Icon";
+import ProgressBar from "../../ui/ProgressBar";
 
 export const Block = () => {
     const isDisabled = true
@@ -77,8 +78,10 @@ export const Block = () => {
                             <div className={styles.infoRow}>
                                 <img className={styles.infoIcon} src={info} alt="more information"/>
                                 <p className={styles.rowTitle}>Gas used</p>
-                                <span>16,084,450</span>
+                                <span className={styles.mgR20}>16,084,450</span>
                                 <div className={styles.percentage}>
+                                    <ProgressBar progressColor={'#3CE2EC'} bgColor={'#8D8D8E'} progress={50} width={39}
+                                                 height={3}></ProgressBar>
                                     <span>48.86%</span>
                                     <div className={styles.verticalLine}></div>
                                     <span>-2.29%</span>
@@ -103,6 +106,8 @@ export const Block = () => {
                                 <span>1.328880117708521148</span>
                                 <span className={styles.valueType}>ETH</span>
                                 <div className={styles.percentage}>
+                                    <ProgressBar progressColor={'#59FFA4'} bgColor={'#8D8D8E'} progress={94.49}
+                                                 width={39} height={3}></ProgressBar>
                                     <span className={styles.percentageGreen}>94.49%</span>
                                 </div>
                             </div>
@@ -123,7 +128,7 @@ export const Block = () => {
                                 <div className={styles.pageNum}>1</div>
                                 <button className={styles.controlButton}><img src={next} alt="next page"/></button>
                             </div>
-                            <div className={styles.test}>
+                            <div className={styles.tableWrapper}>
                                 <div className={styles.tableBorder}></div>
                                 <table className={styles.table}>
                                     <thead className={styles.tableHead}>
@@ -162,10 +167,13 @@ export const Block = () => {
                                                 <a className={styles.address}>0x75...1a90</a>
                                             </div>
                                         </td>
-                                        <td className={styles.tdIconCell}><div><Icon icon={"path"} width={24} height={6}/></div></td>
+                                        <td className={styles.tdIconCell}>
+                                            <div><Icon icon={"path"} width={24} height={6}/></div>
+                                        </td>
                                         <td className={styles.tdCellW}>
                                             <div className={styles.addressGroup}>
-                                                <div className={classNames(styles.angularAvatar, styles.receiver)}></div>
+                                                <div
+                                                    className={classNames(styles.angularAvatar, styles.receiver)}></div>
                                                 <a className={styles.address}>0x8C...1a9D</a>
                                             </div>
                                         </td>
@@ -197,10 +205,13 @@ export const Block = () => {
                                                 <a className={styles.address}>0x75...1a90</a>
                                             </div>
                                         </td>
-                                        <td className={styles.tdIconCell}><div><Icon icon={"path"} width={24} height={6}/></div></td>
+                                        <td className={styles.tdIconCell}>
+                                            <div><Icon icon={"path"} width={24} height={6}/></div>
+                                        </td>
                                         <td className={styles.tdCellW}>
                                             <div className={styles.addressGroup}>
-                                                <div className={classNames(styles.angularAvatar, styles.receiver)}></div>
+                                                <div
+                                                    className={classNames(styles.angularAvatar, styles.receiver)}></div>
                                                 <a className={styles.address}>0x8C...1a9D</a>
                                             </div>
                                         </td>
@@ -213,7 +224,9 @@ export const Block = () => {
                                 </table>
                             </div>
                         </div>
+
                     </TabPanel>
+
                 </Tabs>
             </section>
 

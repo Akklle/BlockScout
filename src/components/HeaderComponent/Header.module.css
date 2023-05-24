@@ -41,7 +41,7 @@
 }
 
 .navBarItem:hover {
-  color: #3CE2EC;
+  color: `#3CE2EC`;
   font-weight: 500;
 }
 

@@ -20,8 +20,8 @@ export const Blocks = () => {
             <section className={styles.searchSection}>
                 <Search/>
             </section>
-            <section className={styles.blockSection}>
-                <div className={classNames(styles.blockParagraph, styles.jcsb)}>
+            <section className={styles.pageSection}>
+                <div className={classNames(styles.headOfPage, styles.jcsb)}>
                     <p>Blocks</p>
                     <div className={styles.paginationButtons}>
                         <button className={styles.controlButton} disabled={isDisabled}><img src={prev}
@@ -33,7 +33,7 @@ export const Blocks = () => {
                 </div>
 
 
-                <div className={styles.blocks}>
+                <div>
                     <div className={styles.tableWrapper}>
                         <div className={styles.tableBorder}></div>
                         <table className={styles.table}>
@@ -49,6 +49,51 @@ export const Blocks = () => {
                             </tr>
                             </thead>
                             <tbody className={styles.tableBody}>
+                            <tr className={styles.tableRow}>
+                                <td className={styles.tdCell}>
+                                    <div>
+                                        <a className={classNames(styles.address, styles.fontWeight500)}>8808138</a>
+                                        <p className={styles.hashTime}>22:33:01</p>
+                                    </div>
+                                </td>
+                                <td className={styles.tdCell}>
+                                    317,175
+                                </td>
+                                <td className={styles.tdCell}><a className={styles.address}>0xf3...6000</a>
+                                </td>
+                                <td className={styles.tdCell}>16
+                                </td>
+                                <td className={styles.tdCell}>
+                                    <div className={styles.gasUsedCell}>
+                                        <p>9,783,995</p>
+                                        <div className={styles.percentage}>
+                                            <ProgressBar progressColor={'#3CE2EC'} bgColor={'#8D8D8E'} progress={48}
+                                                         width={39}
+                                                         height={3}></ProgressBar>
+                                            <span>48.86%</span>
+                                            <div className={styles.verticalLine}></div>
+                                            <span>-2.29%</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td className={styles.tdCellRight} align={"right"}>0.14949587</td>
+                                <td className={styles.tdCellRight} >
+                                    <div className={styles.burntFeeCell}>
+                                        <div className={styles.brFeeTop}>
+                                        <img src={fire} alt=""/>
+                                        <p>0.54727044</p>
+                                        </div>
+                                        <div className={styles.percentage}>
+                                            <ProgressBar progressColor={'#59FFA4'} bgColor={'#8D8D8E'} progress={94}
+                                                         width={39}
+                                                         height={3}></ProgressBar>
+                                            <span>94.49%</span>
+                                        </div>
+                                    </div>
+                                </td>
+
+
+                            </tr>
                             <tr className={styles.tableRow}>
                                 <td className={styles.tdCell}>
                                     <div>
@@ -80,8 +125,8 @@ export const Blocks = () => {
                                 <td className={styles.tdCellRight} >
                                     <div className={styles.burntFeeCell}>
                                         <div className={styles.brFeeTop}>
-                                        <img src={fire} alt=""/>
-                                        <p>0.54727044</p>
+                                            <img src={fire} alt=""/>
+                                            <p>0.54727044</p>
                                         </div>
                                         <div className={styles.percentage}>
                                             <ProgressBar progressColor={'#59FFA4'} bgColor={'#8D8D8E'} progress={94}

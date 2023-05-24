@@ -24,8 +24,8 @@ export const Block = () => {
             <section className={styles.searchSection}>
                 <Search/>
             </section>
-            <section className={styles.blockSection}>
-                <div className={styles.blockParagraph}>
+            <section className={styles.pageSection}>
+                <div className={styles.headOfPage}>
                     <p>Block</p>
                     <p>#8829949</p>
                 </div>

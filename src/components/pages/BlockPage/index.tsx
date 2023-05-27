@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Dispatch, SetStateAction, useEffect, useState} from 'react';
 import styles from './index.module.sass';
 import {Search} from "../../ui/Search";
 import {Tab, Tabs, TabList, TabPanel} from 'react-tabs'
@@ -7,17 +7,51 @@ import info from "../../../assets/infoSVG.svg";
 import fire from "../../../assets/fire.svg";
 import prev from "../../../assets/arrow_prev.svg";
 import next from "../../../assets/arrow_next.svg";
+import {Block, Transaction} from "../../../app/models/generated"
 import {
-    processedStringFromApi,
     Status,
     TypeOfTransaction
 } from "../MainPage/LatestTransactionComponent/LatestTransaction";
 import classNames from "classnames";
-import {stringTruncateFromCenter} from "../MainPage/LatestBlocksComponent/LatestBlock";
 import {Icon} from "../../ui/Icon";
 import ProgressBar from "../../ui/ProgressBar";
+import {
+    calculateReward, formatNumber,
+    getTimeFromTimestamp,
+    processedStringFromApi,
+} from "../../../services/dataProsessing";
+import {NavigateFunction, useParams} from "react-router-dom"
+import {baseUrl} from "../MainPage/Main";
+import {initialBlock} from "../../../app/models/generated/models/Block";
+import {useNavigate} from 'react-router-dom';
 
-export const Block = () => {
+async function getBlock(setBlock: Dispatch<SetStateAction<Block>>, number: string | undefined, navigate: NavigateFunction) {
+    let url = baseUrl + '/blocks' + '/' + number
+    let fetchResult: Response = await fetch(url)
+    if (fetchResult.status != 200) {
+        navigate('/error')
+    } else {
+        let result: Block = await fetchResult.json()
+        setBlock(result)
+    }
+}
+async function getTransactions(setTransactions: Dispatch<SetStateAction<Array<Transaction>>>, number: string | undefined) {
+    let url = baseUrl + '/blocks' + '/' + number + '/transactions'
+    let result: Array<Transaction> = await (await fetch(url)).json()
+    setTransactions(result)
+}
+
+export const BlockPage = () => {
+    const navigate = useNavigate();
+    const {number} = useParams()
+    const [block, setBlock] = useState<Block>(initialBlock);
+    useEffect(() => {
+        getBlock(setBlock, number, navigate)
+    }, [])
+    const [transactions, setTransactions] = useState<Array<Transaction>>([]);
+    useEffect(() => {
+        getTransactions(setTransactions, number)
+    }, [])
     const isDisabled = true
     return (
         <div>
@@ -27,7 +61,7 @@ export const Block = () => {
             <section className={styles.pageSection}>
                 <div className={styles.headOfPage}>
                     <p>Block</p>
-                    <p>#8829949</p>
+                    <p>#{block.height}</p>
                 </div>
                 <Tabs>
                     <TabList>
@@ -38,83 +72,105 @@ export const Block = () => {
                     <TabPanel>
                         <div className={styles.details}>
                             <div className={styles.infoRow}>
-                                <img className={styles.infoIcon} src={info} alt="more information"/>
+                                <span
+                                    data-hint="The block height of a particular block is defined as the number of blocks preceding it in the blockchain"><img
+                                    className={styles.infoIcon} src={info} alt="more information"/></span>
                                 <p className={styles.rowTitle}>Block height</p>
-                                <p>8829949</p>
+                                <p>{block.height}</p>
                             </div>
                             <div className={styles.infoRow}>
-                                <img className={styles.infoIcon} src={info} alt="more information"/>
+                                <span data-hint="Size of the block in bytes"><img className={styles.infoIcon} src={info}
+                                                                                  alt="more information"/></span>
                                 <p className={styles.rowTitle}>Size</p>
-                                <p>129,996</p>
+                                <p>{block.size}</p>
                             </div>
                             <div className={styles.infoRow}>
-                                <img className={styles.infoIcon} src={info} alt="more information"/>
+                                <span data-hint="Date & time at which block was produced"><img
+                                    className={styles.infoIcon} src={info} alt="more information"/></span>
                                 <p className={styles.rowTitle}>Timestamp</p>
-                                <p>May-13-2023 23:34:36 PM +03:00</p>
-                                <span className={styles.valueType}>UTC</span>
+                                <p>{getTimeFromTimestamp(block.timestamp)}</p>
                             </div>
                             <div className={styles.infoRow}>
-                                <img className={styles.infoIcon} src={info} alt="more information"/>
+                                <span data-hint="The number of transaction in block"><img className={styles.infoIcon}
+                                                                                          src={info}
+                                                                                          alt="more information"/></span>
                                 <p className={styles.rowTitle}>Transactions</p>
                                 <a className={styles.rowLink}>
-                                    <span>102</span>
+                                    <span>{block.tx_count}</span>
                                     <span>transactions</span>
                                 </a>
                             </div>
                             <div className={styles.infoRow}>
-                                <img className={styles.infoIcon} src={info} alt="more information"/>
-                                <p className={styles.rowTitle}>Transactions</p>
+                                <span
+                                    data-hint="A block producer who successfully included the block onto the blockchain"><img
+                                    className={styles.infoIcon} src={info} alt="more information"/></span>
+                                <p className={styles.rowTitle}>Validated by</p>
                                 <a className={styles.rowLink}>
-                                    <span>0x82011aBBaA7A0853dA47dD151f3546c400884fc8</span>
+                                    <span>{block.miner?.hash}</span>
                                 </a>
                             </div>
                             <div className={styles.infoRow}>
-                                <img className={styles.infoIcon} src={info} alt="more information"/>
+                                <span
+                                    data-hint="For each block, the validator is rewarded with a finite amount of THE on top of the fees paid for all transactions in the block"><img
+                                    className={styles.infoIcon} src={info} alt="more information"/></span>
                                 <p className={styles.rowTitle}>Block reward</p>
-                                <span>0.125683344452262762</span>
+                                <span>{(calculateReward(block.rewards) / 10 ** 18)}</span>
                                 <span className={styles.valueType}>ETH</span>
                             </div>
                             <div className={styles.line}></div>
                             <div className={styles.infoRow}>
-                                <img className={styles.infoIcon} src={info} alt="more information"/>
+                                <span
+                                    data-hint="The total gas amount used in the block and its percentage of gas filled in the block"><img
+                                    className={styles.infoIcon} src={info} alt="more information"/></span>
                                 <p className={styles.rowTitle}>Gas used</p>
-                                <span className={styles.mgR20}>16,084,450</span>
+                                <span className={styles.mgR20}>{formatNumber(block.gas_used)}</span>
                                 <div className={styles.percentage}>
-                                    <ProgressBar progressColor={'#3CE2EC'} bgColor={'#8D8D8E'} progress={50} width={39}
+                                    <ProgressBar progressColor={'#3CE2EC'} bgColor={'#8D8D8E'}
+                                                 progress={block.gas_used_percentage ? block.gas_used_percentage : 0}
+                                                 width={39}
                                                  height={3}></ProgressBar>
-                                    <span>48.86%</span>
+                                    <span>{block.gas_used_percentage ? block.gas_used_percentage.toFixed(2) : 0}%</span>
                                     <div className={styles.verticalLine}></div>
-                                    <span>-2.29%</span>
+                                    <span>{block.gas_target_percentage ? block.gas_target_percentage.toFixed(2) : 0}%</span>
                                 </div>
 
                             </div>
                             <div className={styles.infoRow}>
-                                <img className={styles.infoIcon} src={info} alt="more information"/>
+                                <span data-hint="Total gas limit provided by all transactions in the block"><img
+                                    className={styles.infoIcon} src={info} alt="more information"/></span>
                                 <p className={styles.rowTitle}>Gas limit</p>
-                                <p>30,000,000</p>
+                                <p>{formatNumber(block.gas_limit)}</p>
                             </div>
                             <div className={styles.infoRow}>
-                                <img className={styles.infoIcon} src={info} alt="more information"/>
+                                <span
+                                    data-hint="Minimum fee required per unit of gas. Fee adjusts based on network congestion"><img
+                                    className={styles.infoIcon} src={info} alt="more information"/></span>
                                 <p className={styles.rowTitle}>Base fee per gas</p>
-                                <span>0.000000076309101546</span>
+                                <span>{block.base_fee_per_gas ? (block.base_fee_per_gas / 10 ** 18).toFixed(18) : 0}</span>
                                 <span className={styles.valueType}>ETH</span>
                             </div>
                             <div className={styles.infoRow}>
-                                <img className={styles.infoIcon} src={info} alt="more information"/>
+                                <span
+                                    data-hint="Amount of THE burned from transactions included in the block. Equals Block Base Fee per Gas * Gas Used"><img
+                                    className={styles.infoIcon} src={info} alt="more information"/></span>
                                 <p className={styles.rowTitle}>Burnt fees</p>
                                 <img className={styles.gasIcon} src={fire} alt=""/>
-                                <span>1.328880117708521148</span>
+                                <span>{block.burnt_fees ? (block.burnt_fees / 10 ** 18).toFixed(18) : 0}</span>
                                 <span className={styles.valueType}>ETH</span>
                                 <div className={styles.percentage}>
-                                    <ProgressBar progressColor={'#59FFA4'} bgColor={'#8D8D8E'} progress={94.49}
+                                    <ProgressBar progressColor={'#59FFA4'} bgColor={'#8D8D8E'}
+                                                 progress={block.burnt_fees_percentage ? block.burnt_fees_percentage : 0}
                                                  width={39} height={3}></ProgressBar>
-                                    <span className={styles.percentageGreen}>94.49%</span>
+                                    <span
+                                        className={styles.percentageGreen}>{block.burnt_fees_percentage ? block.burnt_fees_percentage.toFixed(2) : 0}%</span>
                                 </div>
                             </div>
                             <div className={styles.infoRow}>
-                                <img className={styles.infoIcon} src={info} alt="more information"/>
+                                <span
+                                    data-hint="User-defined tips sent to validator for transaction priority/inclusion"><img
+                                    className={styles.infoIcon} src={info} alt="more information"/></span>
                                 <p className={styles.rowTitle}>Priority fee / Tip</p>
-                                <span>0.125683344452262762</span>
+                                <span>{block.priority_fee ? (block.priority_fee / 10 ** 18).toFixed(18) : 0}</span>
                                 <span className={styles.valueType}>ETH</span>
                             </div>
                         </div>

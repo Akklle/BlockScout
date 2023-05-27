@@ -1,0 +1,27 @@
+@import '../../../styles/All_mixins'
+
+.errorPage
+  display: flex
+  flex-direction: column
+  align-items: center
+  gap: 40px
+  margin-top: 100px
+  margin-right: 119px
+  margin-left: 119px
+  @include onest52
+  color: white
+  font-weight: 500
+
+.goBack
+  width: fit-content
+  border: 1px solid #3CE2EC
+  border-radius: 13px
+  padding: 16px
+  @include onest18
+  font-size: 16px
+  line-height: 107.5%
+  color: $light_blue
+
+.goBack:hover
+  @include onestButton
+  background: $light_blue

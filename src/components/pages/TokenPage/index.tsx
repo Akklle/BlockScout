@@ -10,11 +10,11 @@ import prev from "../../../assets/arrow_prev.svg";
 import next from "../../../assets/arrow_next.svg";
 import classNames from "classnames";
 import {
-    processedStringFromApi,
     Status,
     TypeOfTransaction
 } from "../MainPage/LatestTransactionComponent/LatestTransaction";
 import {Icon} from "../../ui/Icon";
+import {processedStringFromApi} from "../../../services/dataProsessing";
 
 export const Token = () => {
     const isDisabled = true

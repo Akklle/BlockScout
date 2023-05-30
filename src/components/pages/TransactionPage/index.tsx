@@ -4,13 +4,12 @@ import {Search} from "../../ui/Search";
 import {Tab, Tabs, TabList, TabPanel} from 'react-tabs'
 import info from "../../../assets/infoSVG.svg";
 import fire from "../../../assets/fire.svg";
+import { processedStringFromApi, stringTruncateFromCenter} from "../../../services/dataProsessing";
 import {
-    processedStringFromApi,
     Status,
     TypeOfTransaction
 } from "../MainPage/LatestTransactionComponent/LatestTransaction";
 import classNames from "classnames";
-import {stringTruncateFromCenter} from "../MainPage/LatestBlocksComponent/LatestBlock";
 import {Icon} from "../../ui/Icon";
 import ProgressBar from "../../ui/ProgressBar";
 import prev from "../../../assets/arrow_prev.svg";

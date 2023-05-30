@@ -5,11 +5,26 @@
 import type { AddressParam } from './AddressParam';
 import type { Reward } from './Reward';
 
+export const initialBlock: Block = {
+    height: 0,
+    timestamp: '',
+    tx_count: 0,
+    miner: null,
+    size: 0,
+    hash: '',
+    parent_hash: '',
+    difficulty: 0,
+    total_difficulty: 0,
+    gas_used: 0,
+    gas_limit: 0,
+    nonce: '',
+
+}
 export type Block = {
     height: number;
     timestamp: string;
     tx_count: number;
-    miner: AddressParam;
+    miner: AddressParam | null;
     size: number;
     hash: string;
     parent_hash: string;

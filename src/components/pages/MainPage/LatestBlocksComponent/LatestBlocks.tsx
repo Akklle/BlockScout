@@ -9,12 +9,12 @@ interface LatestBlockArrayInterface {
 
 export const LatestBlocks = ({LatestBlockArray}: LatestBlockArrayInterface) => {
     return (
-        <div className={styles.LatestBlockArr}>
-            {LatestBlockArray.map((block: Block) => {
-                return <LatestBlock key={block.hash}
-                                    block={block}
-                />
-            })}
-        </div>
+                <div className={styles.LatestBlockArr}>
+                    {LatestBlockArray.map((block: Block) => {
+                        return <LatestBlock key={block.hash}
+                                            block={block}
+                        />
+                    })}
+                </div>
     )
 }

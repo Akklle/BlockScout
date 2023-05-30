@@ -5,8 +5,8 @@ import {Tab, Tabs, TabList, TabPanel} from 'react-tabs'
 import './tabs.sass'
 import prev from "../../../assets/arrow_prev.svg";
 import next from "../../../assets/arrow_next.svg";
+import { processedStringFromApi} from "../../../services/dataProsessing";
 import {
-    processedStringFromApi,
     Status,
     TypeOfTransaction
 } from "../MainPage/LatestTransactionComponent/LatestTransaction";

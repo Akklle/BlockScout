@@ -4,7 +4,12 @@ import {Icon} from "../../../ui/Icon";
 import cn from 'classnames/bind'
 import classNames from 'classnames'
 import {Transaction} from "../../../../app/models/generated";
-import {getTimeFromTimestamp, round, stringTruncateFromCenter} from "../LatestBlocksComponent/LatestBlock";
+import {
+    getTimeFromTimestamp,
+    processedStringFromApi,
+    round,
+    stringTruncateFromCenter
+} from "../../../../services/dataProsessing";
 
 const cx = cn.bind(styles)
 
@@ -42,11 +47,6 @@ export const Status = ({theme = 'success', children}: StatusProps) => {
             {children}
         </div>
     )
-}
-
-export function processedStringFromApi(type: string) {
-    return (type.charAt(0).toUpperCase() + type.substring(1)).replace('_', ' ')
-
 }
 
 interface wrapperTransaction {

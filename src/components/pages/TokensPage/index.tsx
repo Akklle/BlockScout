@@ -1,14 +1,32 @@
-import React from 'react';
+import React, {Dispatch, SetStateAction, useEffect, useState} from 'react';
 import styles from "./index.module.sass";
 import {Search} from "../../ui/Search";
 import classNames from "classnames";
 import prev from "../../../assets/arrow_prev.svg";
 import next from "../../../assets/arrow_next.svg";
-import ProgressBar from "../../ui/ProgressBar";
-import fire from "../../../assets/fire.svg";
+
 import {NavLink} from "react-router-dom";
+import {Token} from "../../../app/models/generated";
+import {baseUrl} from "../MainPage/Main";
+
+import {TokenItems} from './TokenItems';
+
+type TokenList = {
+    items: Array<Token>,
+    next_page_params: any
+}
+
+async function getTokens(setTokens: Dispatch<SetStateAction<TokenList>>) {
+    let url = baseUrl + '/tokens'
+    let result: TokenList = await (await fetch(url)).json()
+    setTokens(result)
+}
 
 export const Tokens = () => {
+    const [tokenList, setTokens] = useState<TokenList>({items: [], next_page_params: null});
+    useEffect(() => {
+        getTokens(setTokens)
+    }, [])
     const isDisabled = true
     return (
         <div>
@@ -40,20 +58,7 @@ export const Tokens = () => {
                                 <th className={classNames(styles.thW20, styles.thDefaultRight)}>Holders</th>
                             </tr>
                             </thead>
-                            <tbody className={styles.tableBody}>
-                            <tr className={styles.tableRow}>
-                                <td className={styles.tdCell}>
-                                    <NavLink className={classNames(styles.address, styles.fontWeight500)} to="/">hUSDC.cc
-                                        (hUSDC)</NavLink>
-                                </td>
-                                <td className={styles.tdCell}>
-                                    <NavLink className={styles.address} to="/">0x37...2394</NavLink>
-                                </td>
-                                <td className={styles.tdCellRight} align={"right"}><p
-                                    className={styles.method}>ERC-20</p></td>
-                                <td className={styles.tdCellRight} align={"right"}>4,629,701</td>
-                            </tr>
-                            </tbody>
+                            <TokenItems TokenArray={tokenList.items}></TokenItems>
                         </table>
                     </div>
                 </div>

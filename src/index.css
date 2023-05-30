@@ -14,5 +14,31 @@ code {
     monospace;
 }
 
+*[data-hint] {
+  position: relative;
+}
+*[data-hint]:hover:after {
+  visibility: visible;
+  transform: translate(-50%, -100%);
+}
+*[data-hint]:after {
+  text-align: center;
+  width: 170px;
+  visibility: hidden;
+  position: absolute;
+  transition: transform .2s ease;
+  top: -15px;
+  left: 50%;
+  z-index: 2;
+  transform: translate(-50%, 0%);
+  background-color: #4C5157;
+  color: white;
+  content: attr(data-hint);
+  display: inline-block;
+  padding: 5px;
+  border-radius: 5px;
+  font-size: 0.8em;
+  line-height: 1.2em;
+}
 
 

@@ -8,17 +8,19 @@ import {Block} from "../../../app/models/generated"
 import {Stats} from "../../../app/models/Stats"
 import {Transaction} from "../../../app/models/generated"
 import {initialStats} from "../../../app/models/Stats"
-import {round} from "./LatestBlocksComponent/LatestBlock";
 import {Search} from "../../ui/Search";
 import {Icon} from "../../ui/Icon";
+import {formatNumber, round} from "../../../services/dataProsessing";
 
-const baseUrl = 'https://eth-goerli.blockscout.com/api/v2'
+
+export const baseUrl = 'https://eth-goerli.blockscout.com/api/v2'
 
 async function getStats(setStats: Dispatch<SetStateAction<Stats>>) {
     let url = baseUrl + '/stats'
     let result: Stats = await (await fetch(url)).json()
     setStats(result)
 }
+
 
 async function getBlocks(setBlocks: Dispatch<SetStateAction<Array<Block>>>) {
     let url = baseUrl + '/main-page/blocks'
@@ -64,7 +66,7 @@ export const Main = () => {
                         <Icon icon="totalBlocks"/>
                         <div className={styles.cardInfo}>
                             <p className={styles.cardName}>Total blocks</p>
-                            <p className={styles.cardValue}>{stats.total_blocks.replace(/(\d)(?=(\d{3})+([^\d]|$))/g, '$1 ')}</p>
+                            <p className={styles.cardValue}>{formatNumber(stats.total_blocks)}</p>
                         </div>
 
                     </div>
@@ -80,14 +82,14 @@ export const Main = () => {
                         <Icon icon="totalTransaction"/>
                         <div className={styles.cardInfo}>
                             <p className={styles.cardName}>Total transactions</p>
-                            <p className={styles.cardValue}>{stats.total_transactions.replace(/(\d)(?=(\d{3})+([^\d]|$))/g, '$1 ')}</p>
+                            <p className={styles.cardValue}>{formatNumber(stats.total_transactions)}</p>
                         </div>
                     </div>
                     <div className={styles.card}>
                         <Icon icon="wallet"/>
                         <div className={styles.cardInfo}>
                             <p className={styles.cardName}>Wallet addresses</p>
-                            <p className={styles.cardValue}>{stats.total_addresses.replace(/(\d)(?=(\d{3})+([^\d]|$))/g, '$1 ')}</p>
+                            <p className={styles.cardValue}>{formatNumber(stats.total_addresses)}</p>
                         </div>
                     </div>
                     <div className={styles.card}>
@@ -111,7 +113,13 @@ export const Main = () => {
                     </div>
                     <button className={styles.viewAllBlocks}>View all blocks</button>
                 </div>
+                {/*<Box>*/}
+                {/*    <Skeleton isLoaded>*/}
+                {/*        <br/><br/><br/><br/><br/><br/><br/>*/}
+                {/*    </Skeleton>*/}
+                {/*</Box>*/}
                 <LatestBlocks LatestBlockArray={blocks}/>
+
             </section>
 
             <section className={styles.latestTransactionsSection}>

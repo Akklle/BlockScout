@@ -1,0 +1,212 @@
+@import '../../../styles/All_mixins'
+@import 'src/components/pages/MainPage/LatestTransactionComponent/LatestTransaction.module'
+
+.searchSection
+  margin: 50px 119px 0
+
+.pageSection
+  margin: 60px 119px 0px
+  display: flex
+  flex-direction: column
+
+.headOfPage
+  display: flex
+  flex-direction: row
+  align-items: center
+  gap: 10px
+  @include onest36medium
+
+.jcsb
+  justify-content: space-between
+
+.details
+  width: 100%
+
+.transactions
+  width: 100%
+
+.infoRow
+  display: flex
+  flex-direction: row
+  @include onest16medium
+  color: white
+  margin-bottom: 30px
+
+.rowTitle
+  width: 178px
+  margin-left: 10px
+  margin-right: 63px
+
+.rowLink
+  color: $light_blue
+  display: flex
+  flex-direction: row
+  gap: 4px
+  font-weight: 400
+
+.rowLink:hover
+  text-shadow: 0 0 4px $c_shadows_blue
+
+.valueType
+  margin-left: 4px
+  margin-right: 20px
+
+.mgR20
+  margin-right: 20px
+
+.line
+  height: 1px
+  border: 1px solid
+  border-image-source: linear-gradient(90deg, #FFFFFF -2.03%, rgba(255, 255, 255, 0) 102.22%)
+  border-image-slice: 10
+  margin-bottom: 30px
+
+.percentage
+  display: flex
+  flex-direction: row
+  align-items: center
+  gap: 20px
+  color: $medium-light-grey
+
+  .verticalLine
+    margin-right: 0
+
+.verticalLine
+  border: 1px solid
+  height: 15px
+  margin-right: 20px
+  background-color: $medium-light-grey
+
+.gasIcon
+  margin-right: 4px
+
+.percentageGreen
+  color: $c_bright_green
+
+.paginationButtons
+  display: flex
+  flex-direction: row
+  justify-content: flex-end
+  gap: 22px
+
+.controlButton
+  width: 40px
+  height: 40px
+  border: 1px solid white
+  border-radius: 7px
+  display: flex
+  align-items: center
+  justify-content: center
+
+.controlButton:hover
+  opacity: 0.8
+
+.controlButton:disabled
+  opacity: 0.35
+
+.pageNum
+  display: flex
+  justify-content: center
+  align-items: center
+  width: 40px
+  height: 40px
+  color: $main_dark_grey
+  background: white
+  border-radius: 7px
+  @include onest16medium
+
+.table
+  margin-top: 34px
+  width: 100%
+  color: white
+  border-style: hidden
+  @include onest16
+
+.tableHead
+  height: 30px
+
+.tableWrapper
+  position: relative
+
+.tableBorder
+  position: absolute
+  top: -10px
+  width: 100%
+  height: 40px
+  border: 1px solid #FFFFFF
+  border-radius: 7px
+
+.tableRow
+  border: 1px solid white
+
+.tableRow:first-child
+  border: none
+
+.thDefault
+  text-align: left
+  padding-left: 22px
+
+.thDefaultRight
+  text-align: right
+  padding-left: 22px
+  padding-right: 22px
+
+.tdCell
+  padding: 20px 0 20px 22px
+  vertical-align: top
+
+.tdCellRight
+  padding: 20px 22px
+  vertical-align: top
+
+.tdCellW
+  padding: 20px 0
+  vertical-align: top
+
+.tdIconCell
+  padding: 20px 12px
+
+.mgtop20
+  margin-top: 20px
+
+.mgtop30
+  margin-top: 30px
+
+.thW40
+  width: 40%
+
+.thW40
+  width: 60%
+
+.thW30
+  width: 30%
+
+.thW20
+  width: 20%
+
+.thFrom
+  width: 120px
+
+.thIcon
+  width: 48px
+
+.thTo
+  width: 98px
+  text-align: left
+
+.addressGroup
+  display: flex
+  flex-direction: row
+  gap: 12px
+  margin-bottom: 10px
+  align-items: center
+
+.traceBlock
+  padding: 16px
+  max-height: 200px
+  color: $medium-light-grey
+  border: 1px $light_blue solid
+  border-radius: 20px
+  word-break: break-all
+  white-space: pre-wrap
+  overflow-y: auto

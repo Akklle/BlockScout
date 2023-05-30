@@ -7,6 +7,8 @@ import {Block} from "./components/pages/BlockPage";
 import {Blocks} from "./components/pages/BlocksPage";
 import {Tokens} from "./components/pages/TokensPage";
 import {Token} from "./components/pages/TokenPage";
+import {Transactions} from "./components/pages/TransactionsPage";
+import {Transaction} from "./components/pages/TransactionPage";
 
 
 function App() {
@@ -14,6 +16,8 @@ function App() {
         <Routes>
             <Route path='/' element={<Layout/>}>
                 <Route path='/' element={<Main/>} index/>
+                <Route path='/transaction' element={<Transaction/>}/>
+                <Route path='/transactions' element={<Transactions/>}/>
                 <Route path='/block' element={<Block/>}/>
                 <Route path='/blocks' element={<Blocks/>}/>
                 <Route path='/tokens' element={<Tokens/>}/>

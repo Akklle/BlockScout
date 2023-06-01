@@ -5,13 +5,13 @@ import {Tab, Tabs, TabList, TabPanel} from 'react-tabs'
 import './tabs.sass'
 import prev from "../../../assets/arrow_prev.svg";
 import next from "../../../assets/arrow_next.svg";
-import { processedStringFromApi} from "../../../services/dataProsessing";
 import {
     Status,
     TypeOfTransaction
 } from "../MainPage/LatestTransactionComponent/LatestTransaction";
 import classNames from "classnames";
 import {Icon} from "../../ui/Icon";
+import {processedStringFromApi} from "../../../utils";
 
 export const Transactions = () => {
     const isDisabled = true

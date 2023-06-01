@@ -6,13 +6,8 @@ import fire from "../../../assets/fire.svg";
 
 
 import {Block} from "../../../app/models/generated"
-import {
-    calculateReward,
-    formatNumber,
-    getTimeFromTimestamp,
-    stringTruncateFromCenter
-} from "../../../services/dataProsessing";
 import {NavLink} from "react-router-dom";
+import {calculateReward, stringTruncateFromCenter, getTimeFromTimestamp, formatNumber} from "../../../utils";
 
 interface wrapperBlock {
     block: Block
@@ -23,7 +18,8 @@ export const BlockItem = (props: wrapperBlock) => {
     return (<tr className={styles.tableRow}>
             <td className={styles.tdCell}>
                 <div>
-                    <NavLink className={classNames(styles.address, styles.fontWeight500)} to={"/block/" + currentBlock.height}>{currentBlock.height}</NavLink>
+                    <NavLink className={classNames(styles.address, styles.fontWeight500)}
+                             to={"/block/" + currentBlock.height}>{currentBlock.height}</NavLink>
                     <p className={styles.hashTime}>{getTimeFromTimestamp(currentBlock.timestamp)}</p>
                 </div>
             </td>
@@ -49,15 +45,17 @@ export const BlockItem = (props: wrapperBlock) => {
                     </div>
                 </div>
             </td>
-            <td className={styles.tdCellRight} align={"right"}>{(calculateReward(currentBlock.rewards) / 10 ** 18).toFixed(8)}</td>
+            <td className={styles.tdCellRight}
+                align={"right"}>{(calculateReward(currentBlock.rewards) / 10 ** 18).toFixed(8)}</td>
             <td className={styles.tdCellRight}>
                 <div className={styles.burntFeeCell}>
                     <div className={styles.brFeeTop}>
                         <img src={fire} alt=""/>
-                        <p>{currentBlock.burnt_fees ? (currentBlock.burnt_fees/ 10 ** 18).toFixed(8) : 0}</p>
+                        <p>{currentBlock.burnt_fees ? (currentBlock.burnt_fees / 10 ** 18).toFixed(8) : 0}</p>
                     </div>
                     <div className={styles.percentage}>
-                        <ProgressBar progressColor={'#59FFA4'} bgColor={'#8D8D8E'} progress={currentBlock.burnt_fees_percentage ? currentBlock.burnt_fees_percentage : 0}
+                        <ProgressBar progressColor={'#59FFA4'} bgColor={'#8D8D8E'}
+                                     progress={currentBlock.burnt_fees_percentage ? currentBlock.burnt_fees_percentage : 0}
                                      width={39}
                                      height={3}></ProgressBar>
                         <span>{currentBlock.burnt_fees_percentage ? currentBlock.burnt_fees_percentage.toFixed(2) : 0}%</span>

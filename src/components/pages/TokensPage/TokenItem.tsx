@@ -4,7 +4,7 @@ import classNames from 'classnames'
 
 import {Token} from "../../../app/models/generated"
 import {NavLink} from "react-router-dom";
-import {formatNumber, stringTruncateFromCenter} from "../../../services/dataProsessing";
+import {stringTruncateFromCenter, formatNumber} from "../../../utils";
 
 interface wrapperToken {
     token: Token

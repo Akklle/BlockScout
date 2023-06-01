@@ -4,12 +4,7 @@ import {Icon} from "../../../ui/Icon";
 import cn from 'classnames/bind'
 import classNames from 'classnames'
 import {Transaction} from "../../../../app/models/generated";
-import {
-    getTimeFromTimestamp,
-    processedStringFromApi,
-    round,
-    stringTruncateFromCenter
-} from "../../../../services/dataProsessing";
+import {processedStringFromApi, stringTruncateFromCenter, round, getTimeFromTimestamp} from "../../../../utils";
 
 const cx = cn.bind(styles)
 

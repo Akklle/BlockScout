@@ -4,7 +4,6 @@ import {Search} from "../../ui/Search";
 import {Tab, Tabs, TabList, TabPanel} from 'react-tabs'
 import info from "../../../assets/infoSVG.svg";
 import fire from "../../../assets/fire.svg";
-import { processedStringFromApi, stringTruncateFromCenter} from "../../../services/dataProsessing";
 import {
     Status,
     TypeOfTransaction
@@ -14,6 +13,7 @@ import {Icon} from "../../ui/Icon";
 import ProgressBar from "../../ui/ProgressBar";
 import prev from "../../../assets/arrow_prev.svg";
 import next from "../../../assets/arrow_next.svg";
+import {processedStringFromApi, stringTruncateFromCenter} from "../../../utils";
 
 export const Transaction = () => {
     const isDisabled = true

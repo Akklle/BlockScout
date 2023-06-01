@@ -2,8 +2,8 @@ import React from 'react';
 import styles from './LatestBlocks.module.sass';
 import {Icon} from "../../../ui/Icon";
 import {Block} from '../../../../app/models/generated'
-import {calculateReward, getTimeFromTimestamp, stringTruncateFromCenter} from "../../../../services/dataProsessing";
 import {NavLink} from "react-router-dom";
+import {calculateReward, stringTruncateFromCenter, getTimeFromTimestamp} from "../../../../utils";
 
 
 interface wrapperBlock {

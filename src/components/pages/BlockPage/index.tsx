@@ -15,15 +15,12 @@ import {
 import classNames from "classnames";
 import {Icon} from "../../ui/Icon";
 import ProgressBar from "../../ui/ProgressBar";
-import {
-    calculateReward, formatNumber,
-    getTimeFromTimestamp,
-    processedStringFromApi,
-} from "../../../services/dataProsessing";
 import {NavigateFunction, useParams} from "react-router-dom"
 import {baseUrl} from "../MainPage/Main";
 import {initialBlock} from "../../../app/models/generated/models/Block";
 import {useNavigate} from 'react-router-dom';
+import {processedStringFromApi, calculateReward, getTimeFromTimestamp, formatNumber} from "../../../utils";
+
 
 async function getBlock(setBlock: Dispatch<SetStateAction<Block>>, number: string | undefined, navigate: NavigateFunction) {
     let url = baseUrl + '/blocks' + '/' + number
@@ -35,6 +32,7 @@ async function getBlock(setBlock: Dispatch<SetStateAction<Block>>, number: strin
         setBlock(result)
     }
 }
+
 async function getTransactions(setTransactions: Dispatch<SetStateAction<Array<Transaction>>>, number: string | undefined) {
     let url = baseUrl + '/blocks' + '/' + number + '/transactions'
     let result: Array<Transaction> = await (await fetch(url)).json()

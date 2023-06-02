@@ -1,17 +1,10 @@
 import React, {ReactNode} from 'react';
 import styles from "../BlocksPage/index.module.sass";
 import classNames from 'classnames'
-import ProgressBar from "../../ui/ProgressBar";
-import fire from "../../../assets/fire.svg";
-
+import {getTimeFromTimestamp, processedStringFromApi, round, stringTruncateFromCenter,
+    stringTruncateFromLeft} from "../../../utils";
 
 import {Transaction} from "../../../app/models/generated"
-import {
-    calculateReward,
-    formatNumber,
-    getTimeFromTimestamp, processedStringFromApi, round, stringTruncateFromCenter,
-    stringTruncateFromLeft
-} from "../../../services/dataProsessing";
 import {NavLink} from "react-router-dom";
 import {Status, TypeOfTransaction} from "../MainPage/LatestTransactionComponent/LatestTransaction";
 import {Icon} from "../../ui/Icon";

@@ -10,9 +10,9 @@ import {Transaction} from "../../../app/models/generated"
 import {initialStats} from "../../../app/models/Stats"
 import {Search} from "../../ui/Search";
 import {Icon} from "../../ui/Icon";
-import {formatNumber, round} from "../../../services/dataProsessing";
 import classNames from "classnames";
 import {NavLink} from "react-router-dom";
+import {round, formatNumber} from "../../../utils";
 
 
 export const baseUrl = 'https://eth-goerli.blockscout.com/api/v2'

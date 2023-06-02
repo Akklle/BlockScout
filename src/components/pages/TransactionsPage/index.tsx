@@ -10,7 +10,6 @@ import classNames from "classnames";
 import {Icon} from "../../ui/Icon";
 import {TransactionItems} from "./TransactionItems";
 import {Transaction} from "../../../app/models/generated";
-import {BlockItems} from "../BlocksPage/BlockItems";
 
 
 type TransactionList = {
@@ -29,6 +28,7 @@ async function getTransactions(setTransactions: Dispatch<SetStateAction<Transact
 let previousParams: Record<string, string>[] = []
 let currentParams: Record<string, string> = {}
 let page: number = 1
+
 
 export const Transactions = () => {
     const [transactionList, setTransactions] = useState<TransactionList>({items: [], next_page_params: null});

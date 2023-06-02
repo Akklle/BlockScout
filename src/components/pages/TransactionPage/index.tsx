@@ -4,13 +4,11 @@ import {Search} from "../../ui/Search";
 import {Tab, Tabs, TabList, TabPanel} from 'react-tabs'
 import info from "../../../assets/infoSVG.svg";
 import fire from "../../../assets/fire.svg";
+import prev from "../../../assets/arrow_prev.svg";
+import next from "../../../assets/arrow_next.svg";
+import {processedStringFromApi, getTimeFromTimestamp, round} from "../../../utils";
+
 import {Transaction, Token} from "../../../app/models/generated"
-import {
-    getTimeFromTimestamp,
-    processedStringFromApi,
-    round,
-    stringTruncateFromCenter
-} from "../../../services/dataProsessing";
 import {
     Status,
     TypeOfTransaction

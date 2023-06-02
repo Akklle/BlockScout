@@ -7,7 +7,20 @@ import type { DecodedInput } from './DecodedInput';
 import type { Fee } from './Fee';
 import type { RevertReasonAsMap } from './RevertReasonAsMap';
 import type { TokenTransfer } from './TokenTransfer';
+import {Block} from "./Block";
 
+
+export const initialTransaction: Transaction = {
+    confirmations: 0,
+    gas_limit: "",
+    gas_price: "",
+    hash: "",
+    nonce: 0,
+    raw_input: "",
+    result: "",
+    tx_types: [''],
+    value: ""
+}
 export type Transaction = {
     hash: string;
     result: string;
@@ -15,12 +28,12 @@ export type Transaction = {
     status?: string;
     block?: number;
     timestamp?: string;
-    confirmation_duration: Record<string, any>;
-    from: AddressParam;
-    to: AddressParam;
+    confirmation_duration?: Record<string, any>;
+    from?: AddressParam;
+    to?: AddressParam;
     created_contract?: AddressParam;
     value: string;
-    fee: Fee;
+    fee?: Fee;
     gas_price: string;
     type?: number;
     gas_used?: string;

@@ -1,8 +1,10 @@
 import {Reward} from "../app/models/generated";
 
 export function processedStringFromApi(type: string) {
+    if (type === undefined) {
+        return ''
+    }
     return (type.charAt(0).toUpperCase() + type.substring(1)).replace('_', ' ')
-
 }
 
 export function calculateReward(rewardArray: Array<Reward> | undefined) {
@@ -14,6 +16,18 @@ export function calculateReward(rewardArray: Array<Reward> | undefined) {
         sum += Number(reward.reward)
     })
     return sum
+}
+
+export function stringTruncateFromLeft(str: string | undefined, maxLength: number) {
+    if (str === undefined) {
+        return '-'
+    }
+    const midChar = "…"
+    let left, right
+    if (str.length <= maxLength) return str
+    left = Math.ceil(24)
+    right = str.length - Math.floor(4)
+    return str.substring(0, left) + midChar + str.substring(right)
 }
 
 export function stringTruncateFromCenter(str: string | undefined, maxLength: number) {

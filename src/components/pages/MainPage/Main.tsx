@@ -11,6 +11,8 @@ import {initialStats} from "../../../app/models/Stats"
 import {Search} from "../../ui/Search";
 import {Icon} from "../../ui/Icon";
 import {formatNumber, round} from "../../../services/dataProsessing";
+import classNames from "classnames";
+import {NavLink} from "react-router-dom";
 
 
 export const baseUrl = 'https://eth-goerli.blockscout.com/api/v2'
@@ -111,7 +113,8 @@ export const Main = () => {
                         <h2 className={styles.latestInfo}>Network
                             utilization: {stats.network_utilization_percentage.toFixed(2)}%</h2>
                     </div>
-                    <button className={styles.viewAllBlocks}>View all blocks</button>
+                    <NavLink className ={styles.viewAllBlocks}
+                             to="/blocks">View all blocks</NavLink>
                 </div>
                 {/*<Box>*/}
                 {/*    <Skeleton isLoaded>*/}
@@ -125,7 +128,8 @@ export const Main = () => {
             <section className={styles.latestTransactionsSection}>
                 <div className={styles.headLatestTransaction}>
                     <h1 className={styles.sectionName}>Latest transactions</h1>
-                    <button className={styles.viewAllTransactions}>View all transactions</button>
+                    <NavLink className ={styles.viewAllTransactions}
+                             to="/transactions">View all transactions</NavLink>
                 </div>
                 <LatestTransactions LatestTransactionArray={transactions}/>
 

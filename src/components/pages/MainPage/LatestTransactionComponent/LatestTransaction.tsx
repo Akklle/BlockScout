@@ -25,7 +25,6 @@ export const TypeOfTransaction = ({theme = 'Transaction', children}: TypeOfTrans
             typeContractCall: theme === 'contract_call',
             typeTransaction: theme === 'transaction',
             typeCoinTransfer: theme === 'coin_transfer'
-
         })}>
             {children}
         </div>
@@ -33,7 +32,7 @@ export const TypeOfTransaction = ({theme = 'Transaction', children}: TypeOfTrans
 }
 
 export interface StatusProps {
-    theme?: 'success' | 'failed' | string;
+    theme?: 'success' | 'failed' | 'execution_reverted' | string;
     children: ReactNode;
 }
 
@@ -41,8 +40,8 @@ export const Status = ({theme = 'success', children}: StatusProps) => {
     return (
         <div className={cx(styles.status, {
             statusSuccess: theme === 'success',
-            statusFailed: theme === 'failed'
-
+            statusFailed: theme === 'failed',
+            statusExecution: theme === 'execution_reverted'
         })}>
             {children}
         </div>
@@ -78,16 +77,16 @@ export const LatestTransaction = (props: wrapperTransaction) => {
                 <div className={styles.rightInfo}>
                     <div className={styles.topRightInfo}>
                         <div className={styles.angularAvatar}></div>
-                        <a className={styles.address}>{stringTruncateFromCenter(currentTransaction.from.hash, 8)}</a>
+                        <a className={styles.address}>{stringTruncateFromCenter(currentTransaction.from?.hash, 8)}</a>
                         <Icon icon={"path"} width={24}/>
                         <div className={classNames(styles.angularAvatar, styles.receiver)}></div>
                         <a className={styles.address}>{currentTransaction.to ? stringTruncateFromCenter(currentTransaction.to.hash, 8) : stringTruncateFromCenter(currentTransaction.created_contract?.hash, 8)}</a>
                     </div>
                     <div className={styles.underRightInfo}>
                         <p className={styles.criptType}>Value ETH</p>
-                        <p className={styles.value}>{currentTransaction.value === "0" ? 0 : round((Number(currentTransaction.fee.value) / 10 ** 18), 5)}</p>
+                        <p className={styles.value}>{currentTransaction.value === "0" ? 0 : round((Number(currentTransaction.fee?.value) / 10 ** 18), 5)}</p>
                         <p className={styles.criptType}>Fee ETH</p>
-                        <p className={styles.value}>{round((Number(currentTransaction.fee.value) / 10 ** 18), 5)}</p>
+                        <p className={styles.value}>{round((Number(currentTransaction.fee?.value) / 10 ** 18), 5)}</p>
 
                     </div>
                 </div>

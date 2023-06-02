@@ -5,3 +5,5 @@ export * from './formatNumber'
 export * from './getTimeFromTimestamp'
 export * from './processedStringFromApi'
 export * from './stringTruncateFromLeft'
+export * from './calculatePerсent'
+

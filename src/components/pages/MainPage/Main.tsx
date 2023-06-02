@@ -113,23 +113,17 @@ export const Main = () => {
                         <h2 className={styles.latestInfo}>Network
                             utilization: {stats.network_utilization_percentage.toFixed(2)}%</h2>
                     </div>
-                    <NavLink className ={styles.viewAllBlocks}
-                             to="/blocks">View all blocks</NavLink>
+
+                    <NavLink className={styles.viewAllBlocks} to='/blocks'>View all blocks</NavLink>
                 </div>
-                {/*<Box>*/}
-                {/*    <Skeleton isLoaded>*/}
-                {/*        <br/><br/><br/><br/><br/><br/><br/>*/}
-                {/*    </Skeleton>*/}
-                {/*</Box>*/}
                 <LatestBlocks LatestBlockArray={blocks}/>
-
             </section>
-
             <section className={styles.latestTransactionsSection}>
                 <div className={styles.headLatestTransaction}>
                     <h1 className={styles.sectionName}>Latest transactions</h1>
-                    <NavLink className ={styles.viewAllTransactions}
+                    <NavLink className={styles.viewAllTransactions}
                              to="/transactions">View all transactions</NavLink>
+
                 </div>
                 <LatestTransactions LatestTransactionArray={transactions}/>
 

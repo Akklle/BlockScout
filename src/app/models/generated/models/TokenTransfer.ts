@@ -17,6 +17,7 @@ export type TokenTransfer = {
     tx_hash: string;
     from: AddressParam;
     to: AddressParam;
-    total: (TotalERC20 | TotalERC721 | TotalERC1155 | TotalERC1155Batch);
+    total: (TotalERC20 | TotalERC721 | TotalERC1155);
     token: TokenInfo;
+    log_index: string;
 };

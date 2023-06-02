@@ -28,12 +28,20 @@ let currentParams: Record<string, string> = {}
 let page: number = 1
 
 
-export const Blocks = () => {
+export const BlocksPage = () => {
     const [blockList, setBlocks] = useState<BlockList>({items: [], next_page_params: null});
     const previousPageHandler = () => {
         if (previousParams.length > 0) {
             page = page - 1
             currentParams = previousParams.pop() || {}
+            getBlocks(setBlocks, currentParams)
+        }
+    }
+    const nextPageHandler = () => {
+        if (blockList.next_page_params) {
+            previousParams.push(currentParams)
+            currentParams = blockList.next_page_params
+            page = page + 1
             getBlocks(setBlocks, currentParams)
         }
     }
@@ -55,14 +63,7 @@ export const Blocks = () => {
                                  alt="previous page"/>
                         </button>
                         <div className={styles.pageNum}>{page}</div>
-                        <button className={styles.controlButton} onClick={() => {
-                            if (blockList.next_page_params) {
-                                previousParams.push(currentParams)
-                                currentParams = blockList.next_page_params
-                                page = page + 1
-                                getBlocks(setBlocks, currentParams)
-                            }
-                        }}><img src={next} alt="next page"/></button>
+                        <button className={styles.controlButton} onClick={nextPageHandler}><img src={next} alt="next page"/></button>
                     </div>
                 </div>
 

@@ -6,28 +6,55 @@ import prev from "../../../assets/arrow_prev.svg";
 import next from "../../../assets/arrow_next.svg";
 
 import {NavLink} from "react-router-dom";
-import {Token} from "../../../app/models/generated";
+import {SmartContract, Token} from "../../../app/models/generated";
 import {baseUrl} from "../MainPage/Main";
 
 import {TokenItems} from './TokenItems';
 
 type TokenList = {
     items: Array<Token>,
-    next_page_params: any
+    next_page_params: Record<string, string> | null
 }
 
-async function getTokens(setTokens: Dispatch<SetStateAction<TokenList>>) {
-    let url = baseUrl + '/tokens'
-    let result: TokenList = await (await fetch(url)).json()
+async function getTokens(setTokens: Dispatch<SetStateAction<TokenList>>, params: Record<string, string>) {
+    let url = baseUrl + '/tokens?'
+    let searchParams = new URLSearchParams(params);
+
+    let result: TokenList = await (await fetch(url + searchParams.toString())).json()
     setTokens(result)
 }
 
-export const Tokens = () => {
+
+
+let previousParams: Record<string, string>[] = []
+let currentParams: Record<string, string> = {}
+let page: number = 1
+
+export const TokensPage = () => {
     const [tokenList, setTokens] = useState<TokenList>({items: [], next_page_params: null});
+
+
+    const previousPageHandler = () => {
+            if (previousParams.length > 0) {
+                page = page - 1
+                currentParams = previousParams.pop() || {}
+                getTokens(setTokens, currentParams)
+            }
+        }
+        const nextPageHandler = () => {
+            if (tokenList.next_page_params) {
+                previousParams.push(currentParams)
+                currentParams = tokenList.next_page_params
+                page = page + 1
+                getTokens(setTokens, currentParams)
+            }
+        }
     useEffect(() => {
-        getTokens(setTokens)
+        getTokens(setTokens, {})
     }, [])
-    const isDisabled = true
+
+
+    const isDisabled = page == 1
     return (
         <div>
             <section className={styles.searchSection}>
@@ -37,11 +64,11 @@ export const Tokens = () => {
                 <div className={classNames(styles.headOfPage, styles.jcsb)}>
                     <p>Tokens</p>
                     <div className={styles.paginationButtons}>
-                        <button className={styles.controlButton} disabled={isDisabled}><img src={prev}
+                        <button className={styles.controlButton} disabled={isDisabled} onClick={previousPageHandler}><img src={prev}
                                                                                             alt="previous page"/>
                         </button>
-                        <div className={styles.pageNum}>1</div>
-                        <button className={styles.controlButton}><img src={next} alt="next page"/></button>
+                        <div className={styles.pageNum}>{page}</div>
+                        <button className={styles.controlButton} onClick={nextPageHandler}><img src={next} alt="next page"/></button>
                     </div>
                 </div>
 

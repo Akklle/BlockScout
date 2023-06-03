@@ -14,6 +14,13 @@ export const HolderItem = (props: wrapperHolder) => {
     const percentage = Number(
         calculatePercent(currentHolder.value, currentHolder.token.total_supply)
     )
+    const quantity = formatNumber(
+        round(
+            Number(currentHolder.value) /
+            10 ** Number(currentHolder.token.decimals),
+            6
+        )
+    )
     return (
         <tr className={styles.tableRow}>
             <td className={styles.tdCell}>
@@ -30,13 +37,7 @@ export const HolderItem = (props: wrapperHolder) => {
             </td>
 
             <td className={styles.tdCellRight} align={'right'}>
-                {formatNumber(
-                    round(
-                        Number(currentHolder.value) /
-                            10 ** Number(currentHolder.token.decimals),
-                        6
-                    )
-                )}
+                {quantity}
             </td>
             <td className={classNames(styles.tdCellRight, styles.flexEnd)}>
                 <div className={styles.percentage}>

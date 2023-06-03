@@ -1,39 +1,19 @@
-import React, { Dispatch, SetStateAction, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from './Main.module.sass'
-
 import background1 from '../../../assets/background1.png'
 import { LatestBlocks } from './LatestBlocksComponent/LatestBlocks'
 import { LatestTransactions } from './LatestTransactionComponent/LatestTransactions'
-import { Block } from '../../../app/models/generated'
-import { Stats } from '../../../app/models/Stats'
-import { Transaction } from '../../../app/models/generated'
-import { initialStats } from '../../../app/models/Stats'
+import { Block, Transaction } from '../../../app/models/generated'
+import { initialStats, Stats } from '../../../app/models/Stats'
 import { Search } from '../../ui/Search'
 import { Icon } from '../../ui/Icon'
 import { NavLink } from 'react-router-dom'
-import { round, formatNumber } from '../../../utils'
-
-export const baseUrl = 'https://eth-goerli.blockscout.com/api/v2'
-
-async function getStats(setStats: Dispatch<SetStateAction<Stats>>) {
-    const url = baseUrl + '/stats'
-    const result: Stats = await (await fetch(url)).json()
-    setStats(result)
-}
-
-async function getBlocks(setBlocks: Dispatch<SetStateAction<Array<Block>>>) {
-    const url = baseUrl + '/main-page/blocks'
-    const result: Array<Block> = await (await fetch(url)).json()
-    setBlocks(result)
-}
-
-async function getTransactions(
-    setTransactions: Dispatch<SetStateAction<Array<Transaction>>>
-) {
-    const url = baseUrl + '/main-page/transactions'
-    const result: Array<Transaction> = await (await fetch(url)).json()
-    setTransactions(result)
-}
+import { formatNumber, round } from '../../../utils'
+import {
+    getBlocks,
+    getStats,
+    getTransactions,
+} from '../../../services/MainPageService'
 
 export const Main = () => {
     const [stats, setStats] = useState<Stats>(initialStats)
@@ -51,6 +31,16 @@ export const Main = () => {
         getTransactions(setTransactions)
     }, [])
 
+    const dailyTransactions =
+        Number(stats.transactions_today) > 1000
+            ? stats.transactions_today.substring(0, 3) +
+              '.' +
+              stats.transactions_today.substring(3, 4) +
+              'K'
+            : stats.transactions_today
+    const averageBlockTime = (stats.average_block_time / 1000).toFixed(1)
+    const gasPrices = formatNumber(round(Number(stats.gas_prices?.average), 5))
+
     return (
         <div className={styles.main}>
             <section className={styles.infoSection}>
@@ -66,14 +56,7 @@ export const Main = () => {
                     to our explorer
                 </h1>
 
-                <h2 className={styles.transactionCount}>
-                    {Number(stats.transactions_today) > 1000
-                        ? stats.transactions_today.substring(0, 3) +
-                          '.' +
-                          stats.transactions_today.substring(3, 4) +
-                          'K'
-                        : stats.transactions_today}
-                </h2>
+                <h2 className={styles.transactionCount}>{dailyTransactions}</h2>
                 <h3 className={styles.todayTransaction}>transactions today</h3>
 
                 <div className={styles.cards}>
@@ -94,7 +77,7 @@ export const Main = () => {
                                 Average block time
                             </p>
                             <p className={styles.cardValue}>
-                                {(stats.average_block_time / 1000).toFixed(1)} s
+                                {averageBlockTime} s
                             </p>
                         </div>
                     </div>
@@ -122,24 +105,7 @@ export const Main = () => {
                         <Icon icon="gas" />
                         <div className={styles.cardInfo}>
                             <p className={styles.cardName}>Gas tracker </p>
-                            <p className={styles.cardValue}>
-                                {round(Number(stats.gas_prices?.average), 5) >
-                                1000
-                                    ? String(
-                                          round(
-                                              Number(stats.gas_prices?.average),
-                                              5
-                                          )
-                                      ).replace(
-                                          /(\d)(?=(\d{3})+([^\d]|$))/g,
-                                          '$1 '
-                                      )
-                                    : round(
-                                          Number(stats.gas_prices?.average),
-                                          5
-                                      )}{' '}
-                                Gwei
-                            </p>
+                            <p className={styles.cardValue}>{gasPrices} Gwei</p>
                         </div>
                     </div>
                 </div>

@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react'
+import React from 'react'
 import styles from '../BlocksPage/index.module.sass'
 import classNames from 'classnames'
 import {
@@ -11,11 +11,9 @@ import {
 
 import { Transaction } from '../../../app/models/generated'
 import { NavLink } from 'react-router-dom'
-import {
-    Status,
-    TypeOfTransaction,
-} from '../MainPage/LatestTransactionComponent/LatestTransaction'
 import { Icon } from '../../ui/Icon'
+import { TypeOfTransaction } from '../../ui/TypeOfTransaction'
+import { Status } from '../../ui/Status'
 
 interface wrapperTransaction {
     transaction: Transaction
@@ -32,8 +30,7 @@ export const TransactionItem = (props: wrapperTransaction) => {
                             styles.address,
                             styles.fontWeight500
                         )}
-                        to={'/transaction/' + currentTransaction.hash}
-                    >
+                        to={'/transaction/' + currentTransaction.hash}>
                         {stringTruncateFromLeft(currentTransaction.hash)}
                     </NavLink>
                     <p className={styles.hashTime}>
@@ -46,9 +43,7 @@ export const TransactionItem = (props: wrapperTransaction) => {
                     <TypeOfTransaction theme={currentTransaction.tx_types[0]}>
                         {processedStringFromApi(currentTransaction.tx_types[0])}
                     </TypeOfTransaction>
-                    <Status theme={currentTransaction.result}>
-                        {processedStringFromApi(currentTransaction.result)}
-                    </Status>
+                    <Status theme={currentTransaction.status}></Status>
                 </div>
             </td>
             <td className={styles.tdCell}>
@@ -57,8 +52,7 @@ export const TransactionItem = (props: wrapperTransaction) => {
             <td className={styles.tdCell}>
                 <NavLink
                     className={classNames(styles.address, styles.fontWeight500)}
-                    to={'/block/' + currentTransaction.block}
-                >
+                    to={'/block/' + currentTransaction.block}>
                     {currentTransaction.block}
                 </NavLink>
             </td>
@@ -66,13 +60,16 @@ export const TransactionItem = (props: wrapperTransaction) => {
                 <div className={styles.addressGroup}>
                     <div className={styles.angularAvatar}></div>
                     <NavLink
-                        className={classNames(styles.address, styles.fontWeight500)}
-                        to={'/address/' + currentTransaction.from?.hash}
-                    >{stringTruncateFromCenter(
-                        currentTransaction.from?.hash,
-                        8
-                    )}</NavLink>
-
+                        className={classNames(
+                            styles.address,
+                            styles.fontWeight500
+                        )}
+                        to={'/address/' + currentTransaction.from?.hash}>
+                        {stringTruncateFromCenter(
+                            currentTransaction.from?.hash,
+                            8
+                        )}
+                    </NavLink>
                 </div>
             </td>
             <td className={styles.tdIconCell}>
@@ -86,8 +83,7 @@ export const TransactionItem = (props: wrapperTransaction) => {
                         className={classNames(
                             styles.angularAvatar,
                             styles.receiver
-                        )}
-                    ></div>
+                        )}></div>
                     <a className={styles.address}>
                         {currentTransaction.to
                             ? stringTruncateFromCenter(

@@ -1,27 +1,24 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import styles from './index.module.sass'
-import '../BlockPage/tabs.sass'
+import '../../../styles/tabs.sass'
 import { Search } from '../../ui/Search'
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs'
 import info from '../../../assets/infoSVG.svg'
-import ProgressBar from '../../ui/ProgressBar'
 import contract from '../../../assets/contract.svg'
 import prev from '../../../assets/arrow_prev.svg'
 import next from '../../../assets/arrow_next.svg'
 import classNames from 'classnames'
-import { Icon } from '../../ui/Icon'
 import {
     Address,
     TokenTransfer,
-    AddressCounters, TokenCounters, Transaction,
+    AddressCounters, Transaction,
 } from '../../../app/models/generated'
 import { NavigateFunction, NavLink, useNavigate, useParams } from 'react-router-dom'
-import { baseUrl } from '../MainPage/Main'
-import { initialToken } from '../../../app/models/generated/models/Token'
 import { formatNumber } from '../../../utils'
 import { TokenTransferItems } from './TokenTransferItems'
 import { initialAddress } from '../../../app/models/generated/models/Address'
 import { TransactionItems } from './TransactionItems'
+import { baseUrl } from '../../../constants/api.const'
 
 async function getAddress(
     setAddress: Dispatch<SetStateAction<Address>>,

@@ -20,8 +20,7 @@ export const Header = () => {
                                 isActive && styles.navBarItemActive
                             )
                         }
-                        to="/transactions"
-                    >
+                        to="/transactions">
                         Transactions
                     </NavLink>
                     <NavLink
@@ -31,8 +30,7 @@ export const Header = () => {
                                 isActive && styles.navBarItemActive
                             )
                         }
-                        to="/blocks"
-                    >
+                        to="/blocks">
                         Blocks
                     </NavLink>
                     <NavLink
@@ -42,8 +40,7 @@ export const Header = () => {
                                 isActive && styles.navBarItemActive
                             )
                         }
-                        to="/tokens"
-                    >
+                        to="/tokens">
                         Tokens
                     </NavLink>
                 </nav>

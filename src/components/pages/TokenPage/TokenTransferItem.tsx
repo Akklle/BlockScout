@@ -16,6 +16,17 @@ interface wrapperTokenTransfer {
 
 export const TokenTransferItem = (props: wrapperTokenTransfer) => {
     const currentTokenTransfer = props.tokenTransfer
+
+    const value = currentTokenTransfer.total.decimals
+        ? formatNumber(
+              round(
+                  Number(currentTokenTransfer.total.value) /
+                      10 ** Number(currentTokenTransfer.total.decimals),
+                  8
+              )
+          )
+        : '-'
+
     return (
         <tr className={styles.tableRow}>
             <td className={styles.tdCell}>
@@ -59,8 +70,7 @@ export const TokenTransferItem = (props: wrapperTokenTransfer) => {
                         className={classNames(
                             styles.angularAvatar,
                             styles.receiver
-                        )}
-                    ></div>
+                        )}></div>
                     <a className={styles.address}>
                         {stringTruncateFromCenter(
                             currentTokenTransfer.to.hash,
@@ -70,18 +80,7 @@ export const TokenTransferItem = (props: wrapperTokenTransfer) => {
                 </div>
             </td>
             <td className={styles.tdCellRight} align={'right'}>
-                {currentTokenTransfer.total.decimals
-                    ? formatNumber(
-                          round(
-                              Number(currentTokenTransfer.total.value) /
-                                  10 **
-                                      Number(
-                                          currentTokenTransfer.total.decimals
-                                      ),
-                              8
-                          )
-                      )
-                    : '-'}
+                {value}
             </td>
         </tr>
     )

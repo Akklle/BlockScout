@@ -5,12 +5,13 @@ import classNames from 'classnames'
 import React from 'react'
 import {
     formatNumber,
-    getFullTimeFromTimestamp, processedStringFromApi,
+    processedStringFromApi,
     round,
-    stringTruncateFromCenter, stringTruncateFromLeft,
+    stringTruncateFromCenter,
+    stringTruncateFromLeft,
 } from '../../../utils'
-import { TypeOfTransaction } from '../MainPage/LatestTransactionComponent/LatestTransaction'
 import { NavLink } from 'react-router-dom'
+import { TypeOfTransaction } from '../../ui/TypeOfTransaction'
 
 interface wrapperTokenTransfer {
     tokenTransfer: TokenTransfer
@@ -26,15 +27,18 @@ export const TokenTransferItem = (props: wrapperTokenTransfer) => {
                     <NavLink
                         className={classNames(
                             styles.address,
-                            styles.fontWeight500,
+                            styles.fontWeight500
                         )}
-                        to={'/token/' + currentTokenTransfer.token.address}
-                    >
-                        {stringTruncateFromLeft(currentTokenTransfer.token.address)}
+                        to={'/token/' + currentTokenTransfer.token.address}>
+                        {stringTruncateFromLeft(
+                            currentTokenTransfer.token.address
+                        )}
                     </NavLink>
                 </div>
                 <div className={styles.tokent}>
-                    <p className={styles.method}>{currentTokenTransfer.method}</p>
+                    <p className={styles.method}>
+                        {currentTokenTransfer.method}
+                    </p>
                     <TypeOfTransaction theme={currentTokenTransfer.type}>
                         {processedStringFromApi(currentTokenTransfer.type)}
                     </TypeOfTransaction>
@@ -48,21 +52,48 @@ export const TokenTransferItem = (props: wrapperTokenTransfer) => {
             <td className={styles.tdCell}>
                 <div className={styles.addressGroup}>
                     <div className={styles.angularAvatar}></div>
-                    <a className={styles.address}>{stringTruncateFromCenter(currentTokenTransfer.from?.hash, 8)}</a>
+                    <a className={styles.address}>
+                        {stringTruncateFromCenter(
+                            currentTokenTransfer.from?.hash,
+                            8
+                        )}
+                    </a>
                 </div>
             </td>
             <td className={styles.tdIconCell}>
-                <div><Icon icon={'path'} width={24} height={6} /></div>
+                <div>
+                    <Icon icon={'path'} width={24} height={6} />
+                </div>
             </td>
             <td className={styles.tdCellW}>
                 <div className={styles.addressGroup}>
                     <div
-                        className={classNames(styles.angularAvatar, styles.receiver)}></div>
-                    <a className={styles.address}>{stringTruncateFromCenter(currentTokenTransfer.to?.hash, 8)}</a>
+                        className={classNames(
+                            styles.angularAvatar,
+                            styles.receiver
+                        )}></div>
+                    <a className={styles.address}>
+                        {stringTruncateFromCenter(
+                            currentTokenTransfer.to?.hash,
+                            8
+                        )}
+                    </a>
                 </div>
             </td>
-            <td className={styles.tdCellRight}
-                align={'right'}>{currentTokenTransfer.total.decimals ? (formatNumber(round(Number(currentTokenTransfer.total.value) / 10 ** Number(currentTokenTransfer.total.decimals), 8))) : '-'}</td>
+            <td className={styles.tdCellRight} align={'right'}>
+                {currentTokenTransfer.total.decimals
+                    ? formatNumber(
+                          round(
+                              Number(currentTokenTransfer.total.value) /
+                                  10 **
+                                      Number(
+                                          currentTokenTransfer.total.decimals
+                                      ),
+                              8
+                          )
+                      )
+                    : '-'}
+            </td>
         </tr>
     )
 }

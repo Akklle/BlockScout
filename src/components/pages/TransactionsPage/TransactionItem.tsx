@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react'
+import React from 'react'
 import styles from '../BlocksPage/index.module.sass'
 import classNames from 'classnames'
 import {
@@ -11,11 +11,9 @@ import {
 
 import { Transaction } from '../../../app/models/generated'
 import { NavLink } from 'react-router-dom'
-import {
-    Status,
-    TypeOfTransaction,
-} from '../MainPage/LatestTransactionComponent/LatestTransaction'
 import { Icon } from '../../ui/Icon'
+import { Status } from '../../ui/Status'
+import { TypeOfTransaction } from '../../ui/TypeOfTransaction'
 
 interface wrapperTransaction {
     transaction: Transaction
@@ -23,6 +21,15 @@ interface wrapperTransaction {
 
 export const TransactionItem = (props: wrapperTransaction) => {
     const currentTransaction = props.transaction
+
+    const addressTo = currentTransaction.to
+        ? stringTruncateFromCenter(currentTransaction.to.hash, 8)
+        : stringTruncateFromCenter(currentTransaction.created_contract?.hash, 8)
+    const value =
+        currentTransaction.value === '0'
+            ? 0
+            : round(Number(currentTransaction.fee?.value) / 10 ** 18, 5)
+    const fee = round(Number(currentTransaction.fee?.value) / 10 ** 18, 5)
     return (
         <tr className={styles.tableRow}>
             <td className={styles.tdCell}>
@@ -37,7 +44,9 @@ export const TransactionItem = (props: wrapperTransaction) => {
                         {stringTruncateFromLeft(currentTransaction.hash)}
                     </NavLink>
                     <p className={styles.hashTime}>
-                        {getTimeFromTimestamp(currentTransaction.timestamp)}
+                        {currentTransaction.timestamp
+                            ? getTimeFromTimestamp(currentTransaction.timestamp)
+                            : ''}
                     </p>
                 </div>
             </td>
@@ -58,7 +67,11 @@ export const TransactionItem = (props: wrapperTransaction) => {
                 </div>
             </td>
             <td className={styles.tdCell}>
-                {currentTransaction.method ? <p className={styles.method}>{currentTransaction.method}</p> : ''}
+                {currentTransaction.method ? (
+                    <p className={styles.method}>{currentTransaction.method}</p>
+                ) : (
+                    ''
+                )}
             </td>
             <td className={styles.tdCell}>
                 <NavLink
@@ -92,29 +105,14 @@ export const TransactionItem = (props: wrapperTransaction) => {
                             styles.angularAvatar,
                             styles.receiver
                         )}></div>
-                    <a className={styles.address}>
-                        {currentTransaction.to
-                            ? stringTruncateFromCenter(
-                                  currentTransaction.to.hash,
-                                  8
-                              )
-                            : stringTruncateFromCenter(
-                                  currentTransaction.created_contract?.hash,
-                                  8
-                              )}
-                    </a>
+                    <a className={styles.address}>{addressTo}</a>
                 </div>
             </td>
             <td className={styles.tdCellRight} align={'right'}>
-                {currentTransaction.value === '0'
-                    ? 0
-                    : round(
-                          Number(currentTransaction.fee?.value) / 10 ** 18,
-                          5
-                      )}
+                {value}
             </td>
             <td className={styles.tdCellRight} align={'right'}>
-                {round(Number(currentTransaction.fee?.value) / 10 ** 18, 5)}
+                {fee}
             </td>
         </tr>
     )

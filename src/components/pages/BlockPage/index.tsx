@@ -2,21 +2,16 @@ import React, { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import styles from './index.module.sass'
 import { Search } from '../../ui/Search'
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
-import './tabs.sass'
+import '../../../styles/tabs.sass'
 import info from '../../../assets/infoSVG.svg'
 import fire from '../../../assets/fire.svg'
 import prev from '../../../assets/arrow_prev.svg'
 import next from '../../../assets/arrow_next.svg'
-import { Block, Transaction } from '../../../app/models/generated'
-import {
-    Status,
-    TypeOfTransaction,
-} from '../MainPage/LatestTransactionComponent/LatestTransaction'
+import { Block } from '../../../app/models/generated'
 import classNames from 'classnames'
 import { Icon } from '../../ui/Icon'
 import ProgressBar from '../../ui/ProgressBar'
 import { NavigateFunction, useParams } from 'react-router-dom'
-import { baseUrl } from '../MainPage/Main'
 import { initialBlock } from '../../../app/models/generated/models/Block'
 import { useNavigate } from 'react-router-dom'
 import {
@@ -25,6 +20,9 @@ import {
     getTimeFromTimestamp,
     formatNumber,
 } from '../../../utils'
+import { Status } from '../../ui/Status'
+import { TypeOfTransaction } from '../../ui/TypeOfTransaction'
+import { baseUrl } from '../../../constants/api.const'
 
 async function getBlock(
     setBlock: Dispatch<SetStateAction<Block>>,
@@ -41,14 +39,14 @@ async function getBlock(
     }
 }
 
-async function getTransactions(
-    setTransactions: Dispatch<SetStateAction<Array<Transaction>>>,
-    number: string | undefined
-) {
-    const url = baseUrl + '/blocks' + '/' + number + '/transactions'
-    const result: Array<Transaction> = await (await fetch(url)).json()
-    setTransactions(result)
-}
+// async function getTransactions(
+//     setTransactions: Dispatch<SetStateAction<Array<Transaction>>>,
+//     number: string | undefined
+// ) {
+//     const url = baseUrl + '/blocks' + '/' + number + '/transactions'
+//     const result: Array<Transaction> = await (await fetch(url)).json()
+//     setTransactions(result)
+// }
 
 export const BlockPage = () => {
     const navigate = useNavigate()
@@ -57,10 +55,10 @@ export const BlockPage = () => {
     useEffect(() => {
         getBlock(setBlock, number, navigate)
     }, [])
-    const [transactions, setTransactions] = useState<Array<Transaction>>([])
-    useEffect(() => {
-        getTransactions(setTransactions, number)
-    }, [])
+    // const [transactions, setTransactions] = useState<Array<Transaction>>([])
+    // useEffect(() => {
+    //     getTransactions(setTransactions, number)
+    // }, [])
     const isDisabled = true
     return (
         <div>

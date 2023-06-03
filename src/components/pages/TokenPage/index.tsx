@@ -1,113 +1,37 @@
-import React, { Dispatch, SetStateAction, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from './index.module.sass'
-import '../BlockPage/tabs.sass'
+import '../../../styles/tabs.sass'
 import { Search } from '../../ui/Search'
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs'
 import info from '../../../assets/infoSVG.svg'
-import ProgressBar from '../../ui/ProgressBar'
 import contract from '../../../assets/contract.svg'
 import prev from '../../../assets/arrow_prev.svg'
 import next from '../../../assets/arrow_next.svg'
 import classNames from 'classnames'
-import { Icon } from '../../ui/Icon'
 import {
-    Holder,
     SmartContract,
     Token,
     TokenCounters,
-    TokenTransfer,
 } from '../../../app/models/generated'
-import { NavigateFunction, useNavigate, useParams } from 'react-router-dom'
-import { baseUrl } from '../MainPage/Main'
+import { useNavigate, useParams } from 'react-router-dom'
 import { initialToken } from '../../../app/models/generated/models/Token'
 import { formatNumber } from '../../../utils'
 import { TokenTransferItems } from './TokenTransferItems'
 import { HolderItems } from './HolderItems'
-
-async function getToken(
-    setToken: Dispatch<SetStateAction<Token>>,
-    address: string | undefined,
-    navigate: NavigateFunction
-) {
-    const url = baseUrl + '/tokens/' + address
-    const fetchResult: Response = await fetch(url)
-    if (fetchResult.status != 200) {
-        navigate('/error')
-    } else {
-        const result: Token = await fetchResult.json()
-        setToken(result)
-    }
-}
-
-type TokenTransferList = {
-    items: Array<TokenTransfer>
-    next_page_params: Record<string, string> | null
-}
-
-type HolderList = {
-    items: Array<Holder>
-    next_page_params: Record<string, string> | null
-}
-
-async function getTokenTransfers(
-    setTokenTransfers: Dispatch<SetStateAction<TokenTransferList>>,
-    address: string | undefined,
-    params: Record<string, string>
-) {
-    const url = baseUrl + '/tokens/' + address + '/transfers?'
-    const searchParams = new URLSearchParams(params)
-
-    const result: TokenTransferList = await (
-        await fetch(url + searchParams.toString())
-    ).json()
-    setTokenTransfers(result)
-}
-
-async function getHolders(
-    setHolders: Dispatch<SetStateAction<HolderList>>,
-    address: string | undefined,
-    params: Record<string, string>
-) {
-    const url = baseUrl + '/tokens/' + address + '/holders?'
-    const searchParams = new URLSearchParams(params)
-
-    const result: HolderList = await (
-        await fetch(url + searchParams.toString())
-    ).json()
-    setHolders(result)
-}
-
-async function getSmartContract(
-    setSmartContract: Dispatch<SetStateAction<SmartContract | undefined>>,
-    address: string | undefined
-) {
-    const url = baseUrl + '/smart-contracts/' + address
-    const fetchResult: Response = await fetch(url)
-    if (fetchResult.status != 200) {
-        setSmartContract(undefined)
-    } else {
-        const result: SmartContract = await fetchResult.json()
-        setSmartContract(result)
-    }
-}
-
-async function getCounters(
-    setCounters: Dispatch<SetStateAction<TokenCounters | undefined>>,
-    address: string | undefined
-) {
-    const url = baseUrl + '/tokens/' + address + '/counters'
-    const fetchResult: Response = await fetch(url)
-    if (fetchResult.status != 200) {
-        setCounters(undefined)
-    } else {
-        const result: TokenCounters = await fetchResult.json()
-        setCounters(result)
-    }
-}
+import {
+    getCounters,
+    getHolders,
+    getSmartContract,
+    getToken,
+    getTokenTransfers,
+    HolderList,
+    TokenTransferList,
+} from '../../../services/TokenPageService'
 
 const previousParams: Record<string, string>[] = []
 let currentParams: Record<string, string> = {}
 let page = 1
+
 const previousHoldersParams: Record<string, string>[] = []
 let currentHoldersParams: Record<string, string> = {}
 let pageHolders = 1
@@ -182,6 +106,11 @@ export const TokenPage = () => {
         }
     }
 
+    const totalSupply = formatNumber(
+        BigInt(token.total_supply) / BigInt(10 ** Number(token.decimals))
+    )
+    const transferCount = counters ? formatNumber(counters.transfers_count) : 0
+
     return (
         <div>
             <section className={styles.searchSection}>
@@ -198,8 +127,7 @@ export const TokenPage = () => {
                         styles.address,
                         styles.mgtop20,
                         styles.contract
-                    )}
-                >
+                    )}>
                     <img src={contract} alt="" />
                     {token.address}
                 </div>
@@ -212,12 +140,7 @@ export const TokenPage = () => {
                             alt="more information"
                         />
                         <p className={styles.rowTitle}>Max total supply</p>
-                        <p>
-                            {formatNumber(
-                                BigInt(token.total_supply) /
-                                    BigInt(10 ** Number(token.decimals))
-                            )}
-                        </p>
+                        <p>{totalSupply}</p>
                         <span className={styles.valueType}>{token.symbol}</span>
                     </div>
                     <div className={styles.infoRow}>
@@ -236,11 +159,7 @@ export const TokenPage = () => {
                             alt="more information"
                         />
                         <p className={styles.rowTitle}>Transfers</p>
-                        <p>
-                            {counters
-                                ? formatNumber(counters.transfers_count)
-                                : 0}
-                        </p>
+                        <p>{transferCount}</p>
                     </div>
                     <div className={styles.infoRow}>
                         <img
@@ -265,15 +184,13 @@ export const TokenPage = () => {
                                 <button
                                     className={styles.controlButton}
                                     disabled={isDisabled}
-                                    onClick={previousPageHandler}
-                                >
+                                    onClick={previousPageHandler}>
                                     <img src={prev} alt="previous page" />
                                 </button>
                                 <div className={styles.pageNum}>{page}</div>
                                 <button
                                     className={styles.controlButton}
-                                    onClick={nextPageHandler}
-                                >
+                                    onClick={nextPageHandler}>
                                     <img src={next} alt="next page" />
                                 </button>
                             </div>
@@ -286,24 +203,21 @@ export const TokenPage = () => {
                                                 className={classNames(
                                                     styles.thW40,
                                                     styles.thDefault
-                                                )}
-                                            >
+                                                )}>
                                                 Txn hash
                                             </th>
                                             <th
                                                 className={classNames(
                                                     styles.thW20,
                                                     styles.thDefault
-                                                )}
-                                            >
+                                                )}>
                                                 Method
                                             </th>
                                             <th
                                                 className={classNames(
                                                     styles.thFrom,
                                                     styles.thDefault
-                                                )}
-                                            >
+                                                )}>
                                                 From
                                             </th>
                                             <th className={styles.thIcon}></th>
@@ -312,8 +226,7 @@ export const TokenPage = () => {
                                                 className={classNames(
                                                     styles.thW40,
                                                     styles.thDefaultRight
-                                                )}
-                                            >
+                                                )}>
                                                 Value hUSDC
                                             </th>
                                         </tr>
@@ -321,8 +234,7 @@ export const TokenPage = () => {
                                     <TokenTransferItems
                                         TokenTransferArray={
                                             tokenTransfers.items
-                                        }
-                                    ></TokenTransferItems>
+                                        }></TokenTransferItems>
                                 </table>
                             </div>
                         </div>
@@ -333,8 +245,7 @@ export const TokenPage = () => {
                                 <button
                                     className={styles.controlButton}
                                     disabled={isDisabledHolders}
-                                    onClick={previousPageHoldersHandler}
-                                >
+                                    onClick={previousPageHoldersHandler}>
                                     <img src={prev} alt="previous page" />
                                 </button>
                                 <div className={styles.pageNum}>
@@ -342,8 +253,7 @@ export const TokenPage = () => {
                                 </div>
                                 <button
                                     className={styles.controlButton}
-                                    onClick={nextPageHoldersHandler}
-                                >
+                                    onClick={nextPageHoldersHandler}>
                                     <img src={next} alt="next page" />
                                 </button>
                             </div>
@@ -356,55 +266,29 @@ export const TokenPage = () => {
                                                 className={classNames(
                                                     styles.thW60,
                                                     styles.thDefault
-                                                )}
-                                            >
+                                                )}>
                                                 Txn hash
                                             </th>
                                             <th
                                                 className={classNames(
                                                     styles.thW20,
                                                     styles.thDefaultRight
-                                                )}
-                                            >
+                                                )}>
                                                 Quantity
                                             </th>
                                             <th
                                                 className={classNames(
                                                     styles.thW20,
                                                     styles.thDefaultRight
-                                                )}
-                                            >
+                                                )}>
                                                 Percentage
                                             </th>
                                         </tr>
                                     </thead>
                                     <HolderItems
-                                        HolderArray={holders.items}
-                                    ></HolderItems>
-                                    {/*<tbody className={styles.tableBody}>*/}
-                                    {/*<tr className={styles.tableRow}>*/}
-                                    {/*    <td className={styles.tdCell}>*/}
-                                    {/*        <div className={styles.addressGroup}>*/}
-                                    {/*            <div*/}
-                                    {/*                className={classNames(styles.angularAvatar, styles.receiver)}></div>*/}
-                                    {/*            <a className={styles.address}>0xfffffACc41E00f96F6af4AF0154AD18749C9d5eA</a>*/}
-                                    {/*        </div>*/}
-
-                                    {/*    </td>*/}
-
-                                    {/*    <td className={styles.tdCellRight} align={"right"}>1,185</td>*/}
-                                    {/*    <td className={classNames(styles.tdCellRight, styles.flexEnd)}>*/}
-                                    {/*        <div className={styles.percentage}>*/}
-                                    {/*            <ProgressBar progressColor={'#59FFA4'} bgColor={'#8D8D8E'} progress={10}*/}
-                                    {/*                         width={39}*/}
-                                    {/*                         height={3}></ProgressBar>*/}
-                                    {/*            <span>10%</span>*/}
-
-                                    {/*        </div>*/}
-                                    {/*    </td>*/}
-
-                                    {/*</tr>*/}
-                                    {/*</tbody>*/}
+                                        HolderArray={
+                                            holders.items
+                                        }></HolderItems>
                                 </table>
                             </div>
                         </div>

@@ -1,8 +1,9 @@
-export function getTimeFromTimestamp(timestamp: string | undefined) {
-    if (timestamp === undefined) {
+export function getTimeFromTimestamp(timestamp: string | undefined | null) {
+    if ((timestamp === undefined) || (timestamp === null)) {
         return ' '
     }
-    return timestamp.substring(11, 19)
+    else {
+    return timestamp.substring(11, 19)}
 }
 
 export function getFullTimeFromTimestamp(timestamp: string | undefined) {

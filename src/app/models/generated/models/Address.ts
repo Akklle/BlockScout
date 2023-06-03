@@ -5,6 +5,12 @@
 import type { AddressTag } from './AddressTag'
 import type { TokenInfo } from './TokenInfo'
 import type { WatchlistName } from './WatchlistName'
+import { Token } from './Token'
+
+
+export const initialAddress: Address = {
+    hash: ''
+}
 
 export type Address = {
     creator_address_hash?: string

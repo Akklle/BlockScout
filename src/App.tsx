@@ -10,6 +10,7 @@ import { TokenPage } from './components/pages/TokenPage'
 import { Transactions } from './components/pages/TransactionsPage'
 import { TransactionPage } from './components/pages/TransactionPage'
 import { Error } from './components/pages/errorPage'
+import { AddressPage } from './components/pages/AddressPage'
 
 function App() {
     return (
@@ -22,6 +23,7 @@ function App() {
                     element={<TransactionPage />}
                 />
                 <Route path="/token/:address" element={<TokenPage />} />
+                <Route path="/address/:address" element={<AddressPage />} />
                 <Route path="/blocks" element={<BlocksPage />} />
                 <Route path="/tokens" element={<TokensPage />} />
                 <Route path="/transactions" element={<Transactions />} />

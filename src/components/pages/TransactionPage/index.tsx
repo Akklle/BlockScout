@@ -1,29 +1,30 @@
-import React, {Dispatch, SetStateAction, useEffect, useState} from 'react';
-import styles from './index.module.sass';
-import {Search} from "../../ui/Search";
-import {Tab, Tabs, TabList, TabPanel} from 'react-tabs'
-import info from "../../../assets/infoSVG.svg";
-import fire from "../../../assets/fire.svg";
-import prev from "../../../assets/arrow_prev.svg";
-import next from "../../../assets/arrow_next.svg";
-import {processedStringFromApi, getTimeFromTimestamp, round} from "../../../utils";
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react'
+import styles from './index.module.sass'
+import { Search } from '../../ui/Search'
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
+import info from '../../../assets/infoSVG.svg'
+import fire from '../../../assets/fire.svg'
+import prev from '../../../assets/arrow_prev.svg'
+import next from '../../../assets/arrow_next.svg'
+import { getTimeFromTimestamp, round } from '../../../utils'
 
-import {Transaction, TokenTransfer} from "../../../app/models/generated"
-import {
-    Status,
-    TypeOfTransaction
-} from "../MainPage/LatestTransactionComponent/LatestTransaction";
-import classNames from "classnames";
-import {Icon} from "../../ui/Icon";
-import ProgressBar from "../../ui/ProgressBar";
-import {NavigateFunction, NavLink, useParams} from "react-router-dom"
-import {baseUrl} from "../MainPage/Main";
-import {initialTransaction} from "../../../app/models/generated/models/Transaction";
-import {useNavigate} from 'react-router-dom';
-import {TokenTransferItems} from "./TokenTransferItems";
+import { Transaction, TokenTransfer } from '../../../app/models/generated'
+import { Status } from '../MainPage/LatestTransactionComponent/LatestTransaction'
+import classNames from 'classnames'
+// import { Icon } from '../../ui/Icon'
+import ProgressBar from '../../ui/ProgressBar'
+import { NavigateFunction, NavLink, useParams } from 'react-router-dom'
+import { baseUrl } from '../MainPage/Main'
+import { initialTransaction } from '../../../app/models/generated/models/Transaction'
+import { useNavigate } from 'react-router-dom'
+import { TokenTransferItems } from './TokenTransferItems'
 
-async function getTransaction(setTransaction: Dispatch<SetStateAction<Transaction>>, number: string | undefined, navigate: NavigateFunction) {
-    let url = `${baseUrl}/transactions/${number}`
+async function getTransaction(
+    setTransaction: Dispatch<SetStateAction<Transaction>>,
+    address: string | undefined,
+    navigate: NavigateFunction
+) {
+    let url = `${baseUrl}/transactions/${address}`
     let fetchResult: Response = await fetch(url)
     if (fetchResult.status != 200) {
         navigate('/error')
@@ -34,15 +35,21 @@ async function getTransaction(setTransaction: Dispatch<SetStateAction<Transactio
 }
 
 type TokenTransferList = {
-    items: Array<TokenTransfer>,
+    items: Array<TokenTransfer>
     next_page_params: Record<string, string> | null
 }
 
-async function getTokenTransfers(setTokenTransfers: Dispatch<SetStateAction<TokenTransferList>>, address: string | undefined, params: Record<string, string>) {
+async function getTokenTransfers(
+    setTokenTransfers: Dispatch<SetStateAction<TokenTransferList>>,
+    address: string | undefined,
+    params: Record<string, string>
+) {
     let url = baseUrl + '/transactions/' + address + '/token-transfers?'
-    let searchParams = new URLSearchParams(params);
+    let searchParams = new URLSearchParams(params)
 
-    let result: TokenTransferList = await (await fetch(url + searchParams.toString())).json()
+    let result: TokenTransferList = await (
+        await fetch(url + searchParams.toString())
+    ).json()
     setTokenTransfers(result)
 }
 
@@ -51,15 +58,18 @@ let currentParams: Record<string, string> = {}
 let page: number = 1
 
 export const TransactionPage = () => {
-    const navigate = useNavigate();
-    const {number} = useParams()
-    const {address} = useParams()
+    const navigate = useNavigate()
+    const { address } = useParams()
 
-    const [transaction, setTransactions] = useState<Transaction>(initialTransaction);
-    const [tokenTransfers, setTokenTransfers] = useState<TokenTransferList>({items: [], next_page_params: null});
+    const [transaction, setTransactions] =
+        useState<Transaction>(initialTransaction)
+    const [tokenTransfers, setTokenTransfers] = useState<TokenTransferList>({
+        items: [],
+        next_page_params: null,
+    })
 
     useEffect(() => {
-        getTransaction(setTransactions, number, navigate)
+        getTransaction(setTransactions, address, navigate)
     }, [])
 
     useEffect(() => {
@@ -87,7 +97,7 @@ export const TransactionPage = () => {
     return (
         <div>
             <section className={styles.searchSection}>
-                <Search/>
+                <Search />
             </section>
             <section className={styles.pageSection}>
                 <div className={styles.headOfPage}>
@@ -103,130 +113,322 @@ export const TransactionPage = () => {
                     <TabPanel>
                         <div className={styles.details}>
                             <div className={styles.infoRow}>
-                                <img className={styles.infoIcon} src={info} alt="more information"/>
-                                <p className={styles.rowTitle}>Transaction hash</p>
+                                <img
+                                    className={styles.infoIcon}
+                                    src={info}
+                                    alt="more information"
+                                />
+                                <p className={styles.rowTitle}>
+                                    Transaction hash
+                                </p>
                                 <p>{transaction.hash}</p>
                             </div>
                             <div className={styles.infoRow}>
-                                <img className={styles.infoIcon} src={info} alt="more information"/>
+                                <img
+                                    className={styles.infoIcon}
+                                    src={info}
+                                    alt="more information"
+                                />
                                 <p className={styles.rowTitle}>Status</p>
-                                <Status
-                                    theme={transaction.result}>{processedStringFromApi(transaction.result)}</Status>
+                                <Status theme={transaction.status}>{}</Status>
                             </div>
                             <div className={styles.infoRow}>
-                                <img className={styles.infoIcon} src={info} alt="more information"/>
+                                <img
+                                    className={styles.infoIcon}
+                                    src={info}
+                                    alt="more information"
+                                />
                                 <p className={styles.rowTitle}>Block</p>
                                 <a className={styles.rowLink}>
                                     <span>{transaction.block}</span>
                                 </a>
                             </div>
                             <div className={styles.infoRow}>
-                                <img className={styles.infoIcon} src={info} alt="more information"/>
+                                <img
+                                    className={styles.infoIcon}
+                                    src={info}
+                                    alt="more information"
+                                />
                                 <p className={styles.rowTitle}>Timestamp</p>
-                                <p>{getTimeFromTimestamp(transaction.timestamp)}</p>
+                                <p>
+                                    {transaction.timestamp
+                                        ? getTimeFromTimestamp(
+                                              transaction.timestamp
+                                          )
+                                        : ''}
+                                </p>
                             </div>
                             <div className={styles.line}></div>
                             <div className={styles.infoRow}>
-                                <img className={styles.infoIcon} src={info} alt="more information"/>
+                                <img
+                                    className={styles.infoIcon}
+                                    src={info}
+                                    alt="more information"
+                                />
                                 <p className={styles.rowTitle}>From</p>
-                                <NavLink className={classNames(styles.address, styles.fontWeight500)}
-                                         to={"/transaction/" + transaction.from?.hash}>{transaction.from?.hash}</NavLink>
-
+                                <NavLink
+                                    className={classNames(
+                                        styles.address,
+                                        styles.fontWeight500
+                                    )}
+                                    to={
+                                        '/transaction/' + transaction.from?.hash
+                                    }>
+                                    {transaction.from?.hash}
+                                </NavLink>
                             </div>
                             <div className={styles.infoRow}>
-                                <img className={styles.infoIcon} src={info} alt="more information"/>
+                                <img
+                                    className={styles.infoIcon}
+                                    src={info}
+                                    alt="more information"
+                                />
                                 <p className={styles.rowTitle}>To</p>
-                                <NavLink className={classNames(styles.address, styles.fontWeight500)}
-                                         to={"/transaction/" + transaction.to?.hash}>{transaction.to?.hash}</NavLink>
-
-
+                                <NavLink
+                                    className={classNames(
+                                        styles.address,
+                                        styles.fontWeight500
+                                    )}
+                                    to={'/transaction/' + transaction.to?.hash}>
+                                    {transaction.to?.hash}
+                                </NavLink>
                             </div>
                             <div className={styles.line}></div>
                             <div className={styles.infoRow}>
-                                <img className={styles.infoIcon} src={info} alt="more information"/>
+                                <img
+                                    className={styles.infoIcon}
+                                    src={info}
+                                    alt="more information"
+                                />
                                 <p className={styles.rowTitle}>Value</p>
-                                <span>0.{transaction.value === "0" ? 0 : round((Number(transaction.fee?.value) / 10 ** 18), 12)}</span>
+                                <span>
+                                    0.
+                                    {transaction.value === '0'
+                                        ? 0
+                                        : round(
+                                              Number(transaction.fee?.value) /
+                                                  10 ** 18,
+                                              12
+                                          )}
+                                </span>
                                 <span className={styles.valueType}>ETH</span>
                             </div>
                             <div className={styles.infoRow}>
-                                <img className={styles.infoIcon} src={info} alt="more information"/>
-                                <p className={styles.rowTitle}>Transaction fee</p>
-                                <span>{round((Number(transaction.fee?.value) / 10 ** 18), 12)}</span>
+                                <img
+                                    className={styles.infoIcon}
+                                    src={info}
+                                    alt="more information"
+                                />
+                                <p className={styles.rowTitle}>
+                                    Transaction fee
+                                </p>
+                                <span>
+                                    {round(
+                                        Number(transaction.fee?.value) /
+                                            10 ** 18,
+                                        12
+                                    )}
+                                </span>
                                 <span className={styles.valueType}>ETH</span>
                             </div>
                             <div className={styles.infoRow}>
-                                <img className={styles.infoIcon} src={info} alt="more information"/>
+                                <img
+                                    className={styles.infoIcon}
+                                    src={info}
+                                    alt="more information"
+                                />
                                 <p className={styles.rowTitle}>Gas price</p>
-                                <span>{(Number(transaction.gas_price) / 10 ** 18).toFixed(18)}</span>
+                                <span>
+                                    {(
+                                        Number(transaction.gas_price) /
+                                        10 ** 18
+                                    ).toFixed(18)}
+                                </span>
                                 <span className={styles.valueType}>ETH</span>
                             </div>
                             <div className={styles.infoRow}>
-                                <img className={styles.infoIcon} src={info} alt="more information"/>
-                                <p className={styles.rowTitle}>Gas limit & usage by txn</p>
+                                <img
+                                    className={styles.infoIcon}
+                                    src={info}
+                                    alt="more information"
+                                />
+                                <p className={styles.rowTitle}>
+                                    Gas limit & usage by txn
+                                </p>
                                 <div className={styles.percentage}>
-                                    <span>{Number(transaction.gas_limit) ? Number(transaction.gas_limit) : 0}</span>
+                                    <span>
+                                        {Number(transaction.gas_limit)
+                                            ? Number(transaction.gas_limit)
+                                            : 0}
+                                    </span>
                                     <div className={styles.verticalLine}></div>
-                                    <span>{Number(transaction.gas_used) ? Number(transaction.gas_used) : 0}</span>
-                                    <ProgressBar progressColor={'#3CE2EC'} bgColor={'#8D8D8E'}
-                                                 progress={(Number(transaction.gas_used) / Number(transaction.gas_limit)) * 100}
-                                                 width={39}
-                                                 height={3}></ProgressBar>
-                                    <span>{((Number(transaction.gas_used) / Number(transaction.gas_limit)) * 100).toFixed(2)}%</span>
+                                    <span>
+                                        {Number(transaction.gas_used)
+                                            ? Number(transaction.gas_used)
+                                            : 0}
+                                    </span>
+                                    <ProgressBar
+                                        progressColor={'#3CE2EC'}
+                                        bgColor={'#8D8D8E'}
+                                        progress={
+                                            (Number(transaction.gas_used) /
+                                                Number(transaction.gas_limit)) *
+                                            100
+                                        }
+                                        width={39}
+                                        height={3}></ProgressBar>
+                                    <span>
+                                        {(
+                                            (Number(transaction.gas_used) /
+                                                Number(transaction.gas_limit)) *
+                                            100
+                                        ).toFixed(2)}
+                                        %
+                                    </span>
                                 </div>
                             </div>
                             <div className={styles.infoRow}>
-                                <img className={styles.infoIcon} src={info} alt="more information"/>
-                                <p className={styles.rowTitle}>Gas fees (Gwei)</p>
-                                <span
-                                    className={styles.mgR20}>Base: <span>{(Number(transaction.base_fee_per_gas) / 10 ** 9).toFixed(10)}</span></span>
+                                <img
+                                    className={styles.infoIcon}
+                                    src={info}
+                                    alt="more information"
+                                />
+                                <p className={styles.rowTitle}>
+                                    Gas fees (Gwei)
+                                </p>
+                                <span className={styles.mgR20}>
+                                    Base:{' '}
+                                    <span>
+                                        {(
+                                            Number(
+                                                transaction.base_fee_per_gas
+                                            ) /
+                                            10 ** 9
+                                        ).toFixed(10)}
+                                    </span>
+                                </span>
                                 <div className={styles.verticalLine}></div>
-                                <span
-                                    className={styles.mgR20}>Max: <span>{(Number(transaction.max_fee_per_gas) / 10 ** 9).toFixed(10)}</span></span>
+                                <span className={styles.mgR20}>
+                                    Max:{' '}
+                                    <span>
+                                        {(
+                                            Number(
+                                                transaction.max_fee_per_gas
+                                            ) /
+                                            10 ** 9
+                                        ).toFixed(10)}
+                                    </span>
+                                </span>
                                 <div className={styles.verticalLine}></div>
-                                <span
-                                    className={styles.mgR20}>Max priority: <span>{(Number(transaction.max_priority_fee_per_gas) / 10 ** 9).toFixed(10)}</span></span>
+                                <span className={styles.mgR20}>
+                                    Max priority:{' '}
+                                    <span>
+                                        {(
+                                            Number(
+                                                transaction.max_priority_fee_per_gas
+                                            ) /
+                                            10 ** 9
+                                        ).toFixed(10)}
+                                    </span>
+                                </span>
                             </div>
                             <div className={styles.infoRow}>
-                                <img className={styles.infoIcon} src={info} alt="more information"/>
+                                <img
+                                    className={styles.infoIcon}
+                                    src={info}
+                                    alt="more information"
+                                />
                                 <p className={styles.rowTitle}>Burnt fees</p>
-                                <img className={styles.gasIcon} src={fire} alt=""/>
-                                <span>{(Number(transaction.tx_burnt_fee) / 10 ** 18).toFixed(18)}</span>
+                                <img
+                                    className={styles.gasIcon}
+                                    src={fire}
+                                    alt=""
+                                />
+                                <span>
+                                    {(
+                                        Number(transaction.tx_burnt_fee) /
+                                        10 ** 18
+                                    ).toFixed(18)}
+                                </span>
                                 <span className={styles.valueType}>ETH</span>
                             </div>
                         </div>
                     </TabPanel>
 
                     <TabPanel>
-                        <div className={styles.tokenTransfers}>
-                            <div className={styles.paginationButtons}>
-                                <button className={styles.controlButton} disabled={isDisabled}
-                                        onClick={previousPageHandler}><img src={prev}
-                                                                           alt="previous page"/>
-                                </button>
-                                <div className={styles.pageNum}>{page}</div>
-                                <button className={styles.controlButton} onClick={nextPageHandler}><img src={next}
-                                                                                                        alt="next page"/>
-                                </button>
+                        {tokenTransfers.items.length == 0 ? (
+                            <p className={styles.message}>
+                                There are no token transfers.
+                            </p>
+                        ) : (
+                            <div className={styles.tokenTransfers}>
+                                <div className={styles.paginationButtons}>
+                                    <button
+                                        className={styles.controlButton}
+                                        disabled={isDisabled}
+                                        onClick={previousPageHandler}>
+                                        <img src={prev} alt="previous page" />
+                                    </button>
+                                    <div className={styles.pageNum}>{page}</div>
+                                    <button
+                                        className={styles.controlButton}
+                                        disabled={
+                                            !tokenTransfers.next_page_params
+                                        }
+                                        onClick={nextPageHandler}>
+                                        <img src={next} alt="next page" />
+                                    </button>
+                                </div>
+                                <div className={styles.tableWrapper}>
+                                    <div className={styles.tableBorder}></div>
+                                    <table className={styles.table}>
+                                        <thead className={styles.tableHead}>
+                                            <tr>
+                                                <th
+                                                    className={classNames(
+                                                        styles.thW30,
+                                                        styles.thDefault
+                                                    )}>
+                                                    Token
+                                                </th>
+                                                <th
+                                                    className={classNames(
+                                                        styles.thW30,
+                                                        styles.thDefault
+                                                    )}>
+                                                    Token ID
+                                                </th>
+                                                <th
+                                                    className={classNames(
+                                                        styles.thFrom,
+                                                        styles.thDefault
+                                                    )}>
+                                                    From
+                                                </th>
+                                                <th
+                                                    className={
+                                                        styles.thIcon
+                                                    }></th>
+                                                <th className={styles.thTo}>
+                                                    To
+                                                </th>
+                                                <th
+                                                    className={classNames(
+                                                        styles.thW40,
+                                                        styles.thDefaultRight
+                                                    )}>
+                                                    Value
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <TokenTransferItems
+                                            TokenTransferArray={
+                                                tokenTransfers.items
+                                            }></TokenTransferItems>
+                                    </table>
+                                </div>
                             </div>
-                            <div className={styles.tableWrapper}>
-                                <div className={styles.tableBorder}></div>
-                                <table className={styles.table}>
-                                    <thead className={styles.tableHead}>
-                                    <tr>
-                                        <th className={classNames(styles.thW30, styles.thDefault)}>Token</th>
-                                        <th className={classNames(styles.thW30, styles.thDefault)}>Token ID</th>
-                                        <th className={classNames(styles.thFrom, styles.thDefault)}>From</th>
-                                        <th className={styles.thIcon}></th>
-                                        <th className={styles.thTo}>To</th>
-                                        <th className={classNames(styles.thW40, styles.thDefaultRight)}>Value</th>
-                                    </tr>
-                                    </thead>
-                                    <TokenTransferItems TokenTransferArray={tokenTransfers.items}></TokenTransferItems>
-
-                                </table>
-                            </div>
-                        </div>
-
+                        )}
                     </TabPanel>
                     <TabPanel>
                         <div className={styles.traceBlock}>
@@ -235,7 +437,6 @@ export const TransactionPage = () => {
                     </TabPanel>
                 </Tabs>
             </section>
-
         </div>
     )
 }

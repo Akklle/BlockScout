@@ -21,7 +21,7 @@ import { initialToken } from '../../../app/models/generated/models/Token'
 import { formatNumber } from '../../../utils'
 import { TokenTransferItems } from './TokenTransferItems'
 import { initialAddress } from '../../../app/models/generated/models/Address'
-import { TransactionItems } from '../TransactionsPage/TransactionItems'
+import { TransactionItems } from './TransactionItems'
 
 async function getAddress(
     setAddress: Dispatch<SetStateAction<Address>>,

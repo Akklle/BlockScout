@@ -48,7 +48,7 @@ export const TokenTransferItem = (props: wrapperTokenTransfer) => {
             <td className={styles.tdCell}>
                 <div className={styles.addressGroup}>
                     <div className={styles.angularAvatar}></div>
-                    <a className={styles.address}>{stringTruncateFromLeft(currentTokenTransfer.from?.hash)}</a>
+                    <a className={styles.address}>{stringTruncateFromCenter(currentTokenTransfer.from?.hash, 8)}</a>
                 </div>
             </td>
             <td className={styles.tdIconCell}>
@@ -58,7 +58,7 @@ export const TokenTransferItem = (props: wrapperTokenTransfer) => {
                 <div className={styles.addressGroup}>
                     <div
                         className={classNames(styles.angularAvatar, styles.receiver)}></div>
-                    <a className={styles.address}>{stringTruncateFromLeft(currentTokenTransfer.to?.hash)}</a>
+                    <a className={styles.address}>{stringTruncateFromCenter(currentTokenTransfer.to?.hash, 8)}</a>
                 </div>
             </td>
             <td className={styles.tdCellRight}

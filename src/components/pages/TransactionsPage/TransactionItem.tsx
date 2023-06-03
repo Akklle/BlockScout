@@ -43,22 +43,27 @@ export const TransactionItem = (props: wrapperTransaction) => {
             </td>
             <td className={styles.tdCell}>
                 <div className={styles.typeAndStatus}>
-                    <TypeOfTransaction theme={currentTransaction.tx_types[0]}>
-                        {processedStringFromApi(currentTransaction.tx_types[0])}
-                    </TypeOfTransaction>
-                    <Status theme={currentTransaction.result}>
-                        {processedStringFromApi(currentTransaction.result)}
-                    </Status>
+                    {' '}
+                    {currentTransaction.tx_types[0] ? (
+                        <TypeOfTransaction
+                            theme={currentTransaction.tx_types[0]}>
+                            {processedStringFromApi(
+                                currentTransaction.tx_types[0]
+                            )}
+                        </TypeOfTransaction>
+                    ) : (
+                        <TypeOfTransaction>Transaction</TypeOfTransaction>
+                    )}
+                    <Status theme={currentTransaction.status}></Status>
                 </div>
             </td>
             <td className={styles.tdCell}>
-                <p className={styles.method}>{currentTransaction.method}</p>
+                {currentTransaction.method ? <p className={styles.method}>{currentTransaction.method}</p> : ''}
             </td>
             <td className={styles.tdCell}>
                 <NavLink
                     className={classNames(styles.address, styles.fontWeight500)}
-                    to={'/block/' + currentTransaction.block}
-                >
+                    to={'/block/' + currentTransaction.block}>
                     {currentTransaction.block}
                 </NavLink>
             </td>
@@ -86,8 +91,7 @@ export const TransactionItem = (props: wrapperTransaction) => {
                         className={classNames(
                             styles.angularAvatar,
                             styles.receiver
-                        )}
-                    ></div>
+                        )}></div>
                     <a className={styles.address}>
                         {currentTransaction.to
                             ? stringTruncateFromCenter(

@@ -19,7 +19,7 @@ function App() {
                 <Route path="/" element={<Main />} index />
                 <Route path="/block/:number" element={<BlockPage />} />
                 <Route
-                    path="/transaction/:number"
+                    path="/transaction/:address"
                     element={<TransactionPage />}
                 />
                 <Route path="/token/:address" element={<TokenPage />} />

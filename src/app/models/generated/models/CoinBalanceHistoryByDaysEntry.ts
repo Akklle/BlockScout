@@ -3,6 +3,6 @@
 /* eslint-disable */
 
 export type CoinBalanceHistoryByDaysEntry = {
-    date: string;
-    value: number;
-};
+    date: string
+    value: number
+}

@@ -3,7 +3,7 @@
 /* eslint-disable */
 
 export type ExtendedRevertReasonAsMap = {
-    raw: string;
-    code: number;
-    message: string;
-};
+    raw: string
+    code: number
+    message: string
+}

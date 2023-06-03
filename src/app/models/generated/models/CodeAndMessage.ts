@@ -2,5 +2,4 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export type CodeAndMessage = {
-};
+export type CodeAndMessage = {}

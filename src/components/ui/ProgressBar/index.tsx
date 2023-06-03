@@ -8,8 +8,13 @@ interface ProgressBarProps {
     height: number
 }
 
-const ProgressBar = ({progressColor, bgColor, progress, width, height}: ProgressBarProps) => {
-
+const ProgressBar = ({
+    progressColor,
+    bgColor,
+    progress,
+    width,
+    height,
+}: ProgressBarProps) => {
     const Parentdiv = {
         Position: 'relative',
         height: height,
@@ -26,13 +31,11 @@ const ProgressBar = ({progressColor, bgColor, progress, width, height}: Progress
         borderRadius: 40,
     }
 
-
     return (
         <div style={Parentdiv}>
-            <div style={Childdiv}>
-            </div>
+            <div style={Childdiv}></div>
         </div>
     )
 }
 
-export default ProgressBar;
+export default ProgressBar

@@ -1,5 +1,5 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
 
 .LatestTransactionArr {
     margin-left: 7.85%;
@@ -16,7 +16,11 @@
     width: 84.3%;
     height: 1px;
     border: 1px solid;
-    border-image-source: linear-gradient(90deg, #FFFFFF -2.03%, rgba(255, 255, 255, 0) 102.22%);
+    border-image-source: linear-gradient(
+        90deg,
+        #ffffff -2.03%,
+        rgba(255, 255, 255, 0) 102.22%
+    );
     border-image-slice: 10;
 }
 
@@ -28,7 +32,7 @@
     margin-left: 7.85%;
     margin-right: 7.85%;
     align-items: center;
-    font-family: "Onest", sans-serif;
+    font-family: 'Onest', sans-serif;
     font-style: normal;
     font-weight: 400;
     font-size: 12px;
@@ -53,7 +57,7 @@
     border-radius: 3px;
     padding: 3px 9px 3px 9px;
     color: white;
-    font-family: "Onest", sans-serif;
+    font-family: 'Onest', sans-serif;
     font-style: normal;
     font-weight: 400;
     font-size: 16px;
@@ -78,7 +82,7 @@
 }
 
 .status {
-    font-family: "Onest", sans-serif;
+    font-family: 'Onest', sans-serif;
     font-style: normal;
     font-weight: 400;
     font-size: 12px;
@@ -91,7 +95,7 @@
 }
 
 .statusSuccess {
-    color: #1A5C38;
+    color: #1a5c38;
     background: rgba(150, 251, 190, 0.6);
 }
 
@@ -106,24 +110,24 @@
 }
 
 .number {
-    font-family: "Onest", sans-serif;
+    font-family: 'Onest', sans-serif;
     font-style: normal;
     font-weight: 400;
     font-size: 18px;
     line-height: 23px;
-    color: #8D8D8E;
-    color: #3CE2EC;
+    color: #8d8d8e;
+    color: #3ce2ec;
     padding-right: 20px;
     padding-left: 13px;
 }
 
 .time {
-    font-family: "Onest", sans-serif;
+    font-family: 'Onest', sans-serif;
     font-style: normal;
     font-weight: 400;
     font-size: 18px;
     line-height: 23px;
-    color: #8D8D8E;
+    color: #8d8d8e;
     font-size: 16px;
 }
 
@@ -135,14 +139,14 @@
 }
 
 .address {
-    font-family: "Onest", sans-serif;
+    font-family: 'Onest', sans-serif;
     font-style: normal;
     font-weight: 400;
     font-size: 12px;
     line-height: 107.5%;
     color: white;
     font-size: 16px;
-    color: #3CE2EC;
+    color: #3ce2ec;
     margin-left: 12px;
 }
 
@@ -151,12 +155,12 @@
 }
 
 .value {
-    font-family: "Onest", sans-serif;
+    font-family: 'Onest', sans-serif;
     font-style: normal;
     font-weight: 400;
     font-size: 18px;
     line-height: 23px;
-    color: #8D8D8E;
+    color: #8d8d8e;
     font-size: 16px;
     padding-left: 4px;
 }
@@ -176,11 +180,19 @@
     height: 24px;
     border-radius: 24px;
     margin-left: 12px;
-    background: conic-gradient(from 180deg at 50% 50%, #3CE2EC 0deg, rgba(217, 217, 217, 0) 360deg);
+    background: conic-gradient(
+        from 180deg at 50% 50%,
+        #3ce2ec 0deg,
+        rgba(217, 217, 217, 0) 360deg
+    );
 }
 
 .receiver {
-    background: conic-gradient(from 90deg at 50% 50%, #3CE2EC 0deg, rgba(217, 217, 217, 0) 360deg);
+    background: conic-gradient(
+        from 90deg at 50% 50%,
+        #3ce2ec 0deg,
+        rgba(217, 217, 217, 0) 360deg
+    );
 }
 
 /*# sourceMappingURL=LatestTransaction.module.css.map */

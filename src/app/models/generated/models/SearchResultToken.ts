@@ -2,5 +2,4 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export type SearchResultToken = {
-};
+export type SearchResultToken = {}

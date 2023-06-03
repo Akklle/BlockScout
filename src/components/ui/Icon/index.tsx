@@ -7,16 +7,17 @@ interface Props {
     height?: number | string
 }
 
-export const Icon = ({icon, height, width, size = 29}: Props) => {
+export const Icon = ({ icon, height, width, size = 29 }: Props) => {
     const iconWith = width ?? size
     const iconHeight = height ?? size
 
     return (
-        <svg className={styles.icon}
-             style={{
-                 width: iconWith + 'px',
-                 height: iconHeight + 'px'
-             }}
+        <svg
+            className={styles.icon}
+            style={{
+                width: iconWith + 'px',
+                height: iconHeight + 'px',
+            }}
         >
             <use xlinkHref={`/sprite.svg#${icon}`}></use>
         </svg>

@@ -3,6 +3,6 @@
 /* eslint-disable */
 
 export type Reward = {
-    reward: number;
-    type: string;
-};
+    reward: number
+    type: string
+}

@@ -2,5 +2,4 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export type SearchResultBlock = {
-};
+export type SearchResultBlock = {}

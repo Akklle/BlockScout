@@ -2,6 +2,6 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { NFTChange } from './NFTChange';
+import type { NFTChange } from './NFTChange'
 
-export type NFTChangesArray = Array<NFTChange>;
+export type NFTChangesArray = Array<NFTChange>

@@ -1,15 +1,18 @@
-const svgstore = require('svgstore');
-const fs = require('fs');
-const path = require('path');
+const svgstore = require('svgstore')
+const fs = require('fs')
+const path = require('path')
 
-let sprite = svgstore();
+let sprite = svgstore()
 
-const folder = './src/svg-icons';
+const folder = './src/svg-icons'
 
 fs.readdir(folder, (err, files) => {
-    files.forEach(file => {
-        sprite = sprite.add(file.split('.')[0], fs.readFileSync(path.join(folder, file), 'utf8'));
-    });
+    files.forEach((file) => {
+        sprite = sprite.add(
+            file.split('.')[0],
+            fs.readFileSync(path.join(folder, file), 'utf8')
+        )
+    })
 
-    fs.writeFileSync('./public/sprite.svg', sprite);
-});
+    fs.writeFileSync('./public/sprite.svg', sprite)
+})

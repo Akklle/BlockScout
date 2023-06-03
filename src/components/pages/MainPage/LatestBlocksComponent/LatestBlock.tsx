@@ -15,6 +15,9 @@ interface wrapperBlock {
 
 export const LatestBlock = (props: wrapperBlock) => {
     const currentBlock = props.block
+
+    const reward = calculateReward(currentBlock.rewards) / 10 ** 18
+
     return (
         <div className={styles.pop}>
             <div className={styles.latestBlock}>
@@ -24,8 +27,7 @@ export const LatestBlock = (props: wrapperBlock) => {
 
                         <NavLink
                             className={styles.blockId}
-                            to={'/block/' + currentBlock.height}
-                        >
+                            to={'/block/' + currentBlock.height}>
                             {currentBlock.height}
                         </NavLink>
                     </div>
@@ -42,7 +44,7 @@ export const LatestBlock = (props: wrapperBlock) => {
                     <div className={styles.underInfo}>
                         <p className={styles.type}>{currentBlock.tx_count}</p>
                         <p className={styles.type}>
-                            {calculateReward(currentBlock.rewards) / 10 ** 18}
+                            {reward}
                         </p>
                         <p className={styles.minerValue}>
                             {stringTruncateFromCenter(

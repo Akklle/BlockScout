@@ -1,33 +1,12 @@
-import React, { Dispatch, SetStateAction, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from './index.module.sass'
 import { Search } from '../../ui/Search'
 import classNames from 'classnames'
 import prev from '../../../assets/arrow_prev.svg'
 import next from '../../../assets/arrow_next.svg'
 
-import { NavLink } from 'react-router-dom'
-import { SmartContract, Token } from '../../../app/models/generated'
-import { baseUrl } from '../MainPage/Main'
-
 import { TokenItems } from './TokenItems'
-
-type TokenList = {
-    items: Array<Token>
-    next_page_params: Record<string, string> | null
-}
-
-async function getTokens(
-    setTokens: Dispatch<SetStateAction<TokenList>>,
-    params: Record<string, string>
-) {
-    const url = baseUrl + '/tokens?'
-    const searchParams = new URLSearchParams(params)
-
-    const result: TokenList = await (
-        await fetch(url + searchParams.toString())
-    ).json()
-    setTokens(result)
-}
+import { getTokens, TokenList } from '../../../services/TokensPageService'
 
 const previousParams: Record<string, string>[] = []
 let currentParams: Record<string, string> = {}

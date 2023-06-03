@@ -1,31 +1,16 @@
-import React, { Dispatch, SetStateAction, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from '../BlocksPage/index.module.sass'
 import { Search } from '../../ui/Search'
 import prev from '../../../assets/arrow_prev.svg'
 import next from '../../../assets/arrow_next.svg'
 import classNames from 'classnames'
-
-import { Icon } from '../../ui/Icon'
 import { Block } from '../../../app/models/generated'
-import { baseUrl } from '../MainPage/Main'
 import { BlockItems } from './BlockItems'
+import { getBlocks } from '../../../services/BlocksPageService'
 
-type BlockList = {
+export interface BlockList {
     items: Array<Block>
     next_page_params: Record<string, string> | null
-}
-
-async function getBlocks(
-    setBlocks: Dispatch<SetStateAction<BlockList>>,
-    params: Record<string, string>
-) {
-    const url = baseUrl + '/blocks?'
-    const searchParams = new URLSearchParams(params)
-
-    const result: BlockList = await (
-        await fetch(url + searchParams.toString())
-    ).json()
-    setBlocks(result)
 }
 
 const previousParams: Record<string, string>[] = []

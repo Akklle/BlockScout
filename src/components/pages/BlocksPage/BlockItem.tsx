@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react'
+import React from 'react'
 import styles from '../BlocksPage/index.module.sass'
 import classNames from 'classnames'
 import ProgressBar from '../../ui/ProgressBar'
@@ -19,6 +19,21 @@ interface wrapperBlock {
 
 export const BlockItem = (props: wrapperBlock) => {
     const currentBlock = props.block
+
+    const percentageGasUsed = currentBlock.gas_used_percentage
+        ? Number(currentBlock.gas_used_percentage.toFixed(2))
+        : 0
+    const percentageGasTarget = currentBlock.gas_target_percentage
+        ? Number(currentBlock.gas_target_percentage.toFixed(2))
+        : 0
+    const reward = (calculateReward(currentBlock.rewards) / 10 ** 18).toFixed(8)
+    const burntFees = currentBlock.burnt_fees
+        ? (currentBlock.burnt_fees / 10 ** 18).toFixed(8)
+        : 0
+    const burntFeesPercentage = currentBlock.burnt_fees_percentage
+        ? Number(currentBlock.burnt_fees_percentage.toFixed(2))
+        : 0
+
     return (
         <tr className={styles.tableRow}>
             <td className={styles.tdCell}>
@@ -28,8 +43,7 @@ export const BlockItem = (props: wrapperBlock) => {
                             styles.address,
                             styles.fontWeight500
                         )}
-                        to={'/block/' + currentBlock.height}
-                    >
+                        to={'/block/' + currentBlock.height}>
                         {currentBlock.height}
                     </NavLink>
                     <p className={styles.hashTime}>
@@ -51,61 +65,33 @@ export const BlockItem = (props: wrapperBlock) => {
                         <ProgressBar
                             progressColor={'#3CE2EC'}
                             bgColor={'#8D8D8E'}
-                            progress={
-                                currentBlock.gas_used_percentage
-                                    ? currentBlock.gas_used_percentage
-                                    : 0
-                            }
+                            progress={percentageGasUsed}
                             width={39}
-                            height={3}
-                        ></ProgressBar>
-                        <span>
-                            {currentBlock.gas_used_percentage
-                                ? currentBlock.gas_used_percentage.toFixed(2)
-                                : 0}
-                            %
-                        </span>
+                            height={3}></ProgressBar>
+                        <span>{percentageGasUsed}%</span>
                         <div className={styles.verticalLine}></div>
-                        <span>
-                            {currentBlock.gas_target_percentage
-                                ? currentBlock.gas_target_percentage.toFixed(2)
-                                : 0}
-                            %
-                        </span>
+                        <span>{percentageGasTarget}%</span>
                     </div>
                 </div>
             </td>
             <td className={styles.tdCellRight} align={'right'}>
-                {(calculateReward(currentBlock.rewards) / 10 ** 18).toFixed(8)}
+                {reward}
             </td>
             <td className={styles.tdCellRight}>
                 <div className={styles.burntFeeCell}>
                     <div className={styles.brFeeTop}>
                         <img src={fire} alt="" />
-                        <p>
-                            {currentBlock.burnt_fees
-                                ? (currentBlock.burnt_fees / 10 ** 18).toFixed(
-                                      8
-                                  )
-                                : 0}
-                        </p>
+                        <p>{burntFees}</p>
                     </div>
                     <div className={styles.percentage}>
                         <ProgressBar
                             progressColor={'#59FFA4'}
                             bgColor={'#8D8D8E'}
-                            progress={
-                                currentBlock.burnt_fees_percentage
-                                    ? currentBlock.burnt_fees_percentage
-                                    : 0
-                            }
+                            progress={burntFeesPercentage}
                             width={39}
-                            height={3}
-                        ></ProgressBar>
+                            height={3}></ProgressBar>
                         <span>
-                            {currentBlock.burnt_fees_percentage
-                                ? currentBlock.burnt_fees_percentage.toFixed(2)
-                                : 0}
+                            {burntFeesPercentage}
                             %
                         </span>
                     </div>

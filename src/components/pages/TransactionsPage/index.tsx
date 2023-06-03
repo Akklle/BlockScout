@@ -1,33 +1,16 @@
-import React, { Dispatch, SetStateAction, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from './index.module.sass'
 import { Search } from '../../ui/Search'
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
-import './tabs.sass'
+import { Tab, TabList, TabPanel, Tabs } from 'react-tabs'
+import '../../../styles/tabs.sass'
 import prev from '../../../assets/arrow_prev.svg'
 import next from '../../../assets/arrow_next.svg'
-import { baseUrl } from '../MainPage/Main'
 import classNames from 'classnames'
-import { Icon } from '../../ui/Icon'
 import { TransactionItems } from './TransactionItems'
-import { Transaction } from '../../../app/models/generated'
-
-type TransactionList = {
-    items: Array<Transaction>
-    next_page_params: Record<string, string> | null
-}
-
-async function getTransactions(
-    setTransactions: Dispatch<SetStateAction<TransactionList>>,
-    params: Record<string, string>
-) {
-    const url = baseUrl + '/transactions?'
-    const searchParams = new URLSearchParams(params)
-
-    const result: TransactionList = await (
-        await fetch(url + searchParams.toString())
-    ).json()
-    setTransactions(result)
-}
+import {
+    getTransactions,
+    TransactionList,
+} from '../../../services/TransactionsPageService'
 
 const previousParams: Record<string, string>[] = []
 let currentParams: Record<string, string> = {}
@@ -42,6 +25,15 @@ export const Transactions = () => {
         if (previousParams.length > 0) {
             page = page - 1
             currentParams = previousParams.pop() || {}
+            getTransactions(setTransactions, currentParams)
+        }
+    }
+
+    const nextPageHandler = () => {
+        if (transactionList.next_page_params) {
+            previousParams.push(currentParams)
+            currentParams = transactionList.next_page_params
+            page = page + 1
             getTransactions(setTransactions, currentParams)
         }
     }
@@ -69,26 +61,13 @@ export const Transactions = () => {
                                 <button
                                     className={styles.controlButton}
                                     disabled={isDisabled}
-                                    onClick={previousPageHandler}
-                                >
+                                    onClick={previousPageHandler}>
                                     <img src={prev} alt="previous page" />
                                 </button>
                                 <div className={styles.pageNum}>{page}</div>
                                 <button
                                     className={styles.controlButton}
-                                    onClick={() => {
-                                        if (transactionList.next_page_params) {
-                                            previousParams.push(currentParams)
-                                            currentParams =
-                                                transactionList.next_page_params
-                                            page = page + 1
-                                            getTransactions(
-                                                setTransactions,
-                                                currentParams
-                                            )
-                                        }
-                                    }}
-                                >
+                                    onClick={nextPageHandler}>
                                     <img src={next} alt="next page" />
                                 </button>
                             </div>
@@ -101,40 +80,35 @@ export const Transactions = () => {
                                                 className={classNames(
                                                     styles.th25p75,
                                                     styles.thDefault
-                                                )}
-                                            >
+                                                )}>
                                                 Txn hash
                                             </th>
                                             <th
                                                 className={classNames(
                                                     styles.thType,
                                                     styles.thDefault
-                                                )}
-                                            >
+                                                )}>
                                                 Type
                                             </th>
                                             <th
                                                 className={classNames(
                                                     styles.thW10,
                                                     styles.thDefault
-                                                )}
-                                            >
+                                                )}>
                                                 Method
                                             </th>
                                             <th
                                                 className={classNames(
                                                     styles.thBlock,
                                                     styles.thDefault
-                                                )}
-                                            >
+                                                )}>
                                                 Block
                                             </th>
                                             <th
                                                 className={classNames(
                                                     styles.thFrom,
                                                     styles.thDefault
-                                                )}
-                                            >
+                                                )}>
                                                 From
                                             </th>
                                             <th className={styles.thIcon}></th>
@@ -143,23 +117,22 @@ export const Transactions = () => {
                                                 className={classNames(
                                                     styles.thW12,
                                                     styles.thDefaultRight
-                                                )}
-                                            >
+                                                )}>
                                                 Value ETH
                                             </th>
                                             <th
                                                 className={classNames(
                                                     styles.th9p75,
                                                     styles.thDefaultRight
-                                                )}
-                                            >
+                                                )}>
                                                 Fee ETH
                                             </th>
                                         </tr>
                                     </thead>
                                     <TransactionItems
-                                        TransactionArray={transactionList.items}
-                                    ></TransactionItems>
+                                        TransactionArray={
+                                            transactionList.items
+                                        }></TransactionItems>
                                 </table>
                             </div>
                         </div>

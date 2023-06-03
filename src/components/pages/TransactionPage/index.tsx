@@ -1,57 +1,25 @@
-import React, { Dispatch, SetStateAction, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from './index.module.sass'
 import { Search } from '../../ui/Search'
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
+import { Tab, TabList, TabPanel, Tabs } from 'react-tabs'
 import info from '../../../assets/infoSVG.svg'
 import fire from '../../../assets/fire.svg'
 import prev from '../../../assets/arrow_prev.svg'
 import next from '../../../assets/arrow_next.svg'
 import { getTimeFromTimestamp, round } from '../../../utils'
 
-import { Transaction, TokenTransfer } from '../../../app/models/generated'
-import { Status } from '../MainPage/LatestTransactionComponent/LatestTransaction'
+import { Transaction } from '../../../app/models/generated'
 import classNames from 'classnames'
-// import { Icon } from '../../ui/Icon'
 import ProgressBar from '../../ui/ProgressBar'
-import { NavigateFunction, NavLink, useParams } from 'react-router-dom'
-import { baseUrl } from '../MainPage/Main'
+import { NavLink, useNavigate, useParams } from 'react-router-dom'
 import { initialTransaction } from '../../../app/models/generated/models/Transaction'
-import { useNavigate } from 'react-router-dom'
 import { TokenTransferItems } from './TokenTransferItems'
-
-async function getTransaction(
-    setTransaction: Dispatch<SetStateAction<Transaction>>,
-    address: string | undefined,
-    navigate: NavigateFunction
-) {
-    let url = `${baseUrl}/transactions/${address}`
-    let fetchResult: Response = await fetch(url)
-    if (fetchResult.status != 200) {
-        navigate('/error')
-    } else {
-        let result: Transaction = await fetchResult.json()
-        setTransaction(result)
-    }
-}
-
-type TokenTransferList = {
-    items: Array<TokenTransfer>
-    next_page_params: Record<string, string> | null
-}
-
-async function getTokenTransfers(
-    setTokenTransfers: Dispatch<SetStateAction<TokenTransferList>>,
-    address: string | undefined,
-    params: Record<string, string>
-) {
-    let url = baseUrl + '/transactions/' + address + '/token-transfers?'
-    let searchParams = new URLSearchParams(params)
-
-    let result: TokenTransferList = await (
-        await fetch(url + searchParams.toString())
-    ).json()
-    setTokenTransfers(result)
-}
+import { Status } from '../../ui/Status'
+import {
+    getTokenTransfers,
+    getTransaction,
+    TokenTransferList,
+} from '../../../services/TransactionPageService'
 
 let previousParams: Record<string, string>[] = []
 let currentParams: Record<string, string> = {}
@@ -94,6 +62,31 @@ export const TransactionPage = () => {
         }
     }
 
+    const value =
+        transaction.value === '0'
+            ? 0
+            : round(Number(transaction.fee?.value) / 10 ** 18, 12)
+    const transactionFee = round(Number(transaction.fee?.value) / 10 ** 18, 12)
+    const gasPrice = (Number(transaction.gas_price) / 10 ** 18).toFixed(18)
+    const gasLimit = Number(transaction.gas_limit)
+        ? Number(transaction.gas_limit)
+        : 0
+    const gasUsed = Number(transaction.gas_used)
+        ? Number(transaction.gas_used)
+        : 0
+    const percentage = Number(
+        (
+            (Number(transaction.gas_used) / Number(transaction.gas_limit)) *
+            100
+        ).toFixed(2)
+    )
+    const baseFee = (Number(transaction.base_fee_per_gas) / 10 ** 9).toFixed(10)
+    const maxFee = (Number(transaction.max_fee_per_gas) / 10 ** 9).toFixed(10)
+    const maxPriority = (
+        Number(transaction.max_priority_fee_per_gas) /
+        10 ** 9
+    ).toFixed(10)
+    const burntFees = (Number(transaction.tx_burnt_fee) / 10 ** 18).toFixed(18)
     return (
         <div>
             <section className={styles.searchSection}>
@@ -201,16 +194,7 @@ export const TransactionPage = () => {
                                     alt="more information"
                                 />
                                 <p className={styles.rowTitle}>Value</p>
-                                <span>
-                                    0.
-                                    {transaction.value === '0'
-                                        ? 0
-                                        : round(
-                                              Number(transaction.fee?.value) /
-                                                  10 ** 18,
-                                              12
-                                          )}
-                                </span>
+                                <span>{value}</span>
                                 <span className={styles.valueType}>ETH</span>
                             </div>
                             <div className={styles.infoRow}>
@@ -222,13 +206,7 @@ export const TransactionPage = () => {
                                 <p className={styles.rowTitle}>
                                     Transaction fee
                                 </p>
-                                <span>
-                                    {round(
-                                        Number(transaction.fee?.value) /
-                                            10 ** 18,
-                                        12
-                                    )}
-                                </span>
+                                <span>{transactionFee}</span>
                                 <span className={styles.valueType}>ETH</span>
                             </div>
                             <div className={styles.infoRow}>
@@ -238,12 +216,7 @@ export const TransactionPage = () => {
                                     alt="more information"
                                 />
                                 <p className={styles.rowTitle}>Gas price</p>
-                                <span>
-                                    {(
-                                        Number(transaction.gas_price) /
-                                        10 ** 18
-                                    ).toFixed(18)}
-                                </span>
+                                <span>{gasPrice}</span>
                                 <span className={styles.valueType}>ETH</span>
                             </div>
                             <div className={styles.infoRow}>
@@ -256,35 +229,16 @@ export const TransactionPage = () => {
                                     Gas limit & usage by txn
                                 </p>
                                 <div className={styles.percentage}>
-                                    <span>
-                                        {Number(transaction.gas_limit)
-                                            ? Number(transaction.gas_limit)
-                                            : 0}
-                                    </span>
+                                    <span>{gasLimit}</span>
                                     <div className={styles.verticalLine}></div>
-                                    <span>
-                                        {Number(transaction.gas_used)
-                                            ? Number(transaction.gas_used)
-                                            : 0}
-                                    </span>
+                                    <span>{gasUsed}</span>
                                     <ProgressBar
                                         progressColor={'#3CE2EC'}
                                         bgColor={'#8D8D8E'}
-                                        progress={
-                                            (Number(transaction.gas_used) /
-                                                Number(transaction.gas_limit)) *
-                                            100
-                                        }
+                                        progress={percentage}
                                         width={39}
                                         height={3}></ProgressBar>
-                                    <span>
-                                        {(
-                                            (Number(transaction.gas_used) /
-                                                Number(transaction.gas_limit)) *
-                                            100
-                                        ).toFixed(2)}
-                                        %
-                                    </span>
+                                    <span>{percentage}%</span>
                                 </div>
                             </div>
                             <div className={styles.infoRow}>
@@ -297,39 +251,15 @@ export const TransactionPage = () => {
                                     Gas fees (Gwei)
                                 </p>
                                 <span className={styles.mgR20}>
-                                    Base:{' '}
-                                    <span>
-                                        {(
-                                            Number(
-                                                transaction.base_fee_per_gas
-                                            ) /
-                                            10 ** 9
-                                        ).toFixed(10)}
-                                    </span>
+                                    Base: <span>{baseFee}</span>
                                 </span>
                                 <div className={styles.verticalLine}></div>
                                 <span className={styles.mgR20}>
-                                    Max:{' '}
-                                    <span>
-                                        {(
-                                            Number(
-                                                transaction.max_fee_per_gas
-                                            ) /
-                                            10 ** 9
-                                        ).toFixed(10)}
-                                    </span>
+                                    Max: <span>{maxFee}</span>
                                 </span>
                                 <div className={styles.verticalLine}></div>
                                 <span className={styles.mgR20}>
-                                    Max priority:{' '}
-                                    <span>
-                                        {(
-                                            Number(
-                                                transaction.max_priority_fee_per_gas
-                                            ) /
-                                            10 ** 9
-                                        ).toFixed(10)}
-                                    </span>
+                                    Max priority: <span>{maxPriority}</span>
                                 </span>
                             </div>
                             <div className={styles.infoRow}>
@@ -344,12 +274,7 @@ export const TransactionPage = () => {
                                     src={fire}
                                     alt=""
                                 />
-                                <span>
-                                    {(
-                                        Number(transaction.tx_burnt_fee) /
-                                        10 ** 18
-                                    ).toFixed(18)}
-                                </span>
+                                <span>{burntFees}</span>
                                 <span className={styles.valueType}>ETH</span>
                             </div>
                         </div>

@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react'
+import React from 'react'
 import styles from '../TokensPage/index.module.sass'
 import classNames from 'classnames'
 
@@ -12,16 +12,18 @@ interface wrapperToken {
 
 export const TokenItem = (props: wrapperToken) => {
     const currentToken = props.token
+
+    const tokenName = currentToken.name
+        ? currentToken.name
+        : stringTruncateFromCenter(currentToken.address, 20)
+
     return (
         <tr className={styles.tableRow}>
             <td className={styles.tdCell}>
                 <NavLink
                     className={classNames(styles.address, styles.fontWeight500)}
-                    to={'/token/' + currentToken.address}
-                >
-                    {currentToken.name
-                        ? currentToken.name
-                        : stringTruncateFromCenter(currentToken.address, 20)}
+                    to={'/token/' + currentToken.address}>
+                    {tokenName}
                 </NavLink>
             </td>
             <td className={styles.tdCell}>

@@ -1,25 +1,33 @@
-import {TokenTransfer} from "../../../app/models/generated";
-import styles from "./index.module.sass";
-import {Icon} from "../../ui/Icon";
-import classNames from "classnames";
-import React from "react";
-import {
-
-    TypeOfTransaction
-} from "../MainPage/LatestTransactionComponent/LatestTransaction";
+import { TokenTransfer } from '../../../app/models/generated'
+import styles from './index.module.sass'
+import { Icon } from '../../ui/Icon'
+import classNames from 'classnames'
+import React from 'react'
 import {
     formatNumber,
     processedStringFromApi,
     round,
-    stringTruncateFromCenter
-} from "../../../utils";
+    stringTruncateFromCenter,
+} from '../../../utils'
+import { TypeOfTransaction } from '../../ui/TypeOfTransaction'
 
 interface wrapperTokenTransfer {
     tokenT: TokenTransfer
 }
 
 export const TokenTransferItem = (props: wrapperTokenTransfer) => {
-    let currentTokenTransfer = props.tokenT
+    const currentTokenTransfer = props.tokenT
+
+    const value = currentTokenTransfer.total.decimals
+        ? formatNumber(
+              round(
+                  Number(currentTokenTransfer.total.value) /
+                      10 ** Number(currentTokenTransfer.total.decimals),
+                  8
+              )
+          )
+        : '-'
+
     return (
         <tr className={styles.tableRow}>
             <td className={styles.tdCell}>
@@ -35,14 +43,17 @@ export const TokenTransferItem = (props: wrapperTokenTransfer) => {
             </td>
             <td className={styles.tdCell}>
                 <div>
-                    <a className={styles.ID}>-</a>
+                    <p className={styles.ID}>{currentTokenTransfer.total.token_id}</p>
                 </div>
             </td>
             <td className={styles.tdCell}>
                 <div className={styles.addressGroup}>
                     <div className={styles.angularAvatar}></div>
                     <a className={styles.address}>
-                        {stringTruncateFromCenter(currentTokenTransfer.from.hash, 12)}
+                        {stringTruncateFromCenter(
+                            currentTokenTransfer.from.hash,
+                            12
+                        )}
                     </a>
                 </div>
             </td>
@@ -58,22 +69,16 @@ export const TokenTransferItem = (props: wrapperTokenTransfer) => {
                             styles.angularAvatar,
                             styles.receiver
                         )}></div>
-                    <a className={styles.address}>{stringTruncateFromCenter(currentTokenTransfer.to.hash, 12)}</a>
+                    <a className={styles.address}>
+                        {stringTruncateFromCenter(
+                            currentTokenTransfer.to.hash,
+                            12
+                        )}
+                    </a>
                 </div>
             </td>
             <td className={styles.tdCellRight} align={'right'}>
-                {currentTokenTransfer.total.decimals
-                    ? formatNumber(
-                          round(
-                              Number(currentTokenTransfer.total.value) /
-                                  10 **
-                                      Number(
-                                          currentTokenTransfer.total.decimals
-                                      ),
-                              8
-                          )
-                      )
-                    : '-'}
+                {value}
             </td>
         </tr>
     )

@@ -1,98 +1,39 @@
-import React, { ReactNode } from 'react'
+import React from 'react'
 import styles from './LatestTransaction.module.sass'
 import { Icon } from '../../../ui/Icon'
-import cn from 'classnames/bind'
 import classNames from 'classnames'
 import { Transaction } from '../../../../app/models/generated'
 import {
-    processedStringFromApi,
-    stringTruncateFromCenter,
-    round,
     getTimeFromTimestamp,
+    processedStringFromApi,
+    round,
+    stringTruncateFromCenter,
 } from '../../../../utils'
-
-const cx = cn.bind(styles)
-
-export interface TypeOfTransactionProps {
-    theme?:
-        | 'token_transfer'
-        | 'contract_call'
-        | 'transaction'
-        | 'coin_transfer'
-        | string
-    children: ReactNode
-}
-
-export const TypeOfTransaction = ({
-    theme = 'Transaction',
-    children,
-}: TypeOfTransactionProps) => {
-    return (
-        <div
-            className={cx(styles.type, {
-                typeTokenTransfer: theme === 'token_transfer',
-                typeContractCall: theme === 'contract_call',
-                typeTransaction: theme === 'transaction',
-                typeCoinTransfer: theme === 'coin_transfer',
-                typeCommon: ![
-                    'token_transfer',
-                    'contract_call',
-                    'transaction',
-                    'coin_transfer',
-                ].includes(theme),
-            })}>
-            {children}
-        </div>
-    )
-}
-
-// export interface StatusProps {
-//     theme?: 'success' | 'failed' | 'execution_reverted' | string
-//     children: ReactNode
-// }
-//
-// export const Status = ({ theme = 'success', children }: StatusProps) => {
-//     return (
-//         <div
-//             className={cx(styles.status, {
-//                 statusSuccess: theme === 'success',
-//                 statusFailed: theme === 'failed',
-//                 statusExecution: theme === 'execution_reverted',
-//
-//             })}
-//         >
-//             {children}
-//         </div>
-//     )
-// }
-export interface StatusProps {
-    theme?: 'ok' | 'error' | string
-    children?: ReactNode
-}
-
-export const Status = ({ theme = 'ok' }: StatusProps) => {
-    return (
-        <div
-            className={cx(styles.status, {
-                statusSuccess: theme === 'ok',
-                statusFailed: theme === 'error',
-            })}>
-            {theme === 'ok' ? 'Success' : 'Failed'}
-        </div>
-    )
-}
+import { Status } from '../../../ui/Status'
+import { TypeOfTransaction } from '../../../ui/TypeOfTransaction'
 
 interface wrapperTransaction {
     transaction: Transaction
 }
 
 export const LatestTransaction = (props: wrapperTransaction) => {
-
     const currentTransaction = props.transaction
-    console.log(currentTransaction.status)
+
     currentTransaction.tx_types = currentTransaction.tx_types.length
         ? currentTransaction.tx_types
         : ['coin_transfer']
+
+    const toAddress = currentTransaction.to
+        ? stringTruncateFromCenter(currentTransaction.to.hash, 8)
+        : stringTruncateFromCenter(currentTransaction.created_contract?.hash, 8)
+
+    const value =
+        currentTransaction.value === '0'
+            ? 0
+            : round(Number(currentTransaction.fee?.value) / 10 ** 18, 5)
+
+    const feeValue = round(Number(currentTransaction.fee?.value) / 10 ** 18, 5)
+
     return (
         <div className={styles.latestTransaction}>
             <div className={styles.line}></div>
@@ -136,37 +77,13 @@ export const LatestTransaction = (props: wrapperTransaction) => {
                                 styles.angularAvatar,
                                 styles.receiver
                             )}></div>
-                        <a className={styles.address}>
-                            {currentTransaction.to
-                                ? stringTruncateFromCenter(
-                                      currentTransaction.to.hash,
-                                      8
-                                  )
-                                : stringTruncateFromCenter(
-                                      currentTransaction.created_contract?.hash,
-                                      8
-                                  )}
-                        </a>
+                        <a className={styles.address}>{toAddress}</a>
                     </div>
                     <div className={styles.underRightInfo}>
                         <p className={styles.criptType}>Value ETH</p>
-                        <p className={styles.value}>
-                            {currentTransaction.value === '0'
-                                ? 0
-                                : round(
-                                      Number(currentTransaction.fee?.value) /
-                                          10 ** 18,
-                                      5
-                                  )}
-                        </p>
+                        <p className={styles.value}>{value}</p>
                         <p className={styles.criptType}>Fee ETH</p>
-                        <p className={styles.value}>
-                            {round(
-                                Number(currentTransaction.fee?.value) /
-                                    10 ** 18,
-                                5
-                            )}
-                        </p>
+                        <p className={styles.value}>{feeValue}</p>
                     </div>
                 </div>
             </div>

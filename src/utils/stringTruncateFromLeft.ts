@@ -1,8 +1,11 @@
-export function stringTruncateFromLeft(str: string | undefined, maxLength: number) {
+export function stringTruncateFromLeft(
+    str: string | undefined,
+    maxLength: number
+) {
     if (str === undefined) {
         return '-'
     }
-    const midChar = "…"
+    const midChar = '…'
     let left, right
     if (str.length <= maxLength) return str
     left = Math.ceil(24)

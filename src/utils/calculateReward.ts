@@ -1,4 +1,4 @@
-import {Reward} from "../app/models/generated";
+import { Reward } from '../app/models/generated'
 
 export function calculateReward(rewardArray: Array<Reward> | undefined) {
     if (rewardArray === undefined) {

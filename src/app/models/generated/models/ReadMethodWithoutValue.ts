@@ -2,4 +2,4 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export type ReadMethodWithoutValue = Record<string, any>;
+export type ReadMethodWithoutValue = Record<string, any>

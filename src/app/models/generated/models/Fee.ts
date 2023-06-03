@@ -3,6 +3,6 @@
 /* eslint-disable */
 
 export type Fee = {
-    type: string;
-    value: string;
-};
+    type: string
+    value: string
+}

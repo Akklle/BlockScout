@@ -2,4 +2,4 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export type ConstructorArguments = Record<string, any>;
+export type ConstructorArguments = Record<string, any>

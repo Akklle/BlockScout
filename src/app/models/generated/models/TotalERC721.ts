@@ -4,6 +4,6 @@
 
 export type TotalERC721 = {
     token_id: string
-    value: "1"
-    decimals?: "0"
-};
+    value: '1'
+    decimals?: '0'
+}

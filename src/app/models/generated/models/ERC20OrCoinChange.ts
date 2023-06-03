@@ -2,4 +2,4 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export type ERC20OrCoinChange = string;
+export type ERC20OrCoinChange = string

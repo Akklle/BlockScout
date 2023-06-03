@@ -3,7 +3,7 @@
 /* eslint-disable */
 
 export type DecodedInputParameter = {
-    name: string;
-    type: string;
-    value: string;
-};
+    name: string
+    type: string
+    value: string
+}

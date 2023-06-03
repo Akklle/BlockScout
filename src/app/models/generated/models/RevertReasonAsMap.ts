@@ -3,5 +3,5 @@
 /* eslint-disable */
 
 export type RevertReasonAsMap = {
-    raw: string;
-};
+    raw: string
+}

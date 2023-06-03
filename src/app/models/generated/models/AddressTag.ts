@@ -3,7 +3,7 @@
 /* eslint-disable */
 
 export type AddressTag = {
-    address_hash: string;
-    display_name: string;
-    label: string;
-};
+    address_hash: string
+    display_name: string
+    label: string
+}

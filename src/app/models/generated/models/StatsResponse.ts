@@ -2,5 +2,4 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export type StatsResponse = {
-};
+export type StatsResponse = {}

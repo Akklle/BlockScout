@@ -1,167 +1,167 @@
-@import '../../../styles/All_mixins'
-@import 'src/components/pages/MainPage/LatestTransactionComponent/LatestTransaction.module'
-
-.searchSection
-  margin: 50px 119px 0
-
-.pageSection
-  margin: 60px 119px 0
-  display: flex
-  flex-direction: column
-
-.validated
-  display: block
-
-.headOfPage
-  display: flex
-  flex-direction: row
-  align-items: center
-  gap: 10px
-  @include onest36medium
-
-.transactions
-  width: 100%
-
-.paginationButtons
-  display: flex
-  flex-direction: row
-  justify-content: flex-end
-  gap: 22px
-
-.controlButton
-  width: 40px
-  height: 40px
-  border: 1px solid white
-  border-radius: 7px
-  display: flex
-  align-items: center
-  justify-content: center
-
-.controlButton:hover
-  opacity: 0.8
-
-.controlButton:disabled
-  opacity: 0.35
-
-.pageNum
-  display: flex
-  justify-content: center
-  align-items: center
-  width: 40px
-  height: 40px
-  color: $main_dark_grey
-  background: white
-  border-radius: 7px
-  @include onest16medium
-
-.table
-  margin-top: 34px
-  width: 100%
-  color: white
-  border-style: hidden
-  @include onest16
-
-.tableHead
-  height: 30px
-
-.tableWrapper
-  position: relative
-
-.tableBorder
-  position: absolute
-  top: -10px
-  width: 100%
-  height: 40px
-  border: 1px solid #FFFFFF
-  border-radius: 7px
-
-.tableRow
-  border: 1px solid white
-
-.tableRow:first-child
-  border: none
-
-.thDefault
-  text-align: left
-  padding-left: 22px
-
-.thDefaultRight
-  text-align: right
-  padding-left: 22px
-  padding-right: 22px
-
-.tdCell
-  padding: 20px 0 20px 22px
-  vertical-align: top
-
-.tdCellRight
-  padding: 20px 22px
-  vertical-align: top
-
-
-.tdCellW
-  padding: 20px 0
-  vertical-align: top
-
-.tdIconCell
-  padding: 20px
-
-.th25p75
-  width: 27.75%
-.th9p75
-  width: 9.75%
-  padding-left: 0
-
-.thType
-  width: 10%
-
-.thW10
-  width: 10%
-
-.thW12
-  width: 12%
-  padding-left: 0
-
-
-.thBlock
-  width: 7%
-
-.thFrom
-  width: 16%
-
-.thIcon
-  width: 48px
-
-.thTo
-  width: 16%
-  text-align: left
-
-.method
-  width: fit-content
-  align-content: center
-  border-radius: 3px
-  padding: 5px 9px 5px 9px
-  background-color: $medium-light-grey
-  color: $main_dark_grey
-  @include onest12
-
-.block
-  @include onest16
-  color: #3CE2EC
-
-.hashTime
-  margin-top: 22px
-  @include onest18
-  font-size: 16px
-
-.typeAndStatus
-  display: flex
-  flex-direction: column
-  gap: 10px
-
-.addressGroup
-  display: flex
-  flex-direction: row
-  gap: 12px
-  align-items: center
+//@import '../../../styles/All_mixins'
+//@import 'src/components/pages/MainPage/LatestTransactionComponent/LatestTransaction.module'
+@import 'src/components/pages/BlockPage/index.module'
+//.searchSection
+//  margin: 50px 119px 0
+//
+//.pageSection
+//  margin: 60px 119px 0
+//  display: flex
+//  flex-direction: column
+//
+//.validated
+//  display: block
+//
+//.headOfPage
+//  display: flex
+//  flex-direction: row
+//  align-items: center
+//  gap: 10px
+//  @include onest36medium
+//
+//.transactions
+//  width: 100%
+//
+//.paginationButtons
+//  display: flex
+//  flex-direction: row
+//  justify-content: flex-end
+//  gap: 22px
+//
+//.controlButton
+//  width: 40px
+//  height: 40px
+//  border: 1px solid white
+//  border-radius: 7px
+//  display: flex
+//  align-items: center
+//  justify-content: center
+//
+//.controlButton:hover
+//  opacity: 0.8
+//
+//.controlButton:disabled
+//  opacity: 0.35
+//
+//.pageNum
+//  display: flex
+//  justify-content: center
+//  align-items: center
+//  width: 40px
+//  height: 40px
+//  color: $main_dark_grey
+//  background: white
+//  border-radius: 7px
+//  @include onest16medium
+//
+//.table
+//  margin-top: 34px
+//  width: 100%
+//  color: white
+//  border-style: hidden
+//  @include onest16
+//
+//.tableHead
+//  height: 30px
+//
+//.tableWrapper
+//  position: relative
+//
+//.tableBorder
+//  position: absolute
+//  top: -10px
+//  width: 100%
+//  height: 40px
+//  border: 1px solid #FFFFFF
+//  border-radius: 7px
+//
+//.tableRow
+//  border: 1px solid white
+//
+//.tableRow:first-child
+//  border: none
+//
+//.thDefault
+//  text-align: left
+//  padding-left: 22px
+//
+//.thDefaultRight
+//  text-align: right
+//  padding-left: 22px
+//  padding-right: 22px
+//
+//.tdCell
+//  padding: 20px 0 20px 22px
+//  vertical-align: top
+//
+//.tdCellRight
+//  padding: 20px 22px
+//  vertical-align: top
+//
+//
+//.tdCellW
+//  padding: 20px 0
+//  vertical-align: top
+//
+//.tdIconCell
+//  padding: 20px
+//
+//.th25p75
+//  width: 27.75%
+//.th9p75
+//  width: 9.75%
+//  padding-left: 0
+//
+//.thType
+//  width: 10%
+//
+//.thW10
+//  width: 10%
+//
+//.thW12
+//  width: 12%
+//  padding-left: 0
+//
+//
+//.thBlock
+//  width: 7%
+//
+//.thFrom
+//  width: 16%
+//
+//.thIcon
+//  width: 48px
+//
+//.thTo
+//  width: 16%
+//  text-align: left
+//
+//.method
+//  width: fit-content
+//  align-content: center
+//  border-radius: 3px
+//  padding: 5px 9px 5px 9px
+//  background-color: $medium-light-grey
+//  color: $main_dark_grey
+//  @include onest12
+//
+//.block
+//  @include onest16
+//  color: #3CE2EC
+//
+//.hashTime
+//  margin-top: 22px
+//  @include onest18
+//  font-size: 16px
+//
+//.typeAndStatus
+//  display: flex
+//  flex-direction: column
+//  gap: 10px
+//
+//.addressGroup
+//  display: flex
+//  flex-direction: row
+//  gap: 12px
+//  align-items: center
 

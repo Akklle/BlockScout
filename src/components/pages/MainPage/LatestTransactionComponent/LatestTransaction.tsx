@@ -34,28 +34,50 @@ export const TypeOfTransaction = ({
                 typeContractCall: theme === 'contract_call',
                 typeTransaction: theme === 'transaction',
                 typeCoinTransfer: theme === 'coin_transfer',
-            })}
-        >
+                typeCommon: ![
+                    'token_transfer',
+                    'contract_call',
+                    'transaction',
+                    'coin_transfer',
+                ].includes(theme),
+            })}>
             {children}
         </div>
     )
 }
 
+// export interface StatusProps {
+//     theme?: 'success' | 'failed' | 'execution_reverted' | string
+//     children: ReactNode
+// }
+//
+// export const Status = ({ theme = 'success', children }: StatusProps) => {
+//     return (
+//         <div
+//             className={cx(styles.status, {
+//                 statusSuccess: theme === 'success',
+//                 statusFailed: theme === 'failed',
+//                 statusExecution: theme === 'execution_reverted',
+//
+//             })}
+//         >
+//             {children}
+//         </div>
+//     )
+// }
 export interface StatusProps {
-    theme?: 'success' | 'failed' | 'execution_reverted' | string
-    children: ReactNode
+    theme?: 'ok' | 'error' | string
+    children?: ReactNode
 }
 
-export const Status = ({ theme = 'success', children }: StatusProps) => {
+export const Status = ({ theme = 'ok' }: StatusProps) => {
     return (
         <div
             className={cx(styles.status, {
-                statusSuccess: theme === 'success',
-                statusFailed: theme === 'failed',
-                statusExecution: theme === 'execution_reverted',
-            })}
-        >
-            {children}
+                statusSuccess: theme === 'ok',
+                statusFailed: theme === 'error',
+            })}>
+            {theme === 'ok' ? 'Success' : 'Failed'}
         </div>
     )
 }
@@ -65,7 +87,9 @@ interface wrapperTransaction {
 }
 
 export const LatestTransaction = (props: wrapperTransaction) => {
+
     const currentTransaction = props.transaction
+    console.log(currentTransaction.status)
     currentTransaction.tx_types = currentTransaction.tx_types.length
         ? currentTransaction.tx_types
         : ['coin_transfer']
@@ -76,15 +100,12 @@ export const LatestTransaction = (props: wrapperTransaction) => {
                 <div className={styles.leftInfo}>
                     <div className={styles.topLeftInfo}>
                         <TypeOfTransaction
-                            theme={currentTransaction.tx_types[0]}
-                        >
+                            theme={currentTransaction.tx_types[0]}>
                             {processedStringFromApi(
                                 currentTransaction.tx_types[0]
                             )}
                         </TypeOfTransaction>
-                        <Status theme={currentTransaction.result}>
-                            {processedStringFromApi(currentTransaction.result)}
-                        </Status>
+                        <Status theme={currentTransaction.status}></Status>
                     </div>
                     <div className={styles.underLeftInfo}>
                         <Icon icon={'totalTransaction'} />
@@ -114,8 +135,7 @@ export const LatestTransaction = (props: wrapperTransaction) => {
                             className={classNames(
                                 styles.angularAvatar,
                                 styles.receiver
-                            )}
-                        ></div>
+                            )}></div>
                         <a className={styles.address}>
                             {currentTransaction.to
                                 ? stringTruncateFromCenter(

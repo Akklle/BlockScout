@@ -9,6 +9,7 @@ import {
     round,
     stringTruncateFromCenter,
 } from '../../../utils'
+import { NavLink } from 'react-router-dom'
 
 interface wrapperTokenTransfer {
     tokenTransfer: TokenTransfer
@@ -31,12 +32,12 @@ export const TokenTransferItem = (props: wrapperTokenTransfer) => {
         <tr className={styles.tableRow}>
             <td className={styles.tdCell}>
                 <div>
-                    <a className={styles.address}>
+                    <NavLink to={'/transaction/' + currentTokenTransfer.tx_hash} className={styles.address}>
                         {stringTruncateFromCenter(
                             currentTokenTransfer.tx_hash,
                             27
                         )}
-                    </a>
+                    </NavLink>
                     <p className={styles.hashTime}>
                         {getFullTimeFromTimestamp(
                             currentTokenTransfer.timestamp
@@ -51,12 +52,12 @@ export const TokenTransferItem = (props: wrapperTokenTransfer) => {
             <td className={styles.tdCell}>
                 <div className={styles.addressGroup}>
                     <div className={styles.angularAvatar}></div>
-                    <a className={styles.address}>
+                    <NavLink to={'/address/' + currentTokenTransfer.from.hash} className={styles.address}>
                         {stringTruncateFromCenter(
                             currentTokenTransfer.from.hash,
                             8
                         )}
-                    </a>
+                    </NavLink>
                 </div>
             </td>
             <td className={styles.tdIconCell}>
@@ -71,12 +72,12 @@ export const TokenTransferItem = (props: wrapperTokenTransfer) => {
                             styles.angularAvatar,
                             styles.receiver
                         )}></div>
-                    <a className={styles.address}>
+                    <NavLink to={'/address/' + currentTokenTransfer.to.hash} className={styles.address}>
                         {stringTruncateFromCenter(
                             currentTokenTransfer.to.hash,
                             8
                         )}
-                    </a>
+                    </NavLink>
                 </div>
             </td>
             <td className={styles.tdCellRight} align={'right'}>

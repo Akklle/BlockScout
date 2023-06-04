@@ -56,7 +56,7 @@ export const Transactions = () => {
                     </TabList>
 
                     <TabPanel>
-                        <div className={styles.validated}>
+                        <div className={styles.transactions}>
                             <div className={styles.paginationButtons}>
                                 <button
                                     className={styles.controlButton}
@@ -67,7 +67,10 @@ export const Transactions = () => {
                                 <div className={styles.pageNum}>{page}</div>
                                 <button
                                     className={styles.controlButton}
-                                    onClick={nextPageHandler}>
+                                    onClick={nextPageHandler}
+                                    disabled={
+                                        !transactionList.next_page_params
+                                    }>
                                     <img src={next} alt="next page" />
                                 </button>
                             </div>

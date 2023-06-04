@@ -27,7 +27,7 @@ export const TokenItem = (props: wrapperToken) => {
                 </NavLink>
             </td>
             <td className={styles.tdCell}>
-                <NavLink className={styles.address} to="/">
+                <NavLink className={styles.address} to={'/address/' + currentToken.address}>
                     {stringTruncateFromCenter(currentToken.address, 8)}
                 </NavLink>
             </td>

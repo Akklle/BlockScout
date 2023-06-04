@@ -11,7 +11,7 @@ import { Block } from '../../../app/models/generated'
 import classNames from 'classnames'
 import { Icon } from '../../ui/Icon'
 import ProgressBar from '../../ui/ProgressBar'
-import { NavigateFunction, useParams } from 'react-router-dom'
+import { NavigateFunction, NavLink, useParams } from 'react-router-dom'
 import { initialBlock } from '../../../app/models/generated/models/Block'
 import { useNavigate } from 'react-router-dom'
 import {
@@ -60,6 +60,25 @@ export const BlockPage = () => {
     //     getTransactions(setTransactions, number)
     // }, [])
     const isDisabled = true
+
+    const gasUsedPercentage = block.gas_used_percentage
+        ? Number(block.gas_used_percentage.toFixed(2))
+        : 0
+    const gasTargetPercentage = block.gas_target_percentage
+        ? Number(block.gas_target_percentage.toFixed(2))
+        : 0
+    const baseFeePerGas = block.base_fee_per_gas
+        ? (block.base_fee_per_gas / 10 ** 18).toFixed(18)
+        : 0
+    const burntFees = block.burnt_fees
+        ? (block.burnt_fees / 10 ** 18).toFixed(18)
+        : 0
+    const burntFeesPercentage = block.burnt_fees_percentage
+        ? Number(block.burnt_fees_percentage.toFixed(2))
+        : 0
+    const priorityFee = block.priority_fee
+        ? (block.priority_fee / 10 ** 18).toFixed(18)
+        : 0
     return (
         <div>
             <section className={styles.searchSection}>
@@ -120,10 +139,10 @@ export const BlockPage = () => {
                                     />
                                 </span>
                                 <p className={styles.rowTitle}>Transactions</p>
-                                <p className={styles.rowLink}>
-                                    <span>{block.tx_count}</span>
-                                    <span>transactions</span>
-                                </p>
+                                <span>{block.tx_count}</span>
+                                <span className={styles.valueType}>
+                                    transactions
+                                </span>
                             </div>
                             <div className={styles.infoRow}>
                                 <span data-hint="A block producer who successfully included the block onto the blockchain">
@@ -134,9 +153,11 @@ export const BlockPage = () => {
                                     />
                                 </span>
                                 <p className={styles.rowTitle}>Validated by</p>
-                                <p className={styles.rowLink}>
-                                    <span>{block.miner?.hash}</span>
-                                </p>
+                                <NavLink
+                                    to={'/address/' + block.miner?.hash}
+                                    className={styles.rowLink}>
+                                    {block.miner?.hash}
+                                </NavLink>
                             </div>
                             <div className={styles.infoRow}>
                                 <span data-hint="For each block, the validator is rewarded with a finite amount of THE on top of the fees paid for all transactions in the block">
@@ -169,30 +190,12 @@ export const BlockPage = () => {
                                     <ProgressBar
                                         progressColor={'#3CE2EC'}
                                         bgColor={'#8D8D8E'}
-                                        progress={
-                                            block.gas_used_percentage
-                                                ? block.gas_used_percentage
-                                                : 0
-                                        }
+                                        progress={gasUsedPercentage}
                                         width={39}
                                         height={3}></ProgressBar>
-                                    <span>
-                                        {block.gas_used_percentage
-                                            ? block.gas_used_percentage.toFixed(
-                                                  2
-                                              )
-                                            : 0}
-                                        %
-                                    </span>
+                                    <span>{gasUsedPercentage}%</span>
                                     <div className={styles.verticalLine}></div>
-                                    <span>
-                                        {block.gas_target_percentage
-                                            ? block.gas_target_percentage.toFixed(
-                                                  2
-                                              )
-                                            : 0}
-                                        %
-                                    </span>
+                                    <span>{gasTargetPercentage}%</span>
                                 </div>
                             </div>
                             <div className={styles.infoRow}>
@@ -217,14 +220,7 @@ export const BlockPage = () => {
                                 <p className={styles.rowTitle}>
                                     Base fee per gas
                                 </p>
-                                <span>
-                                    {block.base_fee_per_gas
-                                        ? (
-                                              block.base_fee_per_gas /
-                                              10 ** 18
-                                          ).toFixed(18)
-                                        : 0}
-                                </span>
+                                <span>{baseFeePerGas}</span>
                                 <span className={styles.valueType}>ETH</span>
                             </div>
                             <div className={styles.infoRow}>
@@ -241,32 +237,17 @@ export const BlockPage = () => {
                                     src={fire}
                                     alt=""
                                 />
-                                <span>
-                                    {block.burnt_fees
-                                        ? (block.burnt_fees / 10 ** 18).toFixed(
-                                              18
-                                          )
-                                        : 0}
-                                </span>
+                                <span>{burntFees}</span>
                                 <span className={styles.valueType}>ETH</span>
                                 <div className={styles.percentage}>
                                     <ProgressBar
                                         progressColor={'#59FFA4'}
                                         bgColor={'#8D8D8E'}
-                                        progress={
-                                            block.burnt_fees_percentage
-                                                ? block.burnt_fees_percentage
-                                                : 0
-                                        }
+                                        progress={burntFeesPercentage}
                                         width={39}
                                         height={3}></ProgressBar>
                                     <span className={styles.percentageGreen}>
-                                        {block.burnt_fees_percentage
-                                            ? block.burnt_fees_percentage.toFixed(
-                                                  2
-                                              )
-                                            : 0}
-                                        %
+                                        {burntFeesPercentage}%
                                     </span>
                                 </div>
                             </div>
@@ -281,14 +262,7 @@ export const BlockPage = () => {
                                 <p className={styles.rowTitle}>
                                     Priority fee / Tip
                                 </p>
-                                <span>
-                                    {block.priority_fee
-                                        ? (
-                                              block.priority_fee /
-                                              10 ** 18
-                                          ).toFixed(18)
-                                        : 0}
-                                </span>
+                                <span>{priorityFee}</span>
                                 <span className={styles.valueType}>ETH</span>
                             </div>
                         </div>

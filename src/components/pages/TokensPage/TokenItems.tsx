@@ -8,7 +8,6 @@ interface TokenArrayInterface {
 }
 
 export const TokenItems = ({ TokenArray }: TokenArrayInterface) => {
-    console.log(TokenArray)
     return (
         <tbody className={styles.tableBody}>
             {TokenArray.map((token: Token) => {

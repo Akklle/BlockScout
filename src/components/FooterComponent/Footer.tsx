@@ -9,8 +9,8 @@ export const Footer = () => {
                 <div className={styles.line}></div>
                 <div className={styles.footerInfo}>
                     <nav className={styles.navIcon}>
-                        <a href='https://www.twitter.com/blockscoutcom'><Icon icon={'gitHub'} /></a>
-                        <a href='https://github.com/blockscout/blockscout'><Icon icon={'twitter'} /></a>
+                        <a href='https://github.com/blockscout/blockscout'><Icon icon={'gitHub'} /></a>
+                        <a href='https://www.twitter.com/blockscoutcom'><Icon icon={'twitter'} /></a>
                     </nav>
                     <div className={styles.rightInfo}>
                         <p className={styles.info}>

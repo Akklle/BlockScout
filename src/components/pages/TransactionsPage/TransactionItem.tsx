@@ -23,8 +23,8 @@ export const TransactionItem = (props: wrapperTransaction) => {
     const currentTransaction = props.transaction
 
     const addressTo = currentTransaction.to
-        ? stringTruncateFromCenter(currentTransaction.to.hash, 8)
-        : stringTruncateFromCenter(currentTransaction.created_contract?.hash, 8)
+        ? currentTransaction.to.hash
+        : currentTransaction.created_contract?.hash
     const value =
         currentTransaction.value === '0'
             ? 0
@@ -39,8 +39,7 @@ export const TransactionItem = (props: wrapperTransaction) => {
                             styles.address,
                             styles.fontWeight500
                         )}
-                        to={'/transaction/' + currentTransaction.hash}
-                    >
+                        to={'/transaction/' + currentTransaction.hash}>
                         {stringTruncateFromLeft(currentTransaction.hash)}
                     </NavLink>
                     <p className={styles.hashTime}>
@@ -82,15 +81,14 @@ export const TransactionItem = (props: wrapperTransaction) => {
             </td>
             <td className={styles.tdCell}>
                 <div className={styles.addressGroup}>
-                    <div className={styles.angularAvatar}></div>
                     <NavLink
-                        className={classNames(styles.address, styles.fontWeight500)}
-                        to={'/address/' + currentTransaction.from?.hash}
-                    >{stringTruncateFromCenter(
-                        currentTransaction.from?.hash,
-                        8
-                    )}</NavLink>
-
+                        className={styles.address}
+                        to={'/address/' + currentTransaction.from?.hash}>
+                        {stringTruncateFromCenter(
+                            currentTransaction.from?.hash,
+                            8
+                        )}
+                    </NavLink>
                 </div>
             </td>
             <td className={styles.tdIconCell}>
@@ -105,7 +103,7 @@ export const TransactionItem = (props: wrapperTransaction) => {
                             styles.angularAvatar,
                             styles.receiver
                         )}></div>
-                    <a className={styles.address}>{addressTo}</a>
+                    <NavLink to={'/address/' + addressTo} className={styles.address}>{stringTruncateFromCenter(addressTo, 8)}</NavLink>
                 </div>
             </td>
             <td className={styles.tdCellRight} align={'right'}>

@@ -16,7 +16,7 @@ export const Status = ({ theme = 'ok' }: StatusProps) => {
                 statusSuccess: theme === 'ok',
                 statusFailed: theme === 'error',
             })}>
-            {theme === 'ok' ? 'Success' : 'Failed'}
+            {theme === 'ok' ? 'Success' : (theme === 'error' ? 'Failed' : '')}
         </div>
     )
 }

@@ -53,9 +53,9 @@ export const BlockItem = (props: wrapperBlock) => {
             </td>
             <td className={styles.tdCell}>{formatNumber(currentBlock.size)}</td>
             <td className={styles.tdCell}>
-                <a className={styles.address}>
+                <NavLink to={'/address/' + currentBlock.miner?.hash} className={styles.address}>
                     {stringTruncateFromCenter(currentBlock.miner?.hash, 8)}
-                </a>
+                </NavLink>
             </td>
             <td className={styles.tdCell}>{currentBlock.tx_count}</td>
             <td className={styles.tdCell}>

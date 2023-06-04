@@ -58,6 +58,9 @@ export const TokensPage = () => {
                         <button
                             className={styles.controlButton}
                             onClick={nextPageHandler}
+                            disabled={
+                                !tokenList.next_page_params
+                            }
                         >
                             <img src={next} alt="next page" />
                         </button>

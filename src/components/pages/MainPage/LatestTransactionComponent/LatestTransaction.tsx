@@ -11,6 +11,7 @@ import {
 } from '../../../../utils'
 import { Status } from '../../../ui/Status'
 import { TypeOfTransaction } from '../../../ui/TypeOfTransaction'
+import { NavLink } from 'react-router-dom'
 
 interface wrapperTransaction {
     transaction: Transaction
@@ -24,8 +25,8 @@ export const LatestTransaction = (props: wrapperTransaction) => {
         : ['coin_transfer']
 
     const toAddress = currentTransaction.to
-        ? stringTruncateFromCenter(currentTransaction.to.hash, 8)
-        : stringTruncateFromCenter(currentTransaction.created_contract?.hash, 8)
+        ? currentTransaction.to.hash
+        : currentTransaction.created_contract?.hash
 
     const value =
         currentTransaction.value === '0'
@@ -50,12 +51,14 @@ export const LatestTransaction = (props: wrapperTransaction) => {
                     </div>
                     <div className={styles.underLeftInfo}>
                         <Icon icon={'totalTransaction'} />
-                        <a className={styles.number}>
+                        <NavLink
+                            to={'/transaction/' + currentTransaction?.hash}
+                            className={styles.number}>
                             {stringTruncateFromCenter(
                                 currentTransaction?.hash,
                                 8
                             )}
-                        </a>
+                        </NavLink>
                         <p className={styles.time}>
                             {getTimeFromTimestamp(currentTransaction.timestamp)}
                         </p>
@@ -65,19 +68,25 @@ export const LatestTransaction = (props: wrapperTransaction) => {
                 <div className={styles.rightInfo}>
                     <div className={styles.topRightInfo}>
                         <div className={styles.angularAvatar}></div>
-                        <a className={styles.address}>
+                        <NavLink
+                            to={'/address/' + currentTransaction.from?.hash}
+                            className={styles.address}>
                             {stringTruncateFromCenter(
                                 currentTransaction.from?.hash,
                                 8
                             )}
-                        </a>
+                        </NavLink>
                         <Icon icon={'path'} width={24} />
                         <div
                             className={classNames(
                                 styles.angularAvatar,
                                 styles.receiver
                             )}></div>
-                        <a className={styles.address}>{toAddress}</a>
+                        <NavLink
+                            to={'/address/' + toAddress}
+                            className={styles.address}>
+                            {stringTruncateFromCenter(toAddress, 8)}
+                        </NavLink>
                     </div>
                     <div className={styles.underRightInfo}>
                         <p className={styles.criptType}>Value ETH</p>

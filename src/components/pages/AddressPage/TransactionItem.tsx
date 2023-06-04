@@ -21,6 +21,10 @@ interface wrapperTransaction {
 
 export const TransactionItem = (props: wrapperTransaction) => {
     const currentTransaction = props.transaction
+
+    const addressTo = currentTransaction.to
+        ? currentTransaction.to.hash
+        : currentTransaction.created_contract?.hash
     return (
         <tr className={styles.tableRow}>
             <td className={styles.tdCell}>
@@ -47,7 +51,7 @@ export const TransactionItem = (props: wrapperTransaction) => {
                 </div>
             </td>
             <td className={styles.tdCell}>
-                <p className={styles.method}>{currentTransaction.method}</p>
+                {currentTransaction.method ? <p className={styles.method}>{currentTransaction.method}</p> : ''}
             </td>
             <td className={styles.tdCell}>
                 <NavLink
@@ -60,10 +64,7 @@ export const TransactionItem = (props: wrapperTransaction) => {
                 <div className={styles.addressGroup}>
                     <div className={styles.angularAvatar}></div>
                     <NavLink
-                        className={classNames(
-                            styles.address,
-                            styles.fontWeight500
-                        )}
+                        className={styles.address}
                         to={'/address/' + currentTransaction.from?.hash}>
                         {stringTruncateFromCenter(
                             currentTransaction.from?.hash,
@@ -84,17 +85,9 @@ export const TransactionItem = (props: wrapperTransaction) => {
                             styles.angularAvatar,
                             styles.receiver
                         )}></div>
-                    <a className={styles.address}>
-                        {currentTransaction.to
-                            ? stringTruncateFromCenter(
-                                  currentTransaction.to.hash,
-                                  8
-                              )
-                            : stringTruncateFromCenter(
-                                  currentTransaction.created_contract?.hash,
-                                  8
-                              )}
-                    </a>
+                    <NavLink to={'/address/' + addressTo} className={styles.address}>
+                        {stringTruncateFromCenter(addressTo, 8)}
+                    </NavLink>
                 </div>
             </td>
             <td className={styles.tdCellRight} align={'right'}>

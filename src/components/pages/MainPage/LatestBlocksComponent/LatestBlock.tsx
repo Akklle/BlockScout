@@ -24,34 +24,34 @@ export const LatestBlock = (props: wrapperBlock) => {
                 <div className={styles.blockHead}>
                     <div className={styles.blockHeadMain}>
                         <Icon icon={'totalBlocks'} />
-
                         <NavLink
-                            className={styles.blockId}
                             to={'/block/' + currentBlock.height}>
                             {currentBlock.height}
                         </NavLink>
                     </div>
-                    <h2 className={styles.blockDate}>
+                    <h2>
                         {getTimeFromTimestamp(currentBlock.timestamp)}
                     </h2>
                 </div>
                 <div className={styles.underBlockInfo}>
-                    <div className={styles.underTypeInfo}>
+                    <div className={styles.infoRow}>
                         <p className={styles.type}>Txn</p>
-                        <p className={styles.type}>Reward</p>
-                        <p className={styles.type}>Miner</p>
+                        <p>{currentBlock.tx_count}</p>
                     </div>
-                    <div className={styles.underInfo}>
-                        <p className={styles.type}>{currentBlock.tx_count}</p>
-                        <p className={styles.type}>
-                            {reward}
-                        </p>
-                        <p className={styles.minerValue}>
+                    <div className={styles.infoRow}>
+                        <p className={styles.type}>Reward</p>
+                        <p>{reward}</p>
+                    </div>
+                    <div className={styles.infoRow}>
+                        <p className={styles.type}>Miner</p>
+                        <NavLink
+                            to={'/address/' + currentBlock.miner?.hash}
+                            className={styles.minerValue}>
                             {stringTruncateFromCenter(
                                 currentBlock.miner?.hash,
                                 8
                             )}
-                        </p>
+                        </NavLink>
                     </div>
                 </div>
             </div>

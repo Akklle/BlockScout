@@ -4,6 +4,7 @@ import classNames from 'classnames'
 import { Holder } from '../../../app/models/generated'
 import ProgressBar from '../../ui/ProgressBar'
 import { calculatePercent, formatNumber, round } from '../../../utils'
+import { NavLink } from 'react-router-dom'
 
 interface wrapperHolder {
     holder: Holder
@@ -30,9 +31,9 @@ export const HolderItem = (props: wrapperHolder) => {
                             styles.angularAvatar,
                             styles.receiver
                         )}></div>
-                    <a className={styles.address}>
+                    <NavLink to={'/address/' + currentHolder.address.hash} className={styles.address}>
                         {currentHolder.address.hash}
-                    </a>
+                    </NavLink>
                 </div>
             </td>
 

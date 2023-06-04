@@ -15,7 +15,7 @@ export const initialAddress: Address = {
 export type Address = {
     creator_address_hash?: string
     creation_tx_hash?: string
-    token?: TokenInfo
+    token?: Token
     coin_balance?: string
     exchange_rate?: string
     implementation_address?: string
@@ -28,4 +28,5 @@ export type Address = {
     watchlist_names?: Array<WatchlistName>
     public_tags?: Array<AddressTag>
     is_verified?: boolean
+    has_validated_blocks?: boolean
 }

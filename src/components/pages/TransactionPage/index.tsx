@@ -132,9 +132,9 @@ export const TransactionPage = () => {
                                     alt="more information"
                                 />
                                 <p className={styles.rowTitle}>Block</p>
-                                <a className={styles.rowLink}>
+                                <NavLink to={'/block/' + transaction.block} className={styles.rowLink}>
                                     <span>{transaction.block}</span>
-                                </a>
+                                </NavLink>
                             </div>
                             <div className={styles.infoRow}>
                                 <img
@@ -165,7 +165,7 @@ export const TransactionPage = () => {
                                         styles.fontWeight500
                                     )}
                                     to={
-                                        '/transaction/' + transaction.from?.hash
+                                        '/address/' + transaction.from?.hash
                                     }>
                                     {transaction.from?.hash}
                                 </NavLink>
@@ -182,7 +182,7 @@ export const TransactionPage = () => {
                                         styles.address,
                                         styles.fontWeight500
                                     )}
-                                    to={'/transaction/' + transaction.to?.hash}>
+                                    to={'/address/' + transaction.to?.hash}>
                                     {transaction.to?.hash}
                                 </NavLink>
                             </div>

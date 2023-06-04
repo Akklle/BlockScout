@@ -61,6 +61,9 @@ export const BlocksPage = () => {
                         <button
                             className={styles.controlButton}
                             onClick={nextPageHandler}
+                            disabled={
+                                !blockList.next_page_params
+                            }
                         >
                             <img src={next} alt="next page" />
                         </button>

@@ -11,10 +11,16 @@ import classNames from 'classnames'
 import {
     Address,
     TokenTransfer,
-    AddressCounters, Transaction,
+    AddressCounters,
+    Transaction,
 } from '../../../app/models/generated'
-import { NavigateFunction, NavLink, useNavigate, useParams } from 'react-router-dom'
-import { formatNumber } from '../../../utils'
+import {
+    NavigateFunction,
+    NavLink,
+    useNavigate,
+    useParams,
+} from 'react-router-dom'
+import { formatNumber, stringTruncateFromCenter } from '../../../utils'
 import { TokenTransferItems } from './TokenTransferItems'
 import { initialAddress } from '../../../app/models/generated/models/Address'
 import { TransactionItems } from './TransactionItems'
@@ -78,7 +84,7 @@ async function getTransactions(
     address: string | undefined,
     params: Record<string, string>
 ) {
-    const url = baseUrl+ '/addresses/' + address + '/transactions?'
+    const url = baseUrl + '/addresses/' + address + '/transactions?'
     const searchParams = new URLSearchParams(params)
 
     const result: TransactionList = await (
@@ -87,11 +93,13 @@ async function getTransactions(
     setTransactions(result)
 }
 
-
 const previousParams: Record<string, string>[] = []
 let currentParams: Record<string, string> = {}
 let page = 1
 
+const previousParamsTxn: Record<string, string>[] = []
+let currentParamsTxn: Record<string, string> = {}
+let pageTxn = 1
 
 export const AddressPage = () => {
     const navigate = useNavigate()
@@ -108,27 +116,46 @@ export const AddressPage = () => {
         next_page_params: null,
     })
 
-
     useEffect(() => {
         getAddress(setAddress, address, navigate)
-    }, [])
-
+    }, [address])
 
     useEffect(() => {
         getTokenTransfers(setTokenTransfers, address, {})
-    }, [])
+    }, [address])
 
     useEffect(() => {
         getCounters(setCounters, address)
-    }, [])
+    }, [address])
 
     useEffect(() => {
         getTransactions(setTransactions, address, {})
-    }, [])
+    }, [address])
+
 
     const isDisabled = page == 1
-
-
+    const typeOfAddress = add.is_contract ? 'Contract' : 'Address'
+    const avatarImg =
+        typeOfAddress == 'Contract' ? (
+            <img src={contract} alt="icon of address" />
+        ) : (
+            <div className={styles.angularAvatar}></div>
+        )
+    const previousPageHandlerTxn = () => {
+        if (previousParamsTxn.length > 0) {
+            pageTxn = pageTxn - 1
+            currentParamsTxn = previousParamsTxn.pop() || {}
+            getTransactions(setTransactions, address, currentParamsTxn)
+        }
+    }
+    const nextPageHandlerTxn = () => {
+        if (transactions.next_page_params) {
+            previousParamsTxn.push(currentParamsTxn)
+            currentParamsTxn = transactions.next_page_params
+            pageTxn = pageTxn + 1
+            getTransactions(setTransactions, address, currentParamsTxn)
+        }
+    }
     const previousPageHandler = () => {
         if (previousParams.length > 0) {
             page = page - 1
@@ -144,7 +171,6 @@ export const AddressPage = () => {
             getTokenTransfers(setTokenTransfers, address, currentParams)
         }
     }
-
     return (
         <div>
             <section className={styles.searchSection}>
@@ -152,21 +178,64 @@ export const AddressPage = () => {
             </section>
             <section className={styles.pageSection}>
                 <div className={styles.headOfPage}>
-                    <p>Address details</p>
-                    <p className={styles.method}>EOA</p>
+                    <p>{typeOfAddress} details</p>
+                    {typeOfAddress == 'Address' ? (
+                        <p className={styles.method}>EOA</p>
+                    ) : (
+                        <p className={styles.method}>Contract</p>
+                    )}
+                    {add.token && <p className={styles.method}>Token</p>}
                 </div>
                 <div
                     className={classNames(
                         styles.address,
                         styles.mgtop20,
                         styles.contract
-                    )}
-                >
-                    <img src={contract} alt="" />
+                    )}>
+                    {avatarImg}
                     {add.hash}
                 </div>
 
                 <div className={classNames(styles.details, styles.mgtop30)}>
+                    {add.token && (
+                        <div className={styles.infoRow}>
+                            <img
+                                className={styles.infoIcon}
+                                src={info}
+                                alt="more information"
+                            />
+                            <p className={styles.rowTitle}>Token</p>
+                            <span>{add.token?.name}</span>
+                            <span className={styles.valueType}>ETH</span>
+                        </div>
+                    )}
+                    {typeOfAddress == 'Contract' && (
+                        <div className={styles.infoRow}>
+                            <img
+                                className={styles.infoIcon}
+                                src={info}
+                                alt="more information"
+                            />
+                            <p className={styles.rowTitle}>Creator</p>
+                            <NavLink
+                                className={styles.address}
+                                to={'/address/' + add.creator_address_hash}>
+                                {stringTruncateFromCenter(
+                                    add.creator_address_hash,
+                                    8
+                                )}
+                            </NavLink>
+                            <p className={styles.connectionSpan}> at txn </p>
+                            <NavLink
+                                className={styles.address}
+                                to={'/transaction/' + add.creation_tx_hash}>
+                                {stringTruncateFromCenter(
+                                    add.creation_tx_hash,
+                                    8
+                                )}
+                            </NavLink>
+                        </div>
+                    )}
                     <div className={styles.infoRow}>
                         <img
                             className={styles.infoIcon}
@@ -176,7 +245,6 @@ export const AddressPage = () => {
                         <p className={styles.rowTitle}>Balance</p>
                         <span>{add.coin_balance}</span>
                         <span className={styles.valueType}>ETH</span>
-
                     </div>
                     <div className={styles.infoRow}>
                         <img
@@ -185,9 +253,11 @@ export const AddressPage = () => {
                             alt="more information"
                         />
                         <p className={styles.rowTitle}>Transactions</p>
-                        <span>{counters
-                            ? formatNumber(counters.transactions_count)
-                            : 0}</span>
+                        <span>
+                            {counters
+                                ? formatNumber(counters.transactions_count)
+                                : 0}
+                        </span>
                     </div>
                     <div className={styles.infoRow}>
                         <img
@@ -196,9 +266,11 @@ export const AddressPage = () => {
                             alt="more information"
                         />
                         <p className={styles.rowTitle}>Transfers</p>
-                        <span>{counters
-                            ? formatNumber(counters.token_transfers_count)
-                            : 0}</span>
+                        <span>
+                            {counters
+                                ? formatNumber(counters.token_transfers_count)
+                                : 0}
+                        </span>
                     </div>
                     <div className={styles.infoRow}>
                         <img
@@ -207,21 +279,27 @@ export const AddressPage = () => {
                             alt="more information"
                         />
                         <p className={styles.rowTitle}>Gas used</p>
-                        <span>{counters
-                            ? formatNumber(counters.gas_usage_count)
-                            : 0}</span>
+                        <span>
+                            {counters
+                                ? formatNumber(counters.gas_usage_count)
+                                : 0}
+                        </span>
                     </div>
-                    <div className={styles.infoRow}>
-                        <img
-                            className={styles.infoIcon}
-                            src={info}
-                            alt="more information"
-                        />
-                        <p className={styles.rowTitle}>Blocks validated</p>
-                        <span>{counters
-                            ? formatNumber(counters.validations_count)
-                            : 0}</span>
-                    </div>
+                    {add.has_validated_blocks && (
+                        <div className={styles.infoRow}>
+                            <img
+                                className={styles.infoIcon}
+                                src={info}
+                                alt="more information"
+                            />
+                            <p className={styles.rowTitle}>Blocks validated</p>
+                            <span>
+                                {counters
+                                    ? formatNumber(counters.validations_count)
+                                    : 0}
+                            </span>
+                        </div>
+                    )}
 
                     <div className={styles.infoRow}>
                         <img
@@ -235,12 +313,12 @@ export const AddressPage = () => {
                                 styles.address,
                                 styles.fontWeight500
                             )}
-                            to={'/block/' + add.block_number_balance_updated_at}
-                        >
+                            to={
+                                '/block/' + add.block_number_balance_updated_at
+                            }>
                             {add.block_number_balance_updated_at}
                         </NavLink>
                     </div>
-
                 </div>
                 <Tabs>
                     <TabList>
@@ -249,20 +327,21 @@ export const AddressPage = () => {
                     </TabList>
 
                     <TabPanel>
-                        <div className={styles.validated}>
+                        <div className={styles.transactions}>
                             <div className={styles.paginationButtons}>
                                 <button
                                     className={styles.controlButton}
                                     disabled={isDisabled}
-                                    onClick={previousPageHandler}
-                                >
+                                    onClick={previousPageHandlerTxn}>
                                     <img src={prev} alt="previous page" />
                                 </button>
-                                <div className={styles.pageNum}>{page}</div>
+                                <div className={styles.pageNum}>{pageTxn}</div>
                                 <button
                                     className={styles.controlButton}
-                                    onClick={nextPageHandler}
-                                >
+                                    onClick={nextPageHandlerTxn}
+                                    disabled={
+                                        !transactions.next_page_params
+                                    }>
                                     <img src={next} alt="next page" />
                                 </button>
                             </div>
@@ -270,111 +349,143 @@ export const AddressPage = () => {
                                 <div className={styles.tableBorder}></div>
                                 <table className={styles.table}>
                                     <thead className={styles.tableHead}>
-                                    <tr>
-                                        <th
-                                            className={classNames(
-                                                styles.th25p75,
-                                                styles.thDefault
-                                            )}
-                                        >
-                                            Txn hash
-                                        </th>
-                                        <th
-                                            className={classNames(
-                                                styles.thType,
-                                                styles.thDefault
-                                            )}
-                                        >
-                                            Type
-                                        </th>
-                                        <th
-                                            className={classNames(
-                                                styles.thW10,
-                                                styles.thDefault
-                                            )}
-                                        >
-                                            Method
-                                        </th>
-                                        <th
-                                            className={classNames(
-                                                styles.thBlock,
-                                                styles.thDefault
-                                            )}
-                                        >
-                                            Block
-                                        </th>
-                                        <th
-                                            className={classNames(
-                                                styles.thFrom,
-                                                styles.thDefault
-                                            )}
-                                        >
-                                            From
-                                        </th>
-                                        <th className={styles.thIcon}></th>
-                                        <th className={styles.thTo}>To</th>
-                                        <th
-                                            className={classNames(
-                                                styles.thW12,
-                                                styles.thDefaultRight
-                                            )}
-                                        >
-                                            Value ETH
-                                        </th>
-                                        <th
-                                            className={classNames(
-                                                styles.th9p75,
-                                                styles.thDefaultRight
-                                            )}
-                                        >
-                                            Fee ETH
-                                        </th>
-                                    </tr>
+                                        <tr>
+                                            <th
+                                                className={classNames(
+                                                    styles.th25p75,
+                                                    styles.thDefault
+                                                )}>
+                                                Txn hash
+                                            </th>
+                                            <th
+                                                className={classNames(
+                                                    styles.thType,
+                                                    styles.thDefault
+                                                )}>
+                                                Type
+                                            </th>
+                                            <th
+                                                className={classNames(
+                                                    styles.thW10,
+                                                    styles.thDefault
+                                                )}>
+                                                Method
+                                            </th>
+                                            <th
+                                                className={classNames(
+                                                    styles.thBlock,
+                                                    styles.thDefault
+                                                )}>
+                                                Block
+                                            </th>
+                                            <th
+                                                className={classNames(
+                                                    styles.thFrom,
+                                                    styles.thDefault
+                                                )}>
+                                                From
+                                            </th>
+                                            <th className={styles.thIcon}></th>
+                                            <th className={styles.thTo}>To</th>
+                                            <th
+                                                className={classNames(
+                                                    styles.thW12,
+                                                    styles.thDefaultRight
+                                                )}>
+                                                Value ETH
+                                            </th>
+                                            <th
+                                                className={classNames(
+                                                    styles.th9p75,
+                                                    styles.thDefaultRight
+                                                )}>
+                                                Fee ETH
+                                            </th>
+                                        </tr>
                                     </thead>
                                     <TransactionItems
-                                        TransactionArray={transactions.items}
-                                    ></TransactionItems>
+                                        TransactionArray={
+                                            transactions.items
+                                        }></TransactionItems>
                                 </table>
                             </div>
                         </div>
                     </TabPanel>
 
                     <TabPanel>
-                        <div className={styles.transactions}>
-                            <div className={styles.paginationButtons}>
-                                <button
-                                    className={styles.controlButton}
-                                    disabled={isDisabled}
-                                    onClick={previousPageHandler}
-                                >
-                                    <img src={prev} alt="previous page" />
-                                </button>
-                                <div className={styles.pageNum}>{page}</div>
-                                <button
-                                    className={styles.controlButton}
-                                    onClick={nextPageHandler}
-                                >
-                                    <img src={next} alt="next page" />
-                                </button>
+                        {tokenTransfers.items.length == 0 ? (
+                            <p className={styles.message}>
+                                There are no token transfers.
+                            </p>
+                        ) : (
+                            <div className={styles.transactions}>
+                                <div className={styles.paginationButtons}>
+                                    <button
+                                        className={styles.controlButton}
+                                        disabled={isDisabled}
+                                        onClick={previousPageHandler}>
+                                        <img src={prev} alt="previous page" />
+                                    </button>
+                                    <div className={styles.pageNum}>{page}</div>
+                                    <button
+                                        className={styles.controlButton}
+                                        onClick={nextPageHandler}>
+                                        disabled={
+                                        !tokenTransfers.next_page_params
+                                    }
+                                        <img src={next} alt="next page" />
+                                    </button>
+                                </div>
+                                <div className={styles.tableWrapper}>
+                                    <div className={styles.tableBorder}></div>
+                                    <table className={styles.table}>
+                                        <thead className={styles.tableHead}>
+                                            <tr>
+                                                <th
+                                                    className={classNames(
+                                                        styles.thW30,
+                                                        styles.thDefault
+                                                    )}>
+                                                    Token
+                                                </th>
+                                                <th
+                                                    className={classNames(
+                                                        styles.thW30,
+                                                        styles.thDefault
+                                                    )}>
+                                                    Token ID
+                                                </th>
+                                                <th
+                                                    className={classNames(
+                                                        styles.thFrom,
+                                                        styles.thDefault
+                                                    )}>
+                                                    From
+                                                </th>
+                                                <th
+                                                    className={
+                                                        styles.thIcon
+                                                    }></th>
+                                                <th className={styles.thTo}>
+                                                    To
+                                                </th>
+                                                <th
+                                                    className={classNames(
+                                                        styles.thW40,
+                                                        styles.thDefaultRight
+                                                    )}>
+                                                    Value
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <TokenTransferItems
+                                            TokenTransferArray={
+                                                tokenTransfers.items
+                                            }></TokenTransferItems>
+                                    </table>
+                                </div>
                             </div>
-                            <div className={styles.tableWrapper}>
-                                <div className={styles.tableBorder}></div>
-                                <table className={styles.table}>
-                                    <thead className={styles.tableHead}>
-                                    <tr>
-                                        <th className={classNames(styles.thW30, styles.thDefault)}>Token</th>
-                                        <th className={classNames(styles.thW30, styles.thDefault)}>Token ID</th>
-                                        <th className={classNames(styles.thFrom, styles.thDefault)}>From</th>
-                                        <th className={styles.thIcon}></th>
-                                        <th className={styles.thTo}>To</th>
-                                        <th className={classNames(styles.thW40, styles.thDefaultRight)}>Value</th>
-                                    </tr>
-                                    </thead>
-                                    <TokenTransferItems TokenTransferArray={tokenTransfers.items}></TokenTransferItems>
-
-                                </table>
-                            </div>
-                        </div>
+                        )}
                     </TabPanel>
                 </Tabs>
             </section>

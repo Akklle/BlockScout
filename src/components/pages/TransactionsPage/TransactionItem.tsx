@@ -8,7 +8,6 @@ import {
     stringTruncateFromCenter,
     stringTruncateFromLeft,
 } from '../../../utils'
-
 import { Transaction } from '../../../app/models/generated'
 import { NavLink } from 'react-router-dom'
 import { Icon } from '../../ui/Icon'
@@ -17,10 +16,12 @@ import { TypeOfTransaction } from '../../ui/TypeOfTransaction'
 
 interface wrapperTransaction {
     transaction: Transaction
+    currentLocation: string
 }
 
 export const TransactionItem = (props: wrapperTransaction) => {
     const currentTransaction = props.transaction
+    const blockFlag = props.currentLocation
 
     const addressTo = currentTransaction.to
         ? currentTransaction.to.hash
@@ -72,13 +73,13 @@ export const TransactionItem = (props: wrapperTransaction) => {
                     ''
                 )}
             </td>
-            <td className={styles.tdCell}>
+            {blockFlag == 'Block page' && <td className={styles.tdCell}>
                 <NavLink
                     className={classNames(styles.address, styles.fontWeight500)}
                     to={'/block/' + currentTransaction.block}>
                     {currentTransaction.block}
                 </NavLink>
-            </td>
+            </td>}
             <td className={styles.tdCell}>
                 <div className={styles.addressGroup}>
                     <NavLink

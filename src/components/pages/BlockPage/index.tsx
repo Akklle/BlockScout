@@ -1,7 +1,7 @@
-import React, { Dispatch, SetStateAction, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from './index.module.sass'
 import { Search } from '../../ui/Search'
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
+import { Tab, TabList, TabPanel, Tabs } from 'react-tabs'
 import '../../../styles/tabs.sass'
 import info from '../../../assets/infoSVG.svg'
 import fire from '../../../assets/fire.svg'
@@ -9,44 +9,21 @@ import prev from '../../../assets/arrow_prev.svg'
 import next from '../../../assets/arrow_next.svg'
 import { Block } from '../../../app/models/generated'
 import classNames from 'classnames'
-import { Icon } from '../../ui/Icon'
 import ProgressBar from '../../ui/ProgressBar'
-import { NavigateFunction, NavLink, useParams } from 'react-router-dom'
+import { NavLink, useNavigate, useParams } from 'react-router-dom'
 import { initialBlock } from '../../../app/models/generated/models/Block'
-import { useNavigate } from 'react-router-dom'
 import {
-    processedStringFromApi,
     calculateReward,
-    getTimeFromTimestamp,
     formatNumber,
+    getTimeFromTimestamp,
 } from '../../../utils'
-import { Status } from '../../ui/Status'
-import { TypeOfTransaction } from '../../ui/TypeOfTransaction'
-import { baseUrl } from '../../../constants/api.const'
+import { TransactionItems } from '../TransactionsPage/TransactionItems'
+import { TransactionList } from '../../../services/TransactionsPageService'
+import { getBlock, getTransactions } from '../../../services/BlockPageService'
 
-async function getBlock(
-    setBlock: Dispatch<SetStateAction<Block>>,
-    number: string | undefined,
-    navigate: NavigateFunction
-) {
-    const url = baseUrl + '/blocks' + '/' + number
-    const fetchResult: Response = await fetch(url)
-    if (fetchResult.status != 200) {
-        navigate('/error')
-    } else {
-        const result: Block = await fetchResult.json()
-        setBlock(result)
-    }
-}
-
-// async function getTransactions(
-//     setTransactions: Dispatch<SetStateAction<Array<Transaction>>>,
-//     number: string | undefined
-// ) {
-//     const url = baseUrl + '/blocks' + '/' + number + '/transactions'
-//     const result: Array<Transaction> = await (await fetch(url)).json()
-//     setTransactions(result)
-// }
+const previousParams: Record<string, string>[] = []
+let currentParams: Record<string, string> = {}
+let page = 1
 
 export const BlockPage = () => {
     const navigate = useNavigate()
@@ -55,11 +32,31 @@ export const BlockPage = () => {
     useEffect(() => {
         getBlock(setBlock, number, navigate)
     }, [])
-    // const [transactions, setTransactions] = useState<Array<Transaction>>([])
-    // useEffect(() => {
-    //     getTransactions(setTransactions, number)
-    // }, [])
-    const isDisabled = true
+    const [transactionList, setTransactions] = useState<TransactionList>({
+        items: [],
+        next_page_params: null,
+    })
+    useEffect(() => {
+        getTransactions(setTransactions, number, {})
+    }, [])
+
+    const isDisabled = page == 1
+
+    const previousPageHandler = () => {
+        if (previousParams.length > 0) {
+            page = page - 1
+            currentParams = previousParams.pop() || {}
+            getTransactions(setTransactions, number, currentParams)
+        }
+    }
+    const nextPageHandler = () => {
+        if (transactionList.next_page_params) {
+            previousParams.push(currentParams)
+            currentParams = transactionList.next_page_params
+            page = page + 1
+            getTransactions(setTransactions, number, currentParams)
+        }
+    }
 
     const gasUsedPercentage = block.gas_used_percentage
         ? Number(block.gas_used_percentage.toFixed(2))
@@ -272,11 +269,15 @@ export const BlockPage = () => {
                             <div className={styles.paginationButtons}>
                                 <button
                                     className={styles.controlButton}
-                                    disabled={isDisabled}>
+                                    disabled={isDisabled}
+                                    onClick={previousPageHandler}>
                                     <img src={prev} alt="previous page" />
                                 </button>
-                                <div className={styles.pageNum}>1</div>
-                                <button className={styles.controlButton}>
+                                <div className={styles.pageNum}>{page}</div>
+                                <button
+                                    className={styles.controlButton}
+                                    disabled={!transactionList.next_page_params}
+                                    onClick={nextPageHandler}>
                                     <img src={next} alt="next page" />
                                 </button>
                             </div>
@@ -331,196 +332,9 @@ export const BlockPage = () => {
                                             </th>
                                         </tr>
                                     </thead>
-                                    <tbody className={styles.tableBody}>
-                                        <tr className={styles.tableRow}>
-                                            <td className={styles.tdCell}>
-                                                <div>
-                                                    <p
-                                                        className={
-                                                            styles.address
-                                                        }>
-                                                        0x56e43583e21393f5a4ecc...cb00
-                                                    </p>
-                                                    <p
-                                                        className={
-                                                            styles.hashTime
-                                                        }>
-                                                        22:33:01
-                                                    </p>
-                                                </div>
-                                            </td>
-                                            <td className={styles.tdCell}>
-                                                <div
-                                                    className={
-                                                        styles.typeAndStatus
-                                                    }>
-                                                    <TypeOfTransaction theme="token_transfer">
-                                                        {processedStringFromApi(
-                                                            'token_transfer'
-                                                        )}
-                                                    </TypeOfTransaction>
-                                                    <Status theme="success">
-                                                        {processedStringFromApi(
-                                                            'success'
-                                                        )}
-                                                    </Status>
-                                                </div>
-                                            </td>
-                                            <td className={styles.tdCell}>
-                                                <p className={styles.method}>
-                                                    commitAndForge
-                                                </p>
-                                            </td>
-                                            <td className={styles.tdCell}>
-                                                <div
-                                                    className={
-                                                        styles.addressGroup
-                                                    }>
-                                                    <div
-                                                        className={
-                                                            styles.angularAvatar
-                                                        }></div>
-                                                    <p
-                                                        className={
-                                                            styles.address
-                                                        }>
-                                                        0x75...1a90
-                                                    </p>
-                                                </div>
-                                            </td>
-                                            <td className={styles.tdIconCell}>
-                                                <div>
-                                                    <Icon
-                                                        icon={'path'}
-                                                        width={24}
-                                                        height={6}
-                                                    />
-                                                </div>
-                                            </td>
-                                            <td className={styles.tdCellW}>
-                                                <div
-                                                    className={
-                                                        styles.addressGroup
-                                                    }>
-                                                    <div
-                                                        className={classNames(
-                                                            styles.angularAvatar,
-                                                            styles.receiver
-                                                        )}></div>
-                                                    <p
-                                                        className={
-                                                            styles.address
-                                                        }>
-                                                        0x8C...1a9D
-                                                    </p>
-                                                </div>
-                                            </td>
-                                            <td
-                                                className={styles.tdCellRight}
-                                                align={'right'}>
-                                                0.05000234
-                                            </td>
-                                            <td
-                                                className={styles.tdCellRight}
-                                                align={'right'}>
-                                                0.00488847
-                                            </td>
-                                        </tr>
-                                        <tr className={styles.tableRow}>
-                                            <td className={styles.tdCell}>
-                                                <div>
-                                                    <p
-                                                        className={
-                                                            styles.address
-                                                        }>
-                                                        0x56e43583e21393f5a4ecc...cb00
-                                                    </p>
-                                                    <p
-                                                        className={
-                                                            styles.hashTime
-                                                        }>
-                                                        22:33:01
-                                                    </p>
-                                                </div>
-                                            </td>
-                                            <td className={styles.tdCell}>
-                                                <div
-                                                    className={
-                                                        styles.typeAndStatus
-                                                    }>
-                                                    <TypeOfTransaction theme="token_transfer">
-                                                        {processedStringFromApi(
-                                                            'token_transfer'
-                                                        )}
-                                                    </TypeOfTransaction>
-                                                    <Status theme="success">
-                                                        {processedStringFromApi(
-                                                            'success'
-                                                        )}
-                                                    </Status>
-                                                </div>
-                                            </td>
-                                            <td className={styles.tdCell}>
-                                                <p className={styles.method}>
-                                                    commitAndForge
-                                                </p>
-                                            </td>
-                                            <td className={styles.tdCell}>
-                                                <div
-                                                    className={
-                                                        styles.addressGroup
-                                                    }>
-                                                    <div
-                                                        className={
-                                                            styles.angularAvatar
-                                                        }></div>
-                                                    <p
-                                                        className={
-                                                            styles.address
-                                                        }>
-                                                        0x75...1a90
-                                                    </p>
-                                                </div>
-                                            </td>
-                                            <td className={styles.tdIconCell}>
-                                                <div>
-                                                    <Icon
-                                                        icon={'path'}
-                                                        width={24}
-                                                        height={6}
-                                                    />
-                                                </div>
-                                            </td>
-                                            <td className={styles.tdCellW}>
-                                                <div
-                                                    className={
-                                                        styles.addressGroup
-                                                    }>
-                                                    <div
-                                                        className={classNames(
-                                                            styles.angularAvatar,
-                                                            styles.receiver
-                                                        )}></div>
-                                                    <p
-                                                        className={
-                                                            styles.address
-                                                        }>
-                                                        0x8C...1a9D
-                                                    </p>
-                                                </div>
-                                            </td>
-                                            <td
-                                                className={styles.tdCellRight}
-                                                align={'right'}>
-                                                0.05000234
-                                            </td>
-                                            <td
-                                                className={styles.tdCellRight}
-                                                align={'right'}>
-                                                0.00488847
-                                            </td>
-                                        </tr>
-                                    </tbody>
+                                    <TransactionItems
+                                        TransactionArray={transactionList.items}
+                                        currentLocation="BlockPage"></TransactionItems>
                                 </table>
                             </div>
                         </div>

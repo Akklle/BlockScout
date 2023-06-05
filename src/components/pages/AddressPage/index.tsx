@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from './index.module.sass'
 import '../../../styles/tabs.sass'
 import { Search } from '../../ui/Search'
@@ -8,90 +8,20 @@ import contract from '../../../assets/contract.svg'
 import prev from '../../../assets/arrow_prev.svg'
 import next from '../../../assets/arrow_next.svg'
 import classNames from 'classnames'
-import {
-    Address,
-    TokenTransfer,
-    AddressCounters,
-    Transaction,
-} from '../../../app/models/generated'
-import {
-    NavigateFunction,
-    NavLink,
-    useNavigate,
-    useParams,
-} from 'react-router-dom'
+import { Address, AddressCounters } from '../../../app/models/generated'
+import { NavLink, useNavigate, useParams } from 'react-router-dom'
 import { formatNumber, stringTruncateFromCenter } from '../../../utils'
 import { TokenTransferItems } from './TokenTransferItems'
 import { initialAddress } from '../../../app/models/generated/models/Address'
 import { TransactionItems } from './TransactionItems'
-import { baseUrl } from '../../../constants/api.const'
-
-async function getAddress(
-    setAddress: Dispatch<SetStateAction<Address>>,
-    address: string | undefined,
-    navigate: NavigateFunction
-) {
-    const url = baseUrl + '/addresses/' + address
-    const fetchResult: Response = await fetch(url)
-    if (fetchResult.status != 200) {
-        navigate('/error')
-    } else {
-        const result: Address = await fetchResult.json()
-        setAddress(result)
-    }
-}
-
-async function getCounters(
-    setCounters: Dispatch<SetStateAction<AddressCounters | undefined>>,
-    address: string | undefined
-) {
-    const url = baseUrl + '/addresses/' + address + '/counters'
-    const fetchResult: Response = await fetch(url)
-    if (fetchResult.status != 200) {
-        setCounters(undefined)
-    } else {
-        const result: AddressCounters = await fetchResult.json()
-        setCounters(result)
-    }
-}
-
-type TokenTransferList = {
-    items: Array<TokenTransfer>
-    next_page_params: Record<string, string> | null
-}
-
-async function getTokenTransfers(
-    setTokenTransfers: Dispatch<SetStateAction<TokenTransferList>>,
-    address: string | undefined,
-    params: Record<string, string>
-) {
-    const url = baseUrl + '/addresses/' + address + '/token-transfers?'
-    const searchParams = new URLSearchParams(params)
-
-    const result: TokenTransferList = await (
-        await fetch(url + searchParams.toString())
-    ).json()
-    setTokenTransfers(result)
-}
-
-type TransactionList = {
-    items: Array<Transaction>
-    next_page_params: Record<string, string> | null
-}
-
-async function getTransactions(
-    setTransactions: Dispatch<SetStateAction<TransactionList>>,
-    address: string | undefined,
-    params: Record<string, string>
-) {
-    const url = baseUrl + '/addresses/' + address + '/transactions?'
-    const searchParams = new URLSearchParams(params)
-
-    const result: TransactionList = await (
-        await fetch(url + searchParams.toString())
-    ).json()
-    setTransactions(result)
-}
+import { TokenTransferList } from '../../../services/TransactionPageService'
+import {
+    getAddress,
+    getCounters,
+    getTokenTransfers,
+    getTransactions,
+} from '../../../services/AddressPageService'
+import { TransactionList } from '../../../services/TransactionsPageService'
 
 const previousParams: Record<string, string>[] = []
 let currentParams: Record<string, string> = {}
@@ -131,7 +61,6 @@ export const AddressPage = () => {
     useEffect(() => {
         getTransactions(setTransactions, address, {})
     }, [address])
-
 
     const isDisabled = page == 1
     const typeOfAddress = add.is_contract ? 'Contract' : 'Address'
@@ -339,9 +268,7 @@ export const AddressPage = () => {
                                 <button
                                     className={styles.controlButton}
                                     onClick={nextPageHandlerTxn}
-                                    disabled={
-                                        !transactions.next_page_params
-                                    }>
+                                    disabled={!transactions.next_page_params}>
                                     <img src={next} alt="next page" />
                                 </button>
                             </div>
@@ -430,9 +357,8 @@ export const AddressPage = () => {
                                     <button
                                         className={styles.controlButton}
                                         onClick={nextPageHandler}>
-                                        disabled={
-                                        !tokenTransfers.next_page_params
-                                    }
+                                        disabled=
+                                        {!tokenTransfers.next_page_params}
                                         <img src={next} alt="next page" />
                                     </button>
                                 </div>

@@ -133,9 +133,8 @@ export const Transactions = () => {
                                         </tr>
                                     </thead>
                                     <TransactionItems
-                                        TransactionArray={
-                                            transactionList.items
-                                        }></TransactionItems>
+                                        TransactionArray={transactionList.items}
+                                        currentLocation="TransactionsPage"></TransactionItems>
                                 </table>
                             </div>
                         </div>

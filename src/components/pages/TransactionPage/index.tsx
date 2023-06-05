@@ -7,7 +7,6 @@ import fire from '../../../assets/fire.svg'
 import prev from '../../../assets/arrow_prev.svg'
 import next from '../../../assets/arrow_next.svg'
 import { getTimeFromTimestamp, round } from '../../../utils'
-
 import { Transaction } from '../../../app/models/generated'
 import classNames from 'classnames'
 import ProgressBar from '../../ui/ProgressBar'

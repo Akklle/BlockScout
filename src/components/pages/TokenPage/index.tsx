@@ -24,9 +24,9 @@ import {
     getSmartContract,
     getToken,
     getTokenTransfers,
-    HolderList,
-    TokenTransferList,
+    HolderList
 } from '../../../services/TokenPageService'
+import { TokenTransferList } from '../../../services/TransactionPageService'
 
 const previousParams: Record<string, string>[] = []
 let currentParams: Record<string, string> = {}

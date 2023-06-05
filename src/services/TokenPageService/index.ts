@@ -4,10 +4,10 @@ import {
     SmartContract,
     Token,
     TokenCounters,
-    TokenTransfer,
 } from '../../app/models/generated'
 import { NavigateFunction } from 'react-router-dom'
 import { baseUrl } from '../../constants/api.const'
+import { TokenTransferList } from '../TransactionPageService'
 
 export async function getToken(
     setToken: Dispatch<SetStateAction<Token>>,
@@ -22,11 +22,6 @@ export async function getToken(
         const result: Token = await fetchResult.json()
         setToken(result)
     }
-}
-
-export interface TokenTransferList {
-    items: Array<TokenTransfer>
-    next_page_params: Record<string, string> | null
 }
 
 export async function getTokenTransfers(

@@ -172,7 +172,11 @@ export const AddressPage = () => {
                             alt="more information"
                         />
                         <p className={styles.rowTitle}>Balance</p>
-                        <span>{add.coin_balance}</span>
+                        <span>
+                            {add.coin_balance
+                                ? formatNumber(add.coin_balance)
+                                : '0'}
+                        </span>
                         <span className={styles.valueType}>ETH</span>
                     </div>
                     <div className={styles.infoRow}>
@@ -356,9 +360,10 @@ export const AddressPage = () => {
                                     <div className={styles.pageNum}>{page}</div>
                                     <button
                                         className={styles.controlButton}
-                                        onClick={nextPageHandler}>
-                                        disabled=
-                                        {!tokenTransfers.next_page_params}
+                                        onClick={nextPageHandler}
+                                        disabled={
+                                            !tokenTransfers.next_page_params
+                                        }>
                                         <img src={next} alt="next page" />
                                     </button>
                                 </div>

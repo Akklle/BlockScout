@@ -10,6 +10,7 @@ import {
     stringTruncateFromCenter,
 } from '../../../utils'
 import { TypeOfTransaction } from '../../ui/TypeOfTransaction'
+import { NavLink } from 'react-router-dom'
 
 interface wrapperTokenTransfer {
     tokenT: TokenTransfer
@@ -33,28 +34,32 @@ export const TokenTransferItem = (props: wrapperTokenTransfer) => {
             <td className={styles.tdCell}>
                 <div className={styles.addressGroup}>
                     <div className={styles.angularAvatar}></div>
-                    <a className={styles.address}>
+                    <NavLink to={'/token/' + currentTokenTransfer.token.address} className={styles.address}>
                         {currentTokenTransfer.token.name}
-                    </a>
+                    </NavLink>
                 </div>
-                <TypeOfTransaction theme={currentTokenTransfer.type}>
-                    {processedStringFromApi(currentTokenTransfer.type)}
-                </TypeOfTransaction>
+                <div className={styles.typeTag}>
+                    <TypeOfTransaction theme={currentTokenTransfer.type}>
+                        {processedStringFromApi(currentTokenTransfer.type)}
+                    </TypeOfTransaction>
+                </div>
             </td>
             <td className={styles.tdCell}>
                 <div>
-                    <p className={styles.ID}>{currentTokenTransfer.total.token_id}</p>
+                    <p className={styles.ID}>
+                        {currentTokenTransfer.total.token_id}
+                    </p>
                 </div>
             </td>
             <td className={styles.tdCell}>
                 <div className={styles.addressGroup}>
                     <div className={styles.angularAvatar}></div>
-                    <a className={styles.address}>
+                    <NavLink to={'/address/' + currentTokenTransfer.from} className={styles.address}>
                         {stringTruncateFromCenter(
                             currentTokenTransfer.from.hash,
                             12
                         )}
-                    </a>
+                    </NavLink>
                 </div>
             </td>
             <td className={styles.tdIconCell}>
@@ -69,12 +74,12 @@ export const TokenTransferItem = (props: wrapperTokenTransfer) => {
                             styles.angularAvatar,
                             styles.receiver
                         )}></div>
-                    <a className={styles.address}>
+                    <NavLink to={'/address' + currentTokenTransfer.to} className={styles.address}>
                         {stringTruncateFromCenter(
                             currentTokenTransfer.to.hash,
                             12
                         )}
-                    </a>
+                    </NavLink>
                 </div>
             </td>
             <td className={styles.tdCellRight} align={'right'}>

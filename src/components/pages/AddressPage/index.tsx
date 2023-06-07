@@ -245,87 +245,102 @@ export const AddressPage = () => {
                     </TabList>
 
                     <TabPanel>
-                        <div className={styles.transactions}>
-                            <div className={styles.paginationButtons}>
-                                <button
-                                    className={styles.controlButton}
-                                    disabled={isDisabled}
-                                    onClick={previousPageHandlerTxn}>
-                                    <img src={prev} alt="previous page" />
-                                </button>
-                                <div className={styles.pageNum}>{pageTxn}</div>
-                                <button
-                                    className={styles.controlButton}
-                                    onClick={nextPageHandlerTxn}
-                                    disabled={!transactions.next_page_params}>
-                                    <img src={next} alt="next page" />
-                                </button>
+                        {transactions.items.length == 0 || !transactions ? (
+                            <p className={styles.message}>
+                                There are no transactions.
+                            </p>
+                        ) : (
+                            <div className={styles.transactions}>
+                                <div className={styles.paginationButtons}>
+                                    <button
+                                        className={styles.controlButton}
+                                        disabled={isDisabled}
+                                        onClick={previousPageHandlerTxn}>
+                                        <img src={prev} alt="previous page" />
+                                    </button>
+                                    <div className={styles.pageNum}>
+                                        {pageTxn}
+                                    </div>
+                                    <button
+                                        className={styles.controlButton}
+                                        onClick={nextPageHandlerTxn}
+                                        disabled={
+                                            !transactions.next_page_params
+                                        }>
+                                        <img src={next} alt="next page" />
+                                    </button>
+                                </div>
+                                <div className={styles.tableWrapper}>
+                                    <div className={styles.tableBorder}></div>
+                                    <table className={styles.table}>
+                                        <thead className={styles.tableHead}>
+                                            <tr>
+                                                <th
+                                                    className={classNames(
+                                                        styles.th25p75,
+                                                        styles.thDefault
+                                                    )}>
+                                                    Txn hash
+                                                </th>
+                                                <th
+                                                    className={classNames(
+                                                        styles.thType,
+                                                        styles.thDefault
+                                                    )}>
+                                                    Type
+                                                </th>
+                                                <th
+                                                    className={classNames(
+                                                        styles.thW10,
+                                                        styles.thDefault
+                                                    )}>
+                                                    Method
+                                                </th>
+                                                <th
+                                                    className={classNames(
+                                                        styles.thBlock,
+                                                        styles.thDefault
+                                                    )}>
+                                                    Block
+                                                </th>
+                                                <th
+                                                    className={classNames(
+                                                        styles.thFrom,
+                                                        styles.thDefault
+                                                    )}>
+                                                    From
+                                                </th>
+                                                <th
+                                                    className={
+                                                        styles.thIcon
+                                                    }></th>
+                                                <th className={styles.thTo}>
+                                                    To
+                                                </th>
+                                                <th
+                                                    className={classNames(
+                                                        styles.thW12,
+                                                        styles.thDefaultRight
+                                                    )}>
+                                                    Value ETH
+                                                </th>
+                                                <th
+                                                    className={classNames(
+                                                        styles.th9p75,
+                                                        styles.thDefaultRight
+                                                    )}>
+                                                    Fee ETH
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <TransactionItems
+                                            TransactionArray={
+                                                transactions.items
+                                            }></TransactionItems>
+                                    </table>
+                                </div>
                             </div>
-                            <div className={styles.tableWrapper}>
-                                <div className={styles.tableBorder}></div>
-                                <table className={styles.table}>
-                                    <thead className={styles.tableHead}>
-                                        <tr>
-                                            <th
-                                                className={classNames(
-                                                    styles.th25p75,
-                                                    styles.thDefault
-                                                )}>
-                                                Txn hash
-                                            </th>
-                                            <th
-                                                className={classNames(
-                                                    styles.thType,
-                                                    styles.thDefault
-                                                )}>
-                                                Type
-                                            </th>
-                                            <th
-                                                className={classNames(
-                                                    styles.thW10,
-                                                    styles.thDefault
-                                                )}>
-                                                Method
-                                            </th>
-                                            <th
-                                                className={classNames(
-                                                    styles.thBlock,
-                                                    styles.thDefault
-                                                )}>
-                                                Block
-                                            </th>
-                                            <th
-                                                className={classNames(
-                                                    styles.thFrom,
-                                                    styles.thDefault
-                                                )}>
-                                                From
-                                            </th>
-                                            <th className={styles.thIcon}></th>
-                                            <th className={styles.thTo}>To</th>
-                                            <th
-                                                className={classNames(
-                                                    styles.thW12,
-                                                    styles.thDefaultRight
-                                                )}>
-                                                Value ETH
-                                            </th>
-                                            <th
-                                                className={classNames(
-                                                    styles.th9p75,
-                                                    styles.thDefaultRight
-                                                )}>
-                                                Fee ETH
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <TransactionItems
-                                        TransactionArray={
-                                            transactions.items
-                                        }></TransactionItems>
-                                </table>
-                            </div>
-                        </div>
+                        )}
                     </TabPanel>
 
                     <TabPanel>

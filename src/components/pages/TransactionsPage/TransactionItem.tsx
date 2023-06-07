@@ -29,8 +29,8 @@ export const TransactionItem = (props: wrapperTransaction) => {
     const value =
         currentTransaction.value === '0'
             ? 0
-            : round(Number(currentTransaction.fee?.value) / 10 ** 18, 5)
-    const fee = round(Number(currentTransaction.fee?.value) / 10 ** 18, 5)
+            : round(Number(currentTransaction.value) / 10 ** 18, 5)
+    const fee = round(Number(currentTransaction.tx_burnt_fee) / 10 ** 18, 5)
     return (
         <tr className={styles.tableRow}>
             <td className={styles.tdCell}>
@@ -73,7 +73,7 @@ export const TransactionItem = (props: wrapperTransaction) => {
                     ''
                 )}
             </td>
-            {blockFlag == 'Block page' && <td className={styles.tdCell}>
+            {blockFlag == 'TransactionsPage' && <td className={styles.tdCell}>
                 <NavLink
                     className={classNames(styles.address, styles.fontWeight500)}
                     to={'/block/' + currentTransaction.block}>

@@ -20,9 +20,9 @@ import {
     TokenTransferList,
 } from '../../../services/TransactionPageService'
 
-let previousParams: Record<string, string>[] = []
+const previousParams: Record<string, string>[] = []
 let currentParams: Record<string, string> = {}
-let page: number = 1
+let page = 1
 
 export const TransactionPage = () => {
     const navigate = useNavigate()
@@ -285,7 +285,7 @@ export const TransactionPage = () => {
                                 There are no token transfers.
                             </p>
                         ) : (
-                            <div className={styles.tokenTransfers}>
+                            <div className={styles.transactions}>
                                 <div className={styles.paginationButtons}>
                                     <button
                                         className={styles.controlButton}

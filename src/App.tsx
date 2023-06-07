@@ -11,6 +11,7 @@ import { Transactions } from './components/pages/TransactionsPage'
 import { TransactionPage } from './components/pages/TransactionPage'
 import { Error } from './components/pages/errorPage'
 import { AddressPage } from './components/pages/AddressPage'
+import { SearchResultsPage } from './components/pages/SearchResultsPage'
 
 function App() {
     return (
@@ -22,12 +23,17 @@ function App() {
                     path="/transaction/:address"
                     element={<TransactionPage />}
                 />
+                <Route
+                    path="/tx/:address"
+                    element={<TransactionPage />}
+                />
                 <Route path="/token/:address" element={<TokenPage />} />
                 <Route path="/address/:address" element={<AddressPage />} />
                 <Route path="/blocks" element={<BlocksPage />} />
                 <Route path="/tokens" element={<TokensPage />} />
                 <Route path="/transactions" element={<Transactions />} />
                 <Route path="/error" element={<Error />} />
+                <Route path="/search-results/:query" element={<SearchResultsPage />} />
             </Route>
         </Routes>
     )

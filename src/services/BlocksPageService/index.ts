@@ -1,6 +1,11 @@
 import { Dispatch, SetStateAction } from 'react'
-import { BlockList } from '../../components/pages/BlocksPage'
 import { baseUrl } from '../../constants/api.const'
+import { Block } from '../../app/models/generated'
+
+export interface BlockList {
+    items: Array<Block>
+    next_page_params: Record<string, string> | null
+}
 
 export async function getBlocks(
     setBlocks: Dispatch<SetStateAction<BlockList>>,

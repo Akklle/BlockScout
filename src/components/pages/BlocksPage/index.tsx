@@ -4,14 +4,8 @@ import { Search } from '../../ui/Search'
 import prev from '../../../assets/arrow_prev.svg'
 import next from '../../../assets/arrow_next.svg'
 import classNames from 'classnames'
-import { Block } from '../../../app/models/generated'
 import { BlockItems } from './BlockItems'
-import { getBlocks } from '../../../services/BlocksPageService'
-
-export interface BlockList {
-    items: Array<Block>
-    next_page_params: Record<string, string> | null
-}
+import { BlockList, getBlocks } from '../../../services/BlocksPageService'
 
 const previousParams: Record<string, string>[] = []
 let currentParams: Record<string, string> = {}

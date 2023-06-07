@@ -106,9 +106,9 @@ export const TokenPage = () => {
         }
     }
 
-    const totalSupply = formatNumber(
+    const totalSupply = token.total_supply ? formatNumber(
         BigInt(token.total_supply) / BigInt(10 ** Number(token.decimals))
-    )
+    ) : 0
     const transferCount = counters ? formatNumber(counters.transfers_count) : 0
 
     return (

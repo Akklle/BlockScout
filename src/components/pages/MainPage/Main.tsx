@@ -70,7 +70,7 @@ export const Main = () => {
                         </div>
                     </div>
                     <div className={styles.card}>
-                        <Icon icon="averageBlock" />
+                        <Icon icon="averageBlock" color={'white'}/>
 
                         <div className={styles.cardInfo}>
                             <p className={styles.cardName}>

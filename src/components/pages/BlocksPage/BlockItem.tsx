@@ -2,7 +2,6 @@ import React from 'react'
 import styles from '../BlocksPage/index.module.sass'
 import classNames from 'classnames'
 import ProgressBar from '../../ui/ProgressBar'
-import fire from '../../../assets/fire.svg'
 
 import { Block } from '../../../app/models/generated'
 import { NavLink } from 'react-router-dom'
@@ -12,6 +11,7 @@ import {
     getTimeFromTimestamp,
     formatNumber,
 } from '../../../utils'
+import { Icon } from '../../ui/Icon'
 
 interface wrapperBlock {
     block: Block
@@ -80,7 +80,8 @@ export const BlockItem = (props: wrapperBlock) => {
             <td className={styles.tdCellRight}>
                 <div className={styles.burntFeeCell}>
                     <div className={styles.brFeeTop}>
-                        <img src={fire} alt="" />
+                        <Icon icon="fire" width={20} height={20} color={"white"}/>
+
                         <p>{burntFees}</p>
                     </div>
                     <div className={styles.percentage}>

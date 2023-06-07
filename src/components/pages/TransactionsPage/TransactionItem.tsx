@@ -82,6 +82,7 @@ export const TransactionItem = (props: wrapperTransaction) => {
             </td>}
             <td className={styles.tdCell}>
                 <div className={styles.addressGroup}>
+                    <div className={styles.angularAvatar}></div>
                     <NavLink
                         className={styles.address}
                         to={'/address/' + currentTransaction.from?.hash}>
@@ -94,7 +95,7 @@ export const TransactionItem = (props: wrapperTransaction) => {
             </td>
             <td className={styles.tdIconCell}>
                 <div>
-                    <Icon icon={'path'} width={24} height={6} />
+                    <Icon icon={'path'} width={24} height={6} color={'#3CE2EC'} />
                 </div>
             </td>
             <td className={styles.tdCellW}>

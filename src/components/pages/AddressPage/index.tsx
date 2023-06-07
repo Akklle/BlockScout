@@ -3,8 +3,8 @@ import styles from './index.module.sass'
 import '../../../styles/tabs.sass'
 import { Search } from '../../ui/Search'
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs'
-import info from '../../../assets/infoSVG.svg'
-import contract from '../../../assets/contract.svg'
+import info from '../../../svg-icons/infoSVG.svg'
+import contract from '../../../svg-icons/contract.svg'
 import prev from '../../../assets/arrow_prev.svg'
 import next from '../../../assets/arrow_next.svg'
 import classNames from 'classnames'
@@ -22,6 +22,7 @@ import {
     getTransactions,
 } from '../../../services/AddressPageService'
 import { TransactionList } from '../../../services/TransactionsPageService'
+import { Icon } from '../../ui/Icon'
 
 const previousParams: Record<string, string>[] = []
 let currentParams: Record<string, string> = {}
@@ -66,7 +67,7 @@ export const AddressPage = () => {
     const typeOfAddress = add.is_contract ? 'Contract' : 'Address'
     const avatarImg =
         typeOfAddress == 'Contract' ? (
-            <img src={contract} alt="icon of address" />
+            <Icon icon="contract" width={21} height={21}/>
         ) : (
             <div className={styles.angularAvatar}></div>
         )
@@ -128,11 +129,9 @@ export const AddressPage = () => {
                 <div className={classNames(styles.details, styles.mgtop30)}>
                     {add.token && (
                         <div className={styles.infoRow}>
-                            <img
-                                className={styles.infoIcon}
-                                src={info}
-                                alt="more information"
-                            />
+                            <span data-hint='Token name and symbol'>
+                                    <Icon icon='infoSVG' width={14} height={14} color={'white'} />
+                            </span>
                             <p className={styles.rowTitle}>Token</p>
                             <span>{add.token?.name}</span>
                             <span className={styles.valueType}>ETH</span>
@@ -140,11 +139,9 @@ export const AddressPage = () => {
                     )}
                     {typeOfAddress == 'Contract' && (
                         <div className={styles.infoRow}>
-                            <img
-                                className={styles.infoIcon}
-                                src={info}
-                                alt="more information"
-                            />
+                            <span data-hint='Transaction ans address of creation'>
+                                    <Icon icon='infoSVG' width={14} height={14} color={'white'} />
+                            </span>
                             <p className={styles.rowTitle}>Creator</p>
                             <NavLink
                                 className={styles.address}
@@ -166,11 +163,9 @@ export const AddressPage = () => {
                         </div>
                     )}
                     <div className={styles.infoRow}>
-                        <img
-                            className={styles.infoIcon}
-                            src={info}
-                            alt="more information"
-                        />
+                        <span data-hint='Address balance in THE. Doesnt include ERC 20, ERC 721 and ERC1155 tokens'>
+                            <Icon icon='infoSVG' width={14} height={14} color={'white'} />
+                        </span>
                         <p className={styles.rowTitle}>Balance</p>
                         <span>
                             {add.coin_balance
@@ -180,11 +175,9 @@ export const AddressPage = () => {
                         <span className={styles.valueType}>ETH</span>
                     </div>
                     <div className={styles.infoRow}>
-                        <img
-                            className={styles.infoIcon}
-                            src={info}
-                            alt="more information"
-                        />
+                        <span data-hint='Number of transactions related to this address'>
+                            <Icon icon='infoSVG' width={14} height={14} color={'white'} />
+                        </span>
                         <p className={styles.rowTitle}>Transactions</p>
                         <span>
                             {counters
@@ -193,11 +186,9 @@ export const AddressPage = () => {
                         </span>
                     </div>
                     <div className={styles.infoRow}>
-                        <img
-                            className={styles.infoIcon}
-                            src={info}
-                            alt="more information"
-                        />
+                        <span data-hint='Number of transfers to/from this address'>
+                            <Icon icon='infoSVG' width={14} height={14} color={'white'} />
+                        </span>
                         <p className={styles.rowTitle}>Transfers</p>
                         <span>
                             {counters
@@ -206,11 +197,9 @@ export const AddressPage = () => {
                         </span>
                     </div>
                     <div className={styles.infoRow}>
-                        <img
-                            className={styles.infoIcon}
-                            src={info}
-                            alt="more information"
-                        />
+                        <span data-hint='Gas used by the address'>
+                            <Icon icon='infoSVG' width={14} height={14} color={'white'} />
+                        </span>
                         <p className={styles.rowTitle}>Gas used</p>
                         <span>
                             {counters
@@ -220,11 +209,9 @@ export const AddressPage = () => {
                     </div>
                     {add.has_validated_blocks && (
                         <div className={styles.infoRow}>
-                            <img
-                                className={styles.infoIcon}
-                                src={info}
-                                alt="more information"
-                            />
+                            <span data-hint='Blocks validated value'>
+                                <Icon icon='infoSVG' width={14} height={14} color={'white'} />
+                            </span>
                             <p className={styles.rowTitle}>Blocks validated</p>
                             <span>
                                 {counters
@@ -235,11 +222,9 @@ export const AddressPage = () => {
                     )}
 
                     <div className={styles.infoRow}>
-                        <img
-                            className={styles.infoIcon}
-                            src={info}
-                            alt="more information"
-                        />
+                        <span data-hint='Block number in which the address was updated'>
+                            <Icon icon='infoSVG' width={14} height={14} color={'white'} />
+                        </span>
                         <p className={styles.rowTitle}>Last balance update</p>
                         <NavLink
                             className={classNames(

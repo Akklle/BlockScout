@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react'
 import styles from './index.module.sass'
 import { Search } from '../../ui/Search'
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs'
-import info from '../../../assets/infoSVG.svg'
-import fire from '../../../assets/fire.svg'
+import info from '../../../svg-icons/infoSVG.svg'
+import fire from '../../../svg-icons/fire.svg'
 import prev from '../../../assets/arrow_prev.svg'
 import next from '../../../assets/arrow_next.svg'
 import { getTimeFromTimestamp, round } from '../../../utils'
@@ -19,6 +19,7 @@ import {
     getTransaction,
     TokenTransferList,
 } from '../../../services/TransactionPageService'
+import { Icon } from '../../ui/Icon'
 
 const previousParams: Record<string, string>[] = []
 let currentParams: Record<string, string> = {}
@@ -105,42 +106,34 @@ export const TransactionPage = () => {
                     <TabPanel>
                         <div className={styles.details}>
                             <div className={styles.infoRow}>
-                                <img
-                                    className={styles.infoIcon}
-                                    src={info}
-                                    alt="more information"
-                                />
+                                <span data-hint='Unique character string (TxID) assigned to every verified transaction'>
+                                    <Icon icon='infoSVG' width={14} height={14} color={'white'} />
+                                </span>
                                 <p className={styles.rowTitle}>
                                     Transaction hash
                                 </p>
                                 <p>{transaction.hash}</p>
                             </div>
                             <div className={styles.infoRow}>
-                                <img
-                                    className={styles.infoIcon}
-                                    src={info}
-                                    alt="more information"
-                                />
+                                <span data-hint='Current transaction state: Success, Failed (Error), or Pending (In Process)'>
+                                    <Icon icon='infoSVG' width={14} height={14} color={'white'} />
+                                </span>
                                 <p className={styles.rowTitle}>Status</p>
                                 <Status theme={transaction.status}>{}</Status>
                             </div>
                             <div className={styles.infoRow}>
-                                <img
-                                    className={styles.infoIcon}
-                                    src={info}
-                                    alt="more information"
-                                />
+                                <span data-hint='Block number containing the transaction'>
+                                    <Icon icon='infoSVG' width={14} height={14} color={'white'} />
+                                </span>
                                 <p className={styles.rowTitle}>Block</p>
                                 <NavLink to={'/block/' + transaction.block} className={styles.rowLink}>
                                     <span>{transaction.block}</span>
                                 </NavLink>
                             </div>
                             <div className={styles.infoRow}>
-                                <img
-                                    className={styles.infoIcon}
-                                    src={info}
-                                    alt="more information"
-                                />
+                                <span data-hint='Date & time of transaction inclusion, including length of time for confirmation'>
+                                    <Icon icon='infoSVG' width={14} height={14} color={'white'} />
+                                </span>
                                 <p className={styles.rowTitle}>Timestamp</p>
                                 <p>
                                     {transaction.timestamp
@@ -152,11 +145,9 @@ export const TransactionPage = () => {
                             </div>
                             <div className={styles.line}></div>
                             <div className={styles.infoRow}>
-                                <img
-                                    className={styles.infoIcon}
-                                    src={info}
-                                    alt="more information"
-                                />
+                                <span data-hint='Address (external or contract) sending the transaction'>
+                                    <Icon icon='infoSVG' width={14} height={14} color={'white'} />
+                                </span>
                                 <p className={styles.rowTitle}>From</p>
                                 <NavLink
                                     className={classNames(
@@ -170,11 +161,9 @@ export const TransactionPage = () => {
                                 </NavLink>
                             </div>
                             <div className={styles.infoRow}>
-                                <img
-                                    className={styles.infoIcon}
-                                    src={info}
-                                    alt="more information"
-                                />
+                                <span data-hint='Address (external or contract) receiving the transaction'>
+                                    <Icon icon='infoSVG' width={14} height={14} color={'white'} />
+                                </span>
                                 <p className={styles.rowTitle}>To</p>
                                 <NavLink
                                     className={classNames(
@@ -187,21 +176,17 @@ export const TransactionPage = () => {
                             </div>
                             <div className={styles.line}></div>
                             <div className={styles.infoRow}>
-                                <img
-                                    className={styles.infoIcon}
-                                    src={info}
-                                    alt="more information"
-                                />
+                                <span data-hint=' Value sent in the native token (and USD) if applicable'>
+                                    <Icon icon='infoSVG' width={14} height={14} color={'white'} />
+                                </span>
                                 <p className={styles.rowTitle}>Value</p>
                                 <span>{value}</span>
                                 <span className={styles.valueType}>ETH</span>
                             </div>
                             <div className={styles.infoRow}>
-                                <img
-                                    className={styles.infoIcon}
-                                    src={info}
-                                    alt="more information"
-                                />
+                                <span data-hint='Total transaction fee'>
+                                    <Icon icon='infoSVG' width={14} height={14} color={'white'} />
+                                </span>
                                 <p className={styles.rowTitle}>
                                     Transaction fee
                                 </p>
@@ -209,21 +194,18 @@ export const TransactionPage = () => {
                                 <span className={styles.valueType}>ETH</span>
                             </div>
                             <div className={styles.infoRow}>
-                                <img
-                                    className={styles.infoIcon}
-                                    src={info}
-                                    alt="more information"
-                                />
+                                <span data-hint='Price per unit of gas specified by the sender. Higher gas prices can prioritize
+                                 transaction inclusion during times of high usage'>
+                                    <Icon icon='infoSVG' width={14} height={14} color={'white'} />
+                                </span>
                                 <p className={styles.rowTitle}>Gas price</p>
                                 <span>{gasPrice}</span>
                                 <span className={styles.valueType}>ETH</span>
                             </div>
                             <div className={styles.infoRow}>
-                                <img
-                                    className={styles.infoIcon}
-                                    src={info}
-                                    alt="more information"
-                                />
+                                <span data-hint='Actual gas amount used by the transaction'>
+                                    <Icon icon='infoSVG' width={14} height={14} color={'white'} />
+                                </span>
                                 <p className={styles.rowTitle}>
                                     Gas limit & usage by txn
                                 </p>
@@ -241,11 +223,10 @@ export const TransactionPage = () => {
                                 </div>
                             </div>
                             <div className={styles.infoRow}>
-                                <img
-                                    className={styles.infoIcon}
-                                    src={info}
-                                    alt="more information"
-                                />
+                                <span data-hint='Base Fee refers to the network Base Fee at the time of the block, while
+                                Max Fee & Max Priority Fee refer to the max amount a user is willing to pay for their tx & to give to the limit miner respectively'>
+                                    <Icon icon='infoSVG' width={14} height={14} color={'white'} />
+                                </span>
                                 <p className={styles.rowTitle}>
                                     Gas fees (Gwei)
                                 </p>
@@ -262,17 +243,11 @@ export const TransactionPage = () => {
                                 </span>
                             </div>
                             <div className={styles.infoRow}>
-                                <img
-                                    className={styles.infoIcon}
-                                    src={info}
-                                    alt="more information"
-                                />
+                                <span data-hint='Amount of THE burned for this transaction. Equals Block Base Fee per Gas * Gas Used'>
+                                    <Icon icon='infoSVG' width={14} height={14} color={'white'} />
+                                </span>
                                 <p className={styles.rowTitle}>Burnt fees</p>
-                                <img
-                                    className={styles.gasIcon}
-                                    src={fire}
-                                    alt=""
-                                />
+                                <Icon icon="fire" width={20} height={20} color={"white"}/>
                                 <span>{burntFees}</span>
                                 <span className={styles.valueType}>ETH</span>
                             </div>

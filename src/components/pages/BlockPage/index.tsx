@@ -3,8 +3,6 @@ import styles from './index.module.sass'
 import { Search } from '../../ui/Search'
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs'
 import '../../../styles/tabs.sass'
-import info from '../../../assets/infoSVG.svg'
-import fire from '../../../assets/fire.svg'
 import prev from '../../../assets/arrow_prev.svg'
 import next from '../../../assets/arrow_next.svg'
 import { Block } from '../../../app/models/generated'
@@ -20,6 +18,7 @@ import {
 import { TransactionItems } from '../TransactionsPage/TransactionItems'
 import { TransactionList } from '../../../services/TransactionsPageService'
 import { getBlock, getTransactions } from '../../../services/BlockPageService'
+import { Icon } from '../../ui/Icon'
 
 const previousParams: Record<string, string>[] = []
 let currentParams: Record<string, string> = {}
@@ -96,44 +95,28 @@ export const BlockPage = () => {
                         <div className={styles.details}>
                             <div className={styles.infoRow}>
                                 <span data-hint="The block height of a particular block is defined as the number of blocks preceding it in the blockchain">
-                                    <img
-                                        className={styles.infoIcon}
-                                        src={info}
-                                        alt="more information"
-                                    />
+                                    <Icon icon="infoSVG" width={14} height={14} color={"white"}/>
                                 </span>
                                 <p className={styles.rowTitle}>Block height</p>
                                 <p>{block.height}</p>
                             </div>
                             <div className={styles.infoRow}>
                                 <span data-hint="Size of the block in bytes">
-                                    <img
-                                        className={styles.infoIcon}
-                                        src={info}
-                                        alt="more information"
-                                    />
+                                    <Icon icon="infoSVG" width={14} height={14} color={"white"}/>
                                 </span>
                                 <p className={styles.rowTitle}>Size</p>
                                 <p>{block.size}</p>
                             </div>
                             <div className={styles.infoRow}>
                                 <span data-hint="Date & time at which block was produced">
-                                    <img
-                                        className={styles.infoIcon}
-                                        src={info}
-                                        alt="more information"
-                                    />
+                                    <Icon icon="infoSVG" width={14} height={14} color={"white"}/>
                                 </span>
                                 <p className={styles.rowTitle}>Timestamp</p>
                                 <p>{getTimeFromTimestamp(block.timestamp)}</p>
                             </div>
                             <div className={styles.infoRow}>
                                 <span data-hint="The number of transaction in block">
-                                    <img
-                                        className={styles.infoIcon}
-                                        src={info}
-                                        alt="more information"
-                                    />
+                                    <Icon icon="infoSVG" width={14} height={14} color={"white"}/>
                                 </span>
                                 <p className={styles.rowTitle}>Transactions</p>
                                 <span>{block.tx_count}</span>
@@ -143,11 +126,7 @@ export const BlockPage = () => {
                             </div>
                             <div className={styles.infoRow}>
                                 <span data-hint="A block producer who successfully included the block onto the blockchain">
-                                    <img
-                                        className={styles.infoIcon}
-                                        src={info}
-                                        alt="more information"
-                                    />
+                                    <Icon icon="infoSVG" width={14} height={14} color={"white"}/>
                                 </span>
                                 <p className={styles.rowTitle}>Validated by</p>
                                 <NavLink
@@ -158,11 +137,7 @@ export const BlockPage = () => {
                             </div>
                             <div className={styles.infoRow}>
                                 <span data-hint="For each block, the validator is rewarded with a finite amount of THE on top of the fees paid for all transactions in the block">
-                                    <img
-                                        className={styles.infoIcon}
-                                        src={info}
-                                        alt="more information"
-                                    />
+                                    <Icon icon="infoSVG" width={14} height={14} color={"white"}/>
                                 </span>
                                 <p className={styles.rowTitle}>Block reward</p>
                                 <span>
@@ -173,11 +148,7 @@ export const BlockPage = () => {
                             <div className={styles.line}></div>
                             <div className={styles.infoRow}>
                                 <span data-hint="The total gas amount used in the block and its percentage of gas filled in the block">
-                                    <img
-                                        className={styles.infoIcon}
-                                        src={info}
-                                        alt="more information"
-                                    />
+                                    <Icon icon="infoSVG" width={14} height={14} color={"white"}/>
                                 </span>
                                 <p className={styles.rowTitle}>Gas used</p>
                                 <span className={styles.mgR20}>
@@ -197,22 +168,14 @@ export const BlockPage = () => {
                             </div>
                             <div className={styles.infoRow}>
                                 <span data-hint="Total gas limit provided by all transactions in the block">
-                                    <img
-                                        className={styles.infoIcon}
-                                        src={info}
-                                        alt="more information"
-                                    />
+                                    <Icon icon="infoSVG" width={14} height={14} color={"white"}/>
                                 </span>
                                 <p className={styles.rowTitle}>Gas limit</p>
                                 <p>{formatNumber(block.gas_limit)}</p>
                             </div>
                             <div className={styles.infoRow}>
                                 <span data-hint="Minimum fee required per unit of gas. Fee adjusts based on network congestion">
-                                    <img
-                                        className={styles.infoIcon}
-                                        src={info}
-                                        alt="more information"
-                                    />
+                                    <Icon icon="infoSVG" width={14} height={14} color={"white"}/>
                                 </span>
                                 <p className={styles.rowTitle}>
                                     Base fee per gas
@@ -222,18 +185,10 @@ export const BlockPage = () => {
                             </div>
                             <div className={styles.infoRow}>
                                 <span data-hint="Amount of THE burned from transactions included in the block. Equals Block Base Fee per Gas * Gas Used">
-                                    <img
-                                        className={styles.infoIcon}
-                                        src={info}
-                                        alt="more information"
-                                    />
+                                    <Icon icon="infoSVG" width={14} height={14} color={"white"}/>
                                 </span>
                                 <p className={styles.rowTitle}>Burnt fees</p>
-                                <img
-                                    className={styles.gasIcon}
-                                    src={fire}
-                                    alt=""
-                                />
+                                <Icon icon="fire" width={20} height={20} color={"white"}/>
                                 <span>{burntFees}</span>
                                 <span className={styles.valueType}>ETH</span>
                                 <div className={styles.percentage}>
@@ -250,11 +205,7 @@ export const BlockPage = () => {
                             </div>
                             <div className={styles.infoRow}>
                                 <span data-hint="User-defined tips sent to validator for transaction priority/inclusion">
-                                    <img
-                                        className={styles.infoIcon}
-                                        src={info}
-                                        alt="more information"
-                                    />
+                                    <Icon icon="infoSVG" width={14} height={14} color={"white"}/>
                                 </span>
                                 <p className={styles.rowTitle}>
                                     Priority fee / Tip
